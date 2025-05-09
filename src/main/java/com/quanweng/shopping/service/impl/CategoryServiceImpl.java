@@ -1,7 +1,8 @@
-package com.quanweng.shopping.service;
+package com.quanweng.shopping.service.impl;
 
 import com.quanweng.shopping.mapper.CategoryMapper;
 import com.quanweng.shopping.pojo.Category;
+import com.quanweng.shopping.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;

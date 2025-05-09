@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quanweng.shopping.mapper.GoodsImgMapper">
+
+    <insert id="createGoodsImg">
+        insert into goods_img_table(goods_id, goods_img, create_time, update_time)
+        VALUES (#{goodsId},#{goodsImg},#{createTime},#{updateTime})
+    </insert>
+    <update id="updateGoodsImg">
+        update goods_img_table
+        set
+            goods_id = #{goodsId},
+            goods_img = #{goodsImg},
+            update_time = #{updateTime}
+        where
+            id = #{id}
+
+    </update>
+    <delete id="deleteGoodsImg">
+        delete from goods_img_table where id = #{id}
+    </delete>
+</mapper>
