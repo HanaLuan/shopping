@@ -12,6 +12,7 @@ public class Goods {
     private String goodsSize;
     private String goodsDetail;
     private Long goodsType;
+    private Integer goodsWeight;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

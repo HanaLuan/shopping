@@ -3,8 +3,8 @@
 <mapper namespace="com.quanweng.shopping.mapper.GoodsMapper">
 
     <insert id="createGoods">
-        insert into goods_table(goods_name, goods_price, goods_size, goods_detail, goods_type, create_time, update_time)
-        VALUES(#{goodsName},#{goodsPrice},#{goodsSize},#{goodsDetail},#{goodsType},#{createTime},#{updateTime})
+        insert into goods_table(goods_name, goods_price, goods_size, goods_detail, goods_type, goods_weight, create_time, update_time)
+        VALUES(#{goodsName},#{goodsPrice},#{goodsSize},#{goodsDetail},#{goodsType},#{goodsWeight},#{createTime},#{updateTime})
     </insert>
     <update id="updateGoods">
         update goods_table
@@ -14,6 +14,7 @@
             goods_size = #{goodsSize},
             goods_detail = #{goodsDetail},
             goods_type = #{goodsType},
+            goods_weight = #{goodsWeight},
             update_time = #{updateTime}
         where
             id = #{id}

@@ -9,10 +9,10 @@ import java.util.List;
 
 @Mapper
 public interface GoodsMapper {
-    @Select("select * from goods_table")
+    @Select("select * from goods_table order by goods_weight desc ")
     List<Goods> getAllGoods();
 
-    @Select("select * from goods_table where goods_type = #{category}")
+    @Select("select * from goods_table where goods_type = #{category} order by goods_weight desc ")
     List<Goods> getGoodsByCategory(Long category);
 
     void createGoods(Goods goods);
