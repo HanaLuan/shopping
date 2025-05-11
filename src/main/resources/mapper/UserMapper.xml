@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quanweng.shopping.mapper.UserMapper">
+
+    <insert id="createUser">
+        insert into user_table(img, user_first_name, user_last_name, user_job, user_com, user_email, user_phone, user_add, user_url, create_time, update_time)
+        VALUES (#{img},#{userFirstName},#{userLastName},#{userJob},#{userCom},#{userEmail},#{userPhone},#{userAdd},#{userUrl},#{createTime},#{updateTime})
+    </insert>
+    <update id="updateUser">
+        update user_table
+        set
+            img = #{img},
+            user_first_name = #{userFirstName},
+            user_last_name = #{userLastName},
+            user_job = #{userJob},
+            user_com = #{userCom},
+            user_email = #{userEmail},
+            user_phone = #{userPhone},
+            user_add = #{userAdd},
+            user_url = #{userUrl},
+            update_time = #{updateTime}
+        where
+            id = #{id}
+    </update>
+    <delete id="deleteUser">
+        delete from user_table where id = #{id}
+    </delete>
+</mapper>

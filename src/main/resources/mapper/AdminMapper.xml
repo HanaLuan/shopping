@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quanweng.shopping.mapper.AdminMapper">
+
+
+    <insert id="createAdmin">
+        insert into adimn_table(admin_name, admin_password, admin_level, admin_remark, create_time, update_time)
+        VALUES(#{adminName},#{adminPassword},#{adminLevel},#{adminRemark},#{createTime},#{updateTime})
+    </insert>
+    <update id="updateAdmin">
+        update adimn_table
+        set
+            admin_name = #{adminName},
+            admin_password = #{adminPassword},
+            admin_level = #{adminLevel},
+            admin_remark = #{adminRemark},
+            update_time = #{updateTime}
+        where
+            id = #{id}
+    </update>
+    <delete id="deleteAdmin">
+        delete from adimn_table where id = #{id}
+    </delete>
+</mapper>

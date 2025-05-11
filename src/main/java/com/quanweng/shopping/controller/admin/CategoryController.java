@@ -1,4 +1,4 @@
-package com.quanweng.shopping.controller;
+package com.quanweng.shopping.controller.admin;
 
 import com.quanweng.shopping.pojo.Category;
 import com.quanweng.shopping.pojo.Result;

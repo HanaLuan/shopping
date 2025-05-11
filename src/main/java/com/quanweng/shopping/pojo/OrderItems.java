@@ -4,13 +4,13 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+
 @Data
-public class Admin {
+public class OrderItems {
     private Long id;
-    private String adminName;
-    private String adminPassword;
-    private Integer adminLevel;
-    private String adminRemark;
+    private Long orderId;
+    private Long itemId;
+    private Integer itemQty;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }
