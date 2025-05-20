@@ -2,6 +2,7 @@ package com.quanweng.shopping.service;
 
 import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.GoodsImg;
+import com.quanweng.shopping.pojo.GoodsSearch;
 
 import java.util.List;
 
@@ -18,4 +19,9 @@ public interface GoodsService {
 
     Goods getGoodsById(Long id);
 
+    List<Goods> getGoodsByKeyWord(String keyWord);
+
+    void remarkTheKeyWord(String keyWord, Long userId);
+
+    List<GoodsSearch> getGoodsKeyWordList(Long userId);
 }

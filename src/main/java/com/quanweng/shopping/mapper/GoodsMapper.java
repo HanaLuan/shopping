@@ -23,4 +23,6 @@ public interface GoodsMapper {
 
 
     Goods getGoodsByGoodsId(Long goodsId);
+
+    List<Goods> getGoodsByKeyWord(String keyWord);
 }

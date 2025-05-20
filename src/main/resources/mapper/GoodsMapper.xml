@@ -28,4 +28,7 @@
     <select id="getGoodsByGoodsId" resultType="com.quanweng.shopping.pojo.Goods">
         select * from goods_table where id = #{goodsId}
     </select>
+    <select id="getGoodsByKeyWord" resultType="com.quanweng.shopping.pojo.Goods">
+        select * from goods_table where  goods_name like concat('%',#{keyWord},'%')
+    </select>
 </mapper>

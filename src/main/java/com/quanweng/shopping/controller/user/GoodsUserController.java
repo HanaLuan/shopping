@@ -1,13 +1,13 @@
 package com.quanweng.shopping.controller.user;
 
 import com.quanweng.shopping.pojo.Goods;
+import com.quanweng.shopping.pojo.GoodsSearch;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.GoodsService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,5 +35,20 @@ public class GoodsUserController {
     private Result getGoodsById(@PathVariable Long id){
         Goods goods = goodsService.getGoodsById(id);
         return Result.success(goods);
+    }
+
+    @PostMapping("/goodsByKeyWord")
+    private Result getGoodsByKeyWord(@RequestParam String keyWord,@RequestParam(required = false) Long userId){
+        List<Goods> goodsList = goodsService.getGoodsByKeyWord(keyWord);
+        if (userId != null){
+            goodsService.remarkTheKeyWord(keyWord,userId);
+        }
+        return Result.success(goodsList);
+    }
+
+    @PostMapping("/goodsKeyWordList")
+    private Result getGoodsKeyWordList(@RequestParam Long userId){
+        List<GoodsSearch> goodsSearches = goodsService.getGoodsKeyWordList(userId);
+        return Result.success(goodsSearches);
     }
 }
