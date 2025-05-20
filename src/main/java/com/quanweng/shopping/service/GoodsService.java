@@ -10,10 +10,12 @@ public interface GoodsService {
 
     List<Goods> getGoodsByCategory(Long category);
 
-    void createGoods(Goods goods);
+    Goods createGoods(Goods goods);
 
     void updateGoods(Goods goods);
 
     void deleteGoodsById(Long id);
+
+    Goods getGoodsById(Long id);
 
 }

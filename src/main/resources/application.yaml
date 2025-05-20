@@ -17,3 +17,11 @@ mybatis:
     map-underscore-to-camel-case: true
 server:
   port: 8084
+quanweng:
+  upload:
+    save-url: E:\saveImg\
+aliyun:
+  oss:
+    endpoint:
+    region:
+    bucket-name:

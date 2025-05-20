@@ -1,19 +1,19 @@
-package com.quanweng.shopping.controller.admin;
+package com.quanweng.shopping.controller.user;
 
 import com.quanweng.shopping.pojo.Category;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/admin")
-public class CategoryController {
-
+public class CategoryUserController {
     @Autowired
     private CategoryService categoryService;
 
@@ -43,27 +43,6 @@ public class CategoryController {
         List<Category> categoryList = categoryService.getCategoryByLevel(categoryLevel);
         log.info("根据等级{}查询分类:{}",categoryLevel,categoryList);
         return Result.success(categoryList);
-    }
-
-    @PostMapping("/category")
-    private Result createCategory(@RequestBody Category category){
-        categoryService.createCategory(category);
-        log.info("创建分类:{}",category);
-        return Result.success();
-    }
-
-    @PutMapping("/category")
-    private Result updateCategory(@RequestBody Category category){
-        categoryService.updateCategory(category);
-        log.info("更新分类:{}",category);
-        return Result.success();
-    }
-
-    @DeleteMapping("/category/{id}")
-    private Result deleteCategoryById(@PathVariable Long id){
-        categoryService.deleteCategoryById(id);
-        log.info("删除分类:{}",id);
-        return Result.success();
     }
 
 }

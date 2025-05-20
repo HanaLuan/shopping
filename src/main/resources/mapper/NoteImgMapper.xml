@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quanweng.shopping.mapper.NoteImgMapper">
+
+    <insert id="createNoteImg">
+        insert into note_img_table(order_id, note_url, create_time, update_time)
+        VALUES(#{orderId},#{noteUrl},#{createTime},#{updateTime})
+    </insert>
+    <update id="updateNoteImg">
+        update note_img_table
+        set
+            order_id = #{orderId},
+            note_url = #{noteUrl},
+            update_time = #{updateTime}
+        where
+            id = #{id}
+    </update>
+    <delete id="deleteNoteImg">
+        delete from note_img_table where id = #{id}
+    </delete>
+</mapper>

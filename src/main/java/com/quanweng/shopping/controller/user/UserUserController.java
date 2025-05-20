@@ -1,6 +1,6 @@
-package com.quanweng.shopping.controller;
+package com.quanweng.shopping.controller.user;
 
-import com.quanweng.shopping.pojo.Result;
+import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.pojo.User;
 import com.quanweng.shopping.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-public class UserController {
+public class UserUserController {
     @Autowired
     private UserService userService;
 
@@ -42,6 +42,4 @@ public class UserController {
         log.info("删除用户{}",id);
         return Result.success();
     }
-
-
 }

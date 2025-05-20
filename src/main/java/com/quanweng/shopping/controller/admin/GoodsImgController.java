@@ -1,9 +1,8 @@
-package com.quanweng.shopping.controller;
+package com.quanweng.shopping.controller.admin;
 
 import com.quanweng.shopping.pojo.GoodsImg;
-import com.quanweng.shopping.pojo.Result;
+import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.GoodsImgService;
-import com.quanweng.shopping.service.GoodsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +11,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/admin")
 public class GoodsImgController {
     @Autowired
     private GoodsImgService goodsImgService;

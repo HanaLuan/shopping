@@ -1,4 +1,4 @@
-package com.quanweng.shopping.pojo;
+package com.quanweng.shopping.pojo.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

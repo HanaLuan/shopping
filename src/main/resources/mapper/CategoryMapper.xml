@@ -3,7 +3,7 @@
 <mapper namespace="com.quanweng.shopping.mapper.CategoryMapper">
 
     <insert id="createCategory">
-        insert into category_table(category_name, category_father_id, category_level, category_weight, category_tip, category_tipShow, create_time, update_time)
+        insert into category_table(category_name, category_father_id, category_level, category_weight, category_tip, category_tip_show, create_time, update_time)
         VALUES (#{categoryName},#{categoryFatherId},#{categoryLevel},#{categoryWeight},#{categoryTip},#{categoryTipShow},#{createTime},#{updateTime})
     </insert>
 
@@ -15,7 +15,7 @@
             category_level = #{categoryLevel},
             category_weight = #{categoryWeight},
             category_tip = #{categoryTip},
-            category_tipShow = #{categoryTipShow},
+            category_tip_show = #{categoryTipShow},
             update_time = #{updateTime}
         where
             id = #{id}

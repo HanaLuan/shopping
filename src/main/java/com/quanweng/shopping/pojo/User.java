@@ -2,6 +2,8 @@ package com.quanweng.shopping.pojo;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class User {
     private Long id;
@@ -14,6 +16,6 @@ public class User {
     private String userPhone;
     private String userAdd;
     private String userUrl;
-    private String createTime;
-    private String updateTime;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 }

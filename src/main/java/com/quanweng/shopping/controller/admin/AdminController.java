@@ -1,7 +1,7 @@
-package com.quanweng.shopping.controller;
+package com.quanweng.shopping.controller.admin;
 
 import com.quanweng.shopping.pojo.Admin;
-import com.quanweng.shopping.pojo.Result;
+import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/admin")
 public class AdminController {
     @Autowired
     private AdminService adminService;

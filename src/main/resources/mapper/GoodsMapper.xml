@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.quanweng.shopping.mapper.GoodsMapper">
 
-    <insert id="createGoods">
-        insert into goods_table(goods_name, goods_price, goods_size, goods_detail, goods_type, goods_weight, create_time, update_time)
-        VALUES(#{goodsName},#{goodsPrice},#{goodsSize},#{goodsDetail},#{goodsType},#{goodsWeight},#{createTime},#{updateTime})
+    <insert id="createGoods" useGeneratedKeys="true" keyProperty="id">
+        insert into goods_table(goods_name, goods_price, goods_size, goods_detail, goods_type, goods_weight, goods_show_img, goods_tip, goods_tip_show,create_time, update_time)
+        VALUES(#{goodsName},#{goodsPrice},#{goodsSize},#{goodsDetail},#{goodsType},#{goodsWeight},#{goodsShowImg},#{goodsTip},#{goodsTipShow},#{createTime},#{updateTime})
     </insert>
     <update id="updateGoods">
         update goods_table
@@ -15,6 +15,9 @@
             goods_detail = #{goodsDetail},
             goods_type = #{goodsType},
             goods_weight = #{goodsWeight},
+            goods_show_img = #{goodsShowImg},
+            goods_tip = #{goodsTip},
+            goods_tip_show = #{goodsTipShow},
             update_time = #{updateTime}
         where
             id = #{id}
@@ -22,4 +25,7 @@
     <delete id="deleteGoodsById">
         delete from goods_table where id = #{id}
     </delete>
+    <select id="getGoodsByGoodsId" resultType="com.quanweng.shopping.pojo.Goods">
+        select * from goods_table where id = #{goodsId}
+    </select>
 </mapper>

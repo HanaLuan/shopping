@@ -15,11 +15,12 @@ public interface GoodsMapper {
     @Select("select * from goods_table where goods_type = #{category} order by goods_weight desc ")
     List<Goods> getGoodsByCategory(Long category);
 
-    void createGoods(Goods goods);
+    Long createGoods(Goods goods);
 
     void updateGoods(Goods goods);
 
     void deleteGoodsById(Long id);
 
 
+    Goods getGoodsByGoodsId(Long goodsId);
 }

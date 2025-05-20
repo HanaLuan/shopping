@@ -26,10 +26,11 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public void createGoods(Goods goods) {
+    public Goods createGoods(Goods goods) {
         goods.setCreateTime(LocalDateTime.now());
         goods.setUpdateTime(LocalDateTime.now());
         goodsMapper.createGoods(goods);
+        return goods;
     }
 
     @Override
@@ -43,7 +44,10 @@ public class GoodsServiceImpl implements GoodsService {
         goodsMapper.deleteGoodsById(id);
     }
 
-
+    @Override
+    public Goods getGoodsById(Long id) {
+        return goodsMapper.getGoodsByGoodsId(id);
+    }
 
 
 }

@@ -1,7 +1,7 @@
-package com.quanweng.shopping.controller;
+package com.quanweng.shopping.controller.admin;
 
 import com.quanweng.shopping.pojo.Goods;
-import com.quanweng.shopping.pojo.Result;
+import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.GoodsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/admin")
 public class GoodsController {
     @Autowired
     private GoodsService goodsService;
@@ -29,11 +30,17 @@ public class GoodsController {
         return Result.success(goodsList);
     }
 
+    @GetMapping("/goodsById/{id}")
+    private Result getGoodsById(@PathVariable Long id){
+        Goods goods = goodsService.getGoodsById(id);
+        return Result.success(goods);
+    }
+
     @PostMapping("/goods")
     private Result createGoods(@RequestBody Goods goods){
-        goodsService.createGoods(goods);
+        Goods good = goodsService.createGoods(goods);
         log.info("创建新商品:{}",goods);
-        return Result.success();
+        return Result.success(good);
     }
 
     @PutMapping("/goods")
@@ -49,4 +56,6 @@ public class GoodsController {
         log.info("删除商品{}",id);
         return Result.success();
     }
+
+
 }
