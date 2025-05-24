@@ -1,32 +1,37 @@
-package com.quanweng.shopping.controller;
+package com.quanweng.shopping.controller.user;
 
 
+import com.google.zxing.WriterException;
+import com.quanweng.shopping.pojo.DTO.LoginInfo;
 import com.quanweng.shopping.pojo.Login;
+import com.quanweng.shopping.pojo.VO.LoginVo;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @Slf4j
 @RestController
-public class LoginController {
+public class LoginUserController {
     @Autowired
     private LoginService loginService;
 
     @PostMapping("/register")
-    private Result register(@RequestBody Login login){
-        loginService.register(login);
+    private Result register(@RequestBody LoginInfo loginInfo) throws IOException, WriterException {
+        loginService.register(loginInfo);
         return Result.success();
     }
 
     @PostMapping("/login")
     private Result login(@RequestBody Login login){
-        String token = loginService.login(login);
-        return Result.success(token);
+        LoginVo loginVo = loginService.login(login);
+        return Result.success(loginVo);
     }
 
-    
+
 
 
 }

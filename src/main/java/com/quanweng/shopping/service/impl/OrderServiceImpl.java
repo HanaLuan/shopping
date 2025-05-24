@@ -20,10 +20,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void createOrder(Order order) {
+    public Order createOrder(Order order) {
         order.setCreateTime(LocalDateTime.now());
         order.setUpdateTime(LocalDateTime.now());
         orderMapper.createOrder(order);
+        return order;
     }
 
     @Override

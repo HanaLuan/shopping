@@ -16,4 +16,11 @@ public interface UserMapper {
     void updateUser(User user);
 
     void deleteUser(Long id);
+
+    User getUserByPhone(String phone);
+
+    User getUserById(Long id);
+
+    @Select("select * from user_table where user_from = #{adminId}")
+    List<User> getUserByAdmin(Long adminId);
 }

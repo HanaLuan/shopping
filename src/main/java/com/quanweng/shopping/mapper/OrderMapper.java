@@ -12,7 +12,7 @@ public interface OrderMapper {
     List<Order> getAllOrder();
 
 
-    void createOrder(Order order);
+    Long createOrder(Order order);
 
     void updateOrder(Order order);
 }

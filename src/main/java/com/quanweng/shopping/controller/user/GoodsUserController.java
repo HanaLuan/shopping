@@ -4,6 +4,7 @@ import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.GoodsSearch;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.GoodsService;
+import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class GoodsUserController {
     }
 
     @PostMapping("/goodsByKeyWord")
-    private Result getGoodsByKeyWord(@RequestParam String keyWord,@RequestParam(required = false) Long userId){
+    private Result getGoodsByKeyWord(@RequestParam String keyWord,@RequestParam(required = false) @Nullable Long userId){
         List<Goods> goodsList = goodsService.getGoodsByKeyWord(keyWord);
         if (userId != null){
             goodsService.remarkTheKeyWord(keyWord,userId);

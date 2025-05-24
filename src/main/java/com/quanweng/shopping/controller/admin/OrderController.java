@@ -25,9 +25,9 @@ public class OrderController {
 
     @PostMapping("/order")
     private Result createOrder(@RequestBody Order order){
-        orderService.createOrder(order);
+        Order afterOrder = orderService.createOrder(order);
         log.info("创建新订单:{}",order);
-        return Result.success();
+        return Result.success(afterOrder);
     }
 
     @PutMapping("/order")

@@ -5,13 +5,10 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class Admin {
+public class AdminHaveUser {
     private Long id;
-    private String adminName;
-    private String adminPassword;
-    private Integer adminLevel;
-    private String adminRemark;
-    private Long adminFrom;
+    private Long adminId;
+    private Long userId;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

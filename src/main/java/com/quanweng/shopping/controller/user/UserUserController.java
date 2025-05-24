@@ -22,6 +22,20 @@ public class UserUserController {
         return Result.success(userList);
     }
 
+    @GetMapping("/customer/{id}")
+    private Result getUserById(@PathVariable Long id){
+        User user = userService.getUserById(id);
+        log.info("根据id查询:{}",user);
+        return Result.success(user);
+    }
+
+    @GetMapping("/customerByPhone/{phone}")
+    private Result getUserByPhone(@PathVariable String phone){
+        User user = userService.getUserByPhone(phone);
+        log.info("根据phone查询:{}",phone);
+        return Result.success(user);
+    }
+
     @PostMapping("/customer")
     private Result createUser(@RequestBody User user){
         userService.createUser(user);

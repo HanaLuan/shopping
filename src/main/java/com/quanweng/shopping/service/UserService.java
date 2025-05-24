@@ -12,4 +12,10 @@ public interface UserService {
     void updateUser(User user);
 
     void deleteUser(Long id);
+
+    User getUserById(Long id);
+
+    User getUserByPhone(String phone);
+
+    List<User> getUserByAdminId(Long adminId);
 }

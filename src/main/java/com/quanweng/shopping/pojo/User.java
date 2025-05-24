@@ -16,6 +16,7 @@ public class User {
     private String userPhone;
     private String userAdd;
     private String userUrl;
+    private Long userFrom;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

@@ -4,9 +4,11 @@ import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.GoodsService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -54,6 +56,13 @@ public class GoodsController {
     private Result deleteGoods(@PathVariable Long id){
         goodsService.deleteGoodsById(id);
         log.info("删除商品{}",id);
+        return Result.success();
+    }
+
+
+    @PostMapping("/goods/excel")
+    private Result excelInput(@RequestParam String url) throws IOException {
+        goodsService.excelInput(url);
         return Result.success();
     }
 

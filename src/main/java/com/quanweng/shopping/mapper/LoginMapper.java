@@ -9,4 +9,6 @@ public interface LoginMapper {
     void register(Login login);
 
     Login findTheLogin(Login login);
+
+    void updateLogin(Login login);
 }

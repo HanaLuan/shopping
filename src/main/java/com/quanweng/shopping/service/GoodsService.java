@@ -4,6 +4,8 @@ import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.GoodsImg;
 import com.quanweng.shopping.pojo.GoodsSearch;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 public interface GoodsService {
@@ -24,4 +26,6 @@ public interface GoodsService {
     void remarkTheKeyWord(String keyWord, Long userId);
 
     List<GoodsSearch> getGoodsKeyWordList(Long userId);
+
+    void excelInput(String url) throws IOException;
 }

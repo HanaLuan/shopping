@@ -2,8 +2,10 @@ package com.quanweng.shopping.controller;
 
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.pojo.common.UploadProperties;
+import com.quanweng.shopping.utils.AliyunOssOperator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +17,9 @@ import java.util.UUID;
 @Slf4j
 @RestController
 public class UploadController {
+
+    @Autowired
+    private AliyunOssOperator aliyunOssOperator;
 
     @Autowired
     private UploadProperties uploadProperties;
@@ -36,6 +41,15 @@ public class UploadController {
 
         file.transferTo(new File(url));
 
+        return Result.success(url);
+    }
+
+
+    @PostMapping(value = "/uploadAliyun",produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result upload(MultipartFile file) throws Exception {
+        log.info("文件上传{}",file.getOriginalFilename());
+        String url = aliyunOssOperator.upload(file.getBytes(),file.getOriginalFilename());
+        log.info(url);
         return Result.success(url);
     }
 }

@@ -3,9 +3,24 @@
 <mapper namespace="com.quanweng.shopping.mapper.LoginMapper">
 
     <insert id="register">
-        insert into login_table(phone, password, create_time, update_time)
-        VALUES(#{phone},#{password},#{createTime},#{updateTime})
+        insert into login_table(phone, password, admin_id ,create_time, update_time)
+        VALUES(#{phone},#{password},#{adminId},#{createTime},#{updateTime})
     </insert>
+    <update id="updateLogin">
+        update login_table
+        set
+        <if test="phone != null">
+            phone = #{phone},
+        </if>
+        <if test="password != null">
+            password = #{password},
+        </if>
+        <if test="updateTime != null">
+            update_time = #{updateTime}
+        </if>
+        where
+            admin_id = #{adminId}
+    </update>
     <select id="findTheLogin" resultType="com.quanweng.shopping.pojo.Login">
         select * from login_table where phone = #{phone} and password = #{password}
     </select>

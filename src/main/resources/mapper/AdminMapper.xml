@@ -3,22 +3,26 @@
 <mapper namespace="com.quanweng.shopping.mapper.AdminMapper">
 
 
-    <insert id="createAdmin">
-        insert into adimn_table(admin_name, admin_password, admin_level, admin_remark, create_time, update_time)
-        VALUES(#{adminName},#{adminPassword},#{adminLevel},#{adminRemark},#{createTime},#{updateTime})
+    <insert id="createAdmin" useGeneratedKeys="true" keyProperty="id">
+        insert into admin_table(admin_name, admin_password, admin_level, admin_remark, admin_from, create_time, update_time)
+        VALUES(#{adminName},#{adminPassword},#{adminLevel},#{adminRemark},#{adminFrom},#{createTime},#{updateTime})
     </insert>
     <update id="updateAdmin">
-        update adimn_table
+        update admin_table
         set
             admin_name = #{adminName},
             admin_password = #{adminPassword},
             admin_level = #{adminLevel},
             admin_remark = #{adminRemark},
+            admin_from = #{adminFrom},
             update_time = #{updateTime}
         where
             id = #{id}
     </update>
     <delete id="deleteAdmin">
-        delete from adimn_table where id = #{id}
+        delete from admin_table where id = #{id}
     </delete>
+    <select id="findTheLogin" resultType="com.quanweng.shopping.pojo.Admin">
+        select * from admin_table where admin_name = #{adminName} and admin_password = #{adminPassword}
+    </select>
 </mapper>

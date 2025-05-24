@@ -6,9 +6,15 @@ import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.GoodsImg;
 import com.quanweng.shopping.pojo.GoodsSearch;
 import com.quanweng.shopping.service.GoodsService;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -77,6 +83,20 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<GoodsSearch> getGoodsKeyWordList(Long userId) {
         return goodsSearchMapper.getGoodsKeyWordList(userId);
+    }
+
+    @Override
+    public void excelInput(String url) throws IOException {
+        FileInputStream inputStream = new FileInputStream(url);
+
+        Workbook workbook = new HSSFWorkbook(inputStream);
+
+        Sheet sheet = workbook.getSheetAt(0);
+        int rowLength = sheet.getLastRowNum();
+        int cellLength = sheet.getRow(0).getLastCellNum();
+        for (int rowNum = 0;rowNum < rowLength;rowNum++){
+
+        }
     }
 
 

@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface AdminMapper {
 
-    @Select("select * from adimn_table")
+    @Select("select * from admin_table")
     List<Admin> getAllAdmin();
 
     void createAdmin(Admin admin);
@@ -18,4 +18,12 @@ public interface AdminMapper {
     void updateAdmin(Admin admin);
 
     void deleteAdmin(Long id);
+
+    Admin findTheLogin(String adminName, String adminPassword);
+
+    @Select("select * from admin_table where admin_from = #{adminFrom}")
+    List<Admin> getAdminByAdminFrom(Long adminFrom);
+
+    @Select("select * from admin_table where id = #{id}")
+    Admin getAdminById(Long id);
 }

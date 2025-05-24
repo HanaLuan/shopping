@@ -9,6 +9,7 @@ public class Login {
     private Long id;
     private String phone;
     private String password;
+    private Long adminId;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

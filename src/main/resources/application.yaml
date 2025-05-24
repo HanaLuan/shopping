@@ -22,6 +22,6 @@ quanweng:
     save-url: E:\saveImg\
 aliyun:
   oss:
-    endpoint:
-    region:
-    bucket-name:
+    endpoint: http://oss-cn-guangzhou.aliyuncs.com
+    bucketName: quanweng-test
+    region: cn-guangzhou
