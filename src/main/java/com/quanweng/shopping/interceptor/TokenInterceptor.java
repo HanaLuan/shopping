@@ -15,6 +15,9 @@ public class TokenInterceptor implements HandlerInterceptor {
         String requestURL = request.getRequestURI();
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
             return true;
         }
 
@@ -23,8 +26,11 @@ public class TokenInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = request.getHeader("token");
-        if (token == null) {
-            token = request.getHeader("Authorization");
+        if(token == null) {
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                token = authHeader.substring(7).trim();
+            }
         }
 
         if(token == null || token.isEmpty()){
