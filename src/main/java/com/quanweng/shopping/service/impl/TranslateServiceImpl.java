@@ -21,9 +21,11 @@ public class TranslateServiceImpl implements TranslateService {
 
     @Override
     public void createTranslation(Translate translate) {
-        translate.setCreateTime(LocalDateTime.now());
-        translate.setUpdateTime(LocalDateTime.now());
-        translateMapper.createTranslation(translate);
+        if (translateMapper.getTranslation(translate.getText()).isEmpty()) {
+            translate.setCreateTime(LocalDateTime.now());
+            translate.setUpdateTime(LocalDateTime.now());
+            translateMapper.createTranslation(translate);
+        }
     }
 
     @Override

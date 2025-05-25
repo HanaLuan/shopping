@@ -60,9 +60,9 @@ public class GoodsController {
     }
 
 
-    @PostMapping("/goods/excel")
-    private Result excelInput(@RequestParam String url) throws IOException {
-        goodsService.excelInput(url);
+    @PostMapping("/goodsByExcel/excel")
+    private Result excelInput(@RequestParam String fileUrl) throws IOException {
+        goodsService.excelInput(fileUrl);
         return Result.success();
     }
 

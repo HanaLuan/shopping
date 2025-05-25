@@ -1,8 +1,11 @@
 package com.quanweng.shopping.service.impl;
 
+import com.alibaba.excel.EasyExcel;
+import com.quanweng.shopping.Listener.GoodsDataListener;
 import com.quanweng.shopping.mapper.GoodsMapper;
 import com.quanweng.shopping.mapper.GoodsSearchMapper;
 import com.quanweng.shopping.pojo.Goods;
+import com.quanweng.shopping.pojo.GoodsExcel;
 import com.quanweng.shopping.pojo.GoodsImg;
 import com.quanweng.shopping.pojo.GoodsSearch;
 import com.quanweng.shopping.service.GoodsService;
@@ -24,6 +27,8 @@ public class GoodsServiceImpl implements GoodsService {
     private GoodsMapper goodsMapper;
     @Autowired
     private GoodsSearchMapper goodsSearchMapper;
+    @Autowired
+    private GoodsDataListener goodsDataListener;
 
     @Override
     public List<Goods> getAllGoods() {
@@ -87,16 +92,12 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public void excelInput(String url) throws IOException {
-        FileInputStream inputStream = new FileInputStream(url);
+        EasyExcel.read(url, GoodsExcel.class,goodsDataListener)
+                .sheet()
+                .doRead();
 
-        Workbook workbook = new HSSFWorkbook(inputStream);
 
-        Sheet sheet = workbook.getSheetAt(0);
-        int rowLength = sheet.getLastRowNum();
-        int cellLength = sheet.getRow(0).getLastCellNum();
-        for (int rowNum = 0;rowNum < rowLength;rowNum++){
 
-        }
     }
 
 
