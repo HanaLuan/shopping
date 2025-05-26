@@ -37,6 +37,7 @@ public class CartController {
         trace.setRegion(""); // 地区预留
         trace.setAction("add_cart");
         trace.setActionData("goodsId:" + cart.getGoodsId());
+        trace.setCreateTime(java.time.LocalDateTime.now());
         userTraceService.recordTrace(trace);
         return Result.success();
     }

@@ -51,6 +51,7 @@ public class GoodsUserController {
         trace.setRegion(""); // 地区预留
         trace.setAction("navigation");
         trace.setActionData("goodsId:" + id);
+        trace.setCreateTime(java.time.LocalDateTime.now());
         userTraceService.recordTrace(trace);
         return Result.success(goods);
     }
@@ -69,6 +70,7 @@ public class GoodsUserController {
         trace.setRegion(""); // 地区预留
         trace.setAction("search");
         trace.setActionData("keyWord:" + keyWord);
+        trace.setCreateTime(java.time.LocalDateTime.now());
         userTraceService.recordTrace(trace);
         return Result.success(goodsList);
     }

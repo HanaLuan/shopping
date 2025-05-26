@@ -36,6 +36,7 @@ public class LoginUserController {
         trace.setRegion(""); // 地区预留
         trace.setAction("register");
         trace.setActionData(loginInfo.getPhone());
+        trace.setCreateTime(java.time.LocalDateTime.now());
         userTraceService.recordTrace(trace);
         return Result.success();
     }
@@ -50,6 +51,7 @@ public class LoginUserController {
         trace.setRegion(""); // 地区预留
         trace.setAction("login");
         trace.setActionData(login.getPhone());
+        trace.setCreateTime(java.time.LocalDateTime.now());
         userTraceService.recordTrace(trace);
         return Result.success(loginVo);
     }
