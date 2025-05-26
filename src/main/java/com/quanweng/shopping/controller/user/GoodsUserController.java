@@ -2,9 +2,12 @@ package com.quanweng.shopping.controller.user;
 
 import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.GoodsSearch;
+import com.quanweng.shopping.pojo.UserTrace;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.GoodsService;
+import com.quanweng.shopping.service.UserTraceService;
 import jakarta.annotation.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,10 @@ import java.util.List;
 public class GoodsUserController {
     @Autowired
     private GoodsService goodsService;
+    @Autowired
+    private UserTraceService userTraceService;
+    @Autowired
+    private HttpServletRequest request;
 
     @GetMapping("/goods")
     private Result getAllGoods(){
@@ -35,6 +42,16 @@ public class GoodsUserController {
     @GetMapping("/goodsById/{id}")
     private Result getGoodsById(@PathVariable Long id){
         Goods goods = goodsService.getGoodsById(id);
+        // 记录商品浏览痕迹
+        String userId = request.getHeader("userId");
+        if (userId == null || userId.isEmpty()) userId = "NO_LOGIN";
+        UserTrace trace = new UserTrace();
+        trace.setUserId(userId);
+        trace.setIp(request.getRemoteAddr());
+        trace.setRegion(""); // 地区预留
+        trace.setAction("navigation");
+        trace.setActionData("goodsId:" + id);
+        userTraceService.recordTrace(trace);
         return Result.success(goods);
     }
 
@@ -44,6 +61,15 @@ public class GoodsUserController {
         if (userId != null){
             goodsService.remarkTheKeyWord(keyWord,userId);
         }
+        // 记录商品搜索痕迹
+        String traceUserId = userId != null ? userId.toString() : "NO_LOGIN";
+        UserTrace trace = new UserTrace();
+        trace.setUserId(traceUserId);
+        trace.setIp(request.getRemoteAddr());
+        trace.setRegion(""); // 地区预留
+        trace.setAction("search");
+        trace.setActionData("keyWord:" + keyWord);
+        userTraceService.recordTrace(trace);
         return Result.success(goodsList);
     }
 
