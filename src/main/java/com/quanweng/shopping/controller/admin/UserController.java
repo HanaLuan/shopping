@@ -31,7 +31,7 @@ public class UserController {
         return Result.success(user);
     }
 
-    @GetMapping("/customerByPhone")
+    @PostMapping("/customerByPhone")
     private Result getUserByPhone(@RequestBody User userRequest){
         User user = userService.getUserByPhone(userRequest.getUserPhone());
         log.info("根据phone查询:{}",userRequest.getUserPhone());

@@ -4,10 +4,8 @@ import com.alibaba.excel.EasyExcel;
 import com.quanweng.shopping.Listener.GoodsDataListener;
 import com.quanweng.shopping.mapper.GoodsMapper;
 import com.quanweng.shopping.mapper.GoodsSearchMapper;
-import com.quanweng.shopping.pojo.Goods;
-import com.quanweng.shopping.pojo.GoodsExcel;
-import com.quanweng.shopping.pojo.GoodsImg;
-import com.quanweng.shopping.pojo.GoodsSearch;
+import com.quanweng.shopping.mapper.GoodsTopMapper;
+import com.quanweng.shopping.pojo.*;
 import com.quanweng.shopping.service.GoodsService;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -29,6 +27,8 @@ public class GoodsServiceImpl implements GoodsService {
     private GoodsSearchMapper goodsSearchMapper;
     @Autowired
     private GoodsDataListener goodsDataListener;
+    @Autowired
+    private GoodsTopMapper goodsTopMapper;
 
     @Override
     public List<Goods> getAllGoods() {
@@ -61,6 +61,19 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public Goods getGoodsById(Long id) {
+        GoodsTop goodsTop = goodsTopMapper.findTheGoodsTop(id);
+        if (goodsTop == null){
+            GoodsTop createGoodsTop = new GoodsTop();
+            createGoodsTop.setGoodsId(id);
+            createGoodsTop.setGoodsCount(1L);
+            createGoodsTop.setCreateTime(LocalDateTime.now());
+            createGoodsTop.setUpdateTime(LocalDateTime.now());
+            goodsTopMapper.createGoodsTop(createGoodsTop);
+        }else {
+            goodsTop.setGoodsCount(goodsTop.getGoodsCount() + 1);
+            goodsTop.setUpdateTime(LocalDateTime.now());
+            goodsTopMapper.updateGoodsTop(goodsTop);
+        }
         return goodsMapper.getGoodsByGoodsId(id);
     }
 

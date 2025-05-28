@@ -1,9 +1,11 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/shopping
-    username: root
-    password: 123456
+    username: common
+    password: OperatorP0a7$5s0
     driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: root
+#    password: 123456
   data:
     redis:
       port: 6379
@@ -27,4 +29,4 @@ aliyun:
     region: cn-guangzhou
 set:
   web:
-    web-address: https://github.com/
+    web-address: http://47.113.216.20/#/pages/overlay/NameCard
