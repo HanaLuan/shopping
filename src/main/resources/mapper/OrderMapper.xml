@@ -4,7 +4,7 @@
 
     <insert id="createOrder" useGeneratedKeys="true" keyProperty="id">
         insert into order_table(user_id, status, delivery, order_price, order_add, user_name, user_phone, user_email, user_code, logistics_com, logistics_id, logistics_status, order_note, create_time, update_time)
-        VALUES(#{userId},#{status},#{delivery},#{orderPrice},#{orderAdd},#{userName},#{userEmail},#{userEmail},#{userCode},#{logisticsCom},#{logisticsId},#{logisticsStatus},#{orderNote},#{createTime},#{updateTime})
+        VALUES(#{userId},#{status},#{delivery},#{orderPrice},#{orderAdd},#{userName},#{userPhone},#{userEmail},#{userCode},#{logisticsCom},#{logisticsId},#{logisticsStatus},#{orderNote},#{createTime},#{updateTime})
     </insert>
     <update id="updateOrder">
         update order_table

@@ -19,9 +19,12 @@ server:
   port: 8084
 quanweng:
   upload:
-    save-url: E:\saveImg\
+    save-url: \shopImg\upload\
 aliyun:
   oss:
     endpoint: http://oss-cn-guangzhou.aliyuncs.com
     bucketName: quanweng-test
     region: cn-guangzhou
+set:
+  web:
+    web-address: https://github.com/

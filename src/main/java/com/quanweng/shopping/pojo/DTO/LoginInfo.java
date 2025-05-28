@@ -10,4 +10,5 @@ public class LoginInfo {
     private String userLastName;
     private String userEmail;
     private String userAdd;
+    private Long adminId;
 }

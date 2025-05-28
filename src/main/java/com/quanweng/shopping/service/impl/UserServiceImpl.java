@@ -22,9 +22,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(User user) {
-        user.setCreateTime(LocalDateTime.now());
-        user.setUpdateTime(LocalDateTime.now());
-        userMapper.createUser(user);
+        if (userMapper.getUserByPhone(user.getUserPhone()) == null) {
+            user.setCreateTime(LocalDateTime.now());
+            user.setUpdateTime(LocalDateTime.now());
+            userMapper.createUser(user);
+        }
     }
 
     @Override

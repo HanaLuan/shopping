@@ -10,6 +10,7 @@ import com.quanweng.shopping.pojo.Login;
 import com.quanweng.shopping.pojo.User;
 import com.quanweng.shopping.pojo.VO.LoginAdminVo;
 import com.quanweng.shopping.pojo.VO.LoginVo;
+import com.quanweng.shopping.pojo.common.WebProperties;
 import com.quanweng.shopping.service.LoginService;
 import com.quanweng.shopping.utils.JWTUtils;
 import com.quanweng.shopping.utils.QRCodeUtils;
@@ -29,6 +30,8 @@ import java.util.Map;
 @Service
 public class LoginServiceImpl implements LoginService {
     @Autowired
+    private WebProperties webProperties;
+    @Autowired
     private LoginMapper loginMapper;
     @Autowired
     private UserMapper userMapper;
@@ -42,6 +45,9 @@ public class LoginServiceImpl implements LoginService {
         if(userMapper.getUserByPhone(loginInfo.getPhone()) == null){
             login.setPassword(DigestUtils.md5DigestAsHex(loginInfo.getPassword().getBytes()));
             login.setPhone(loginInfo.getPhone());
+            if(loginInfo.getAdminId() != null){
+                login.setAdminId(loginInfo.getAdminId());
+            }
             login.setCreateTime(LocalDateTime.now());
             login.setUpdateTime(LocalDateTime.now());
             loginMapper.register(login);
@@ -55,9 +61,15 @@ public class LoginServiceImpl implements LoginService {
             user.setUserCom("未填");
             user.setUserEmail(loginInfo.getUserEmail());
             user.setUserAdd(loginInfo.getUserAdd());
-            String url = QRCodeUtils.generateQRCode("https://github.com");
-            user.setUserUrl(url);
-            user.setUserFrom(0L);
+            if (loginInfo.getAdminId() == null) {
+                String url = QRCodeUtils.generateQRCode(webProperties.getWebAddress() + "?adminId=");
+                user.setUserUrl(url);
+                user.setUserFrom(0L);
+            }else {
+                String url = QRCodeUtils.generateQRCode(webProperties.getWebAddress() + "?adminId="+loginInfo.getAdminId());
+                user.setUserUrl(url);
+                user.setUserFrom(loginInfo.getAdminId());
+            }
             user.setUpdateTime(LocalDateTime.now());
             user.setCreateTime(LocalDateTime.now());
             userMapper.createUser(user);
@@ -80,6 +92,14 @@ public class LoginServiceImpl implements LoginService {
             User user = userMapper.getUserByPhone(logi.getPhone());
             loginVo.setUserId(user.getId());
             loginVo.setPhone(logi.getPhone());
+
+            if (login.getAdminId() != null){
+                if(user.getUserFrom() == null){
+                    user.setUserFrom(login.getAdminId());
+                    user.setUpdateTime(LocalDateTime.now());
+                    userMapper.updateUser(user);
+                }
+            }
 
             return loginVo;
         }

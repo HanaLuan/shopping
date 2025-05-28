@@ -7,6 +7,7 @@ import com.quanweng.shopping.mapper.UserMapper;
 import com.quanweng.shopping.pojo.Admin;
 import com.quanweng.shopping.pojo.Login;
 import com.quanweng.shopping.pojo.User;
+import com.quanweng.shopping.pojo.common.WebProperties;
 import com.quanweng.shopping.service.AdminService;
 import com.quanweng.shopping.utils.QRCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+
+    @Autowired
+    private WebProperties webProperties;
+
+
     @Autowired
     private AdminMapper adminMapper;
     @Autowired
@@ -33,37 +39,38 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void createAdmin(Admin admin) throws IOException, WriterException {
-        admin.setAdminPassword(DigestUtils.md5DigestAsHex(admin.getAdminPassword().getBytes()));
-        admin.setCreateTime(LocalDateTime.now());
-        admin.setUpdateTime(LocalDateTime.now());
-        adminMapper.createAdmin(admin);
+        if(adminMapper.getAdminByName(admin.getAdminName()) == null) {
+            admin.setAdminPassword(DigestUtils.md5DigestAsHex(admin.getAdminPassword().getBytes()));
+            admin.setCreateTime(LocalDateTime.now());
+            admin.setUpdateTime(LocalDateTime.now());
+            adminMapper.createAdmin(admin);
 
-        //同时新建用户
-        Login login = new Login();
-        login.setPhone(admin.getAdminName());
-        login.setPassword(admin.getAdminPassword());
-        login.setAdminId(admin.getId());
-        login.setUpdateTime(LocalDateTime.now());
-        login.setCreateTime(LocalDateTime.now());
-        loginMapper.register(login);
+            //同时新建用户
+            Login login = new Login();
+            login.setPhone(admin.getAdminName());
+            login.setPassword(admin.getAdminPassword());
+            login.setAdminId(admin.getId());
+            login.setUpdateTime(LocalDateTime.now());
+            login.setCreateTime(LocalDateTime.now());
+            loginMapper.register(login);
 
-        User user = new User();
-        user.setUserPhone(admin.getAdminName());
-        user.setImg("");
-        user.setUserFirstName("默认");
-        user.setUserLastName("用户名");
-        user.setUserJob("未填");
-        user.setUserCom("未填");
-        user.setUserEmail("未填");
-        user.setUserAdd("未填");
-        String url = QRCodeUtils.generateQRCode("https://github.com");
+            User user = new User();
+            user.setUserPhone(admin.getAdminName());
+            user.setImg("");
+            user.setUserFirstName("默认");
+            user.setUserLastName("用户名");
+            user.setUserJob("未填");
+            user.setUserCom("未填");
+            user.setUserEmail("未填");
+            user.setUserAdd("未填");
+            String url = QRCodeUtils.generateQRCode(webProperties.getWebAddress()+"?adminId="+admin.getId());
 
-        user.setUserUrl(url);
-        user.setUserFrom(admin.getId());
-        user.setUpdateTime(LocalDateTime.now());
-        user.setCreateTime(LocalDateTime.now());
-        userMapper.createUser(user);
-
+            user.setUserUrl(url);
+            user.setUserFrom(admin.getId());
+            user.setUpdateTime(LocalDateTime.now());
+            user.setCreateTime(LocalDateTime.now());
+            userMapper.createUser(user);
+        }
     }
 
     @Override

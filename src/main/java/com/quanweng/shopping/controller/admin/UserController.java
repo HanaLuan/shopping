@@ -4,6 +4,7 @@ import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.pojo.User;
 import com.quanweng.shopping.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +31,10 @@ public class UserController {
         return Result.success(user);
     }
 
-    @GetMapping("/customerByPhone/{phone}")
-    private Result getUserByPhone(@PathVariable String phone){
-        User user = userService.getUserByPhone(phone);
-        log.info("根据phone查询:{}",phone);
+    @GetMapping("/customerByPhone")
+    private Result getUserByPhone(@RequestBody User userRequest){
+        User user = userService.getUserByPhone(userRequest.getUserPhone());
+        log.info("根据phone查询:{}",userRequest.getUserPhone());
         return Result.success(user);
     }
 
