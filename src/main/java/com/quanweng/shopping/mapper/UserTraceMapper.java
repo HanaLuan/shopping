@@ -1,6 +1,7 @@
 package com.quanweng.shopping.mapper;
 
 import com.quanweng.shopping.pojo.UserTrace;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -33,6 +34,7 @@ public interface UserTraceMapper {
         @Param("endTime") String endTime
     );
 
+    @MapKey("action")
     Map<String, Integer> statisticsByAction(
         @Param("userId") String userId,
         @Param("startTime") String startTime,

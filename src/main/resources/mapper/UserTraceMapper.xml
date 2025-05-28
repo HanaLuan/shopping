@@ -7,9 +7,82 @@
         INSERT INTO user_trace_table
         (user_id, ip, region, action, action_data, create_time)
         VALUES
-        (#{userId}, #{ip}, #{region}, #{action}, #{actionData}, 
+        (#{userId}, #{ip}, #{region}, #{action}, #{actionData},
          #{createTime,jdbcType=TIMESTAMP})
     </insert>
+    <select id="statisticsByAction" resultType="java.util.Map">
+        SELECT
+            user_trace_table.action AS action,
+            COUNT(*) AS count
+        FROM
+            user_trace_table
+        WHERE
+            user_id = #{userId}
+          AND user_trace_table.create_time BETWEEN #{startTime} AND #{endTime}
+        GROUP BY
+            user_trace_table.action
+    </select>
+    <select id="queryUserTrace" resultType="com.quanweng.shopping.pojo.UserTrace">
+        SELECT *
+        FROM user_trace_table
+        <where>
+            <!-- 动态条件拼接 -->
+            <if test="userId != null and userId != ''">
+                AND user_id = #{userId}
+            </if>
+            <if test="action != null and action != ''">
+                AND action = #{action}
+            </if>
+            <if test="ip != null and ip != ''">
+                AND ip = #{ip}
+            </if>
+            <if test="region != null and region != ''">
+                AND region = #{region}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND create_time >= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND create_time <![CDATA[ <= ]]> #{endTime}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+        <if test="offset != null and size != null">
+            LIMIT #{offset}, #{size}
+        </if>
+    </select>
+
+    <select id="countUserTrace" resultType="java.lang.Integer">
+            SELECT COUNT(*)
+            FROM user_trace_table
+            <where>
+                <!-- 动态条件 -->
+                <if test="userId != null and userId != ''">
+                    AND user_id = #{userId}
+                </if>
+                <if test="action != null and action != ''">
+                    AND action = #{action}
+                </if>
+                <if test="ip != null and ip != ''">
+                    AND ip = #{ip}
+                </if>
+                <if test="region != null and region != ''">
+                    AND region = #{region}
+                </if>
+                <!-- 时间范围 -->
+                <if test="startTime != null and startTime != ''">
+                    AND create_time >= #{startTime}
+                </if>
+                <if test="endTime != null and endTime != ''">
+                    AND create_time <![CDATA[ <= ]]> #{endTime}
+                </if>
+            </where>
+    </select>
+
+    <select id="queryUserTraceByUserId" resultType="com.quanweng.shopping.pojo.UserTrace">
+        select * from user_trace_table where user_id = #{userId}
+    </select>
+
 
     <!-- 其它SQL可根据需要添加，如分页、统计等 -->
 </mapper>
