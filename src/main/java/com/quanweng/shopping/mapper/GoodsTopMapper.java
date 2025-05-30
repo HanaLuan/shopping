@@ -4,6 +4,8 @@ import com.quanweng.shopping.pojo.GoodsTop;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -18,4 +20,6 @@ public interface GoodsTopMapper {
 
     @Select("select * from goods_top_table order by goods_count desc limit 1,100")
     List<GoodsTop> getGoodsTop();
+
+    List<GoodsTop> getGoodsTopLimit(LocalDate startTime, LocalDate endTime);
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quanweng.shopping.mapper.NameTopMapper">
+    <insert id="createNameTop">
+        insert into name_top_table(name, name_count, create_time, update_time)
+        values (#{name},#{nameCount},#{createTime},#{updateTime})
+    </insert>
+    <update id="updateNameTop">
+        update name_top_table
+        set
+            name_count = #{nameCount},
+            update_time = #{updateTime}
+        where
+            name = #{name}
+    </update>
+
+    <select id="findTheNameTop" resultType="com.quanweng.shopping.pojo.NameTop">
+        select * from name_top_table where name = #{keyWord}
+    </select>
+    <select id="getNameTop" resultType="com.quanweng.shopping.pojo.NameTop">
+        select * from name_top_table order by name_count desc limit 1,100;
+    </select>
+    <select id="getNameTopLimit" resultType="com.quanweng.shopping.pojo.NameTop">
+            select * from name_top_table
+            <where>
+                <if test="startTime != null">
+                    AND update_time >= #{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND update_time &lt;= #{endTime}
+                </if>
+            </where>
+            order by name_count desc
+    </select>
+</mapper>

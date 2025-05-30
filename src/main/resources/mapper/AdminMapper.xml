@@ -9,13 +9,18 @@
     </insert>
     <update id="updateAdmin">
         update admin_table
-        set
+        <set>
             admin_name = #{adminName},
-            admin_password = #{adminPassword},
+            <if test="adminPassword != null">
+                admin_password = #{adminPassword},
+            </if>
             admin_level = #{adminLevel},
-            admin_remark = #{adminRemark},
+            <if test="adminRemark != null">
+                admin_remark = #{adminRemark},
+            </if>
             admin_from = #{adminFrom},
             update_time = #{updateTime}
+        </set>
         where
             id = #{id}
     </update>

@@ -14,4 +14,16 @@
         where
             id = #{id}
     </update>
+    <select id="getGoodsTopLimit" resultType="com.quanweng.shopping.pojo.GoodsTop">
+        select * from goods_top_table
+        <where>
+            <if test="startTime != null">
+                AND update_time >= #{startTime}
+            </if>
+            <if test="endTime != null">
+                AND update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by goods_count desc
+    </select>
 </mapper>

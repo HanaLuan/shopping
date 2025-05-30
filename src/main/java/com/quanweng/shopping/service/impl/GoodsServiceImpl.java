@@ -2,23 +2,27 @@ package com.quanweng.shopping.service.impl;
 
 import com.alibaba.excel.EasyExcel;
 import com.quanweng.shopping.Listener.GoodsDataListener;
-import com.quanweng.shopping.mapper.GoodsMapper;
-import com.quanweng.shopping.mapper.GoodsSearchMapper;
-import com.quanweng.shopping.mapper.GoodsTopMapper;
+import com.quanweng.shopping.mapper.*;
 import com.quanweng.shopping.pojo.*;
 import com.quanweng.shopping.service.GoodsService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.wltea.analyzer.core.IKSegmenter;
+import org.wltea.analyzer.core.Lexeme;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.StringReader;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class GoodsServiceImpl implements GoodsService {
     @Autowired
@@ -29,6 +33,13 @@ public class GoodsServiceImpl implements GoodsService {
     private GoodsDataListener goodsDataListener;
     @Autowired
     private GoodsTopMapper goodsTopMapper;
+    @Autowired
+    private TranslateMapper translateMapper;
+    @Autowired
+    private NameTopMapper nameTopMapper;
+    @Autowired
+    private KeyTopMapper keyTopMapper;
+
 
     @Override
     public List<Goods> getAllGoods() {
@@ -78,8 +89,58 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<Goods> getGoodsByKeyWord(String keyWord) {
-        return goodsMapper.getGoodsByKeyWord(keyWord);
+    public List<Goods> getGoodsByKeyWord(String keyWord) throws IOException {
+        List<Translate> translateList = translateMapper.getOriginalTranslate(keyWord);
+        List<String> keyWordList = new ArrayList<>();
+        keyWordList.add(keyWord);
+        if(translateList != null && !translateList.isEmpty()) {
+            for (Translate translate : translateList) {
+                keyWordList.add(translate.getText());
+            }
+        }
+        List<Goods> goodsList = new ArrayList<>();
+        for (String key:keyWordList){
+            List<Goods> goods = goodsMapper.getGoodsByKeyWord(key);
+            if (!goods.isEmpty()) {
+                goodsList.addAll(goods);
+            }
+        }
+
+        NameTop nameTop = nameTopMapper.findTheNameTop(keyWord);
+        if(nameTop == null){
+            NameTop createNameTop = new NameTop();
+            createNameTop.setName(keyWord);
+            createNameTop.setNameCount(1L);
+            createNameTop.setCreateTime(LocalDateTime.now());
+            createNameTop.setUpdateTime(LocalDateTime.now());
+            nameTopMapper.createNameTop(createNameTop);
+        }else {
+            nameTop.setNameCount(nameTop.getNameCount() + 1);
+            nameTop.setUpdateTime(LocalDateTime.now());
+            nameTopMapper.updateNameTop(nameTop);
+        }
+
+        IKSegmenter segmenter = new IKSegmenter(new StringReader(keyWord),true);
+        Lexeme next;
+        log.info("分词器:{}",keyWord);
+        while ((next = segmenter.next()) != null){
+            KeyTop keyTop = keyTopMapper.findTheKeyTop(next.getLexemeText());
+            if (keyTop == null){
+                KeyTop createKeyTop = new KeyTop();
+                createKeyTop.setKeyWord(next.getLexemeText());
+                createKeyTop.setKeyCount(1L);
+                createKeyTop.setCreateTime(LocalDateTime.now());
+                createKeyTop.setUpdateTime(LocalDateTime.now());
+                keyTopMapper.createKeyTop(createKeyTop);
+            }else {
+                keyTop.setKeyCount(keyTop.getKeyCount() + 1);
+                keyTop.setUpdateTime(LocalDateTime.now());
+                keyTopMapper.updateKeyTop(keyTop);
+            }
+        }
+
+
+        return goodsList;
     }
 
     @Override

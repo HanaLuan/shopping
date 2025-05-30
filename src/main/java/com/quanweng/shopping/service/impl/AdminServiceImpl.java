@@ -75,7 +75,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void updateAdmin(Admin admin) {
-        admin.setAdminPassword(DigestUtils.md5DigestAsHex(admin.getAdminPassword().getBytes()));
+        if(admin.getAdminPassword() != null) {
+            admin.setAdminPassword(DigestUtils.md5DigestAsHex(admin.getAdminPassword().getBytes()));
+        }
         admin.setUpdateTime(LocalDateTime.now());
         adminMapper.updateAdmin(admin);
 

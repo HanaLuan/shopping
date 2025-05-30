@@ -110,6 +110,16 @@
             <artifactId>easyexcel</artifactId>
             <version>3.1.2</version>
         </dependency>
+        <dependency>
+            <groupId>cn.shenyanchao.ik-analyzer</groupId>
+            <artifactId>ik-analyzer</artifactId>
+            <version>9.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.4.6</version>
+        </dependency>
     </dependencies>
 
     <build>

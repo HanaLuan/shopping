@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quanweng.shopping.mapper.KeyTopMapper">
+    <insert id="createKeyTop">
+        insert into key_top_table(key_word, key_count, create_time, update_time)
+        VALUES(#{keyWord},#{keyCount},#{createTime},#{updateTime})
+    </insert>
+    <update id="updateKeyTop">
+        update key_top_table
+        set
+            key_count = #{keyCount},
+            update_time = #{updateTime}
+        where
+            id = #{id}
+    </update>
+
+    <select id="findTheKeyTop" resultType="com.quanweng.shopping.pojo.KeyTop">
+        select * from key_top_table where key_word = #{keyWord}
+    </select>
+    <select id="getKeyTop" resultType="com.quanweng.shopping.pojo.KeyTop">
+        select * from key_top_table order by key_count desc limit 1,100;
+    </select>
+    <select id="getKeyTopLimit" resultType="com.quanweng.shopping.pojo.KeyTop">
+        select * from key_top_table
+        <where>
+            <if test="startTime != null">
+                AND update_time >= #{startTime}
+            </if>
+            <if test="endTime != null">
+                AND update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by key_count desc
+    </select>
+
+</mapper>

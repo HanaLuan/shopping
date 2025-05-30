@@ -50,7 +50,9 @@ public class LoginServiceImpl implements LoginService {
             }
             login.setCreateTime(LocalDateTime.now());
             login.setUpdateTime(LocalDateTime.now());
-            loginMapper.register(login);
+            if(loginMapper.getLoginByPhone(loginInfo.getPhone()) == null) {
+                loginMapper.register(login);
+            }
 
             User user = new User();
             user.setUserPhone(loginInfo.getPhone());

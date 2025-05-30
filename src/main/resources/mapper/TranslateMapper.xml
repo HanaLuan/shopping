@@ -19,4 +19,7 @@
     <delete id="deleteTranslation">
         delete from translate_table where text = #{text}
     </delete>
+    <select id="getOriginalTranslate" resultType="com.quanweng.shopping.pojo.Translate">
+        select * from translate_table where translate_text like concat('%',#{keyWord},'%')
+    </select>
 </mapper>

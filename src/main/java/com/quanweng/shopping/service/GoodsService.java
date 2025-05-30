@@ -21,7 +21,7 @@ public interface GoodsService {
 
     Goods getGoodsById(Long id);
 
-    List<Goods> getGoodsByKeyWord(String keyWord);
+    List<Goods> getGoodsByKeyWord(String keyWord) throws IOException;
 
     void remarkTheKeyWord(String keyWord, Long userId);
 

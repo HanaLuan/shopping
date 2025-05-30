@@ -16,4 +16,6 @@ public interface TranslateMapper {
     void updateTranslation(Translate translate);
 
     void deleteTranslation(String text);
+
+    List<Translate> getOriginalTranslate(String keyWord);
 }

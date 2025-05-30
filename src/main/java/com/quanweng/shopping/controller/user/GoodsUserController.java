@@ -2,6 +2,7 @@ package com.quanweng.shopping.controller.user;
 
 import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.GoodsSearch;
+import com.quanweng.shopping.pojo.Translate;
 import com.quanweng.shopping.pojo.UserTrace;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.GoodsService;
@@ -13,6 +14,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -24,6 +26,7 @@ public class GoodsUserController {
     private UserTraceService userTraceService;
     @Autowired
     private HttpServletRequest request;
+
 
     @GetMapping("/goods")
     private Result getAllGoods(){
@@ -57,7 +60,7 @@ public class GoodsUserController {
     }
 
     @PostMapping("/goodsByKeyWord")
-    private Result getGoodsByKeyWord(@RequestParam String keyWord,@RequestParam(required = false) @Nullable Long userId){
+    private Result getGoodsByKeyWord(@RequestParam String keyWord,@RequestParam(required = false) @Nullable Long userId) throws IOException {
         List<Goods> goodsList = goodsService.getGoodsByKeyWord(keyWord);
         if (userId != null){
             goodsService.remarkTheKeyWord(keyWord,userId);
@@ -72,6 +75,8 @@ public class GoodsUserController {
         trace.setActionData("keyWord:" + keyWord);
         trace.setCreateTime(java.time.LocalDateTime.now());
         userTraceService.recordTrace(trace);
+
+
         return Result.success(goodsList);
     }
 
