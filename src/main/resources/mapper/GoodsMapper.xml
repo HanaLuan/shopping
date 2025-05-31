@@ -6,6 +6,13 @@
         insert into goods_table(goods_name, goods_price, goods_size, goods_detail, goods_type, goods_weight, goods_show_img, goods_tip, goods_tip_show,create_time, update_time)
         VALUES(#{goodsName},#{goodsPrice},#{goodsSize},#{goodsDetail},#{goodsType},#{goodsWeight},#{goodsShowImg},#{goodsTip},#{goodsTipShow},#{createTime},#{updateTime})
     </insert>
+    <update id="addGoodsBarCode">
+        update goods_table
+        set
+            goods_bar_code = #{goodsBarCode}
+        where
+            id = #{id}
+    </update>
     <update id="updateGoods">
         update goods_table
         set
@@ -29,6 +36,9 @@
         select * from goods_table where id = #{goodsId}
     </select>
     <select id="getGoodsByKeyWord" resultType="com.quanweng.shopping.pojo.Goods">
-        select * from goods_table where  goods_name like concat('%',#{keyWord},'%')
+        select * from goods_table where  goods_name like concat('%',#{keyWord},'%') order by goods_weight desc
+    </select>
+    <select id="getAllGoodsByNoTip" resultType="com.quanweng.shopping.pojo.Goods">
+        select * from goods_table where goods_tip != '' and goods_tip_show = 1 and goods_tip is not null order by goods_weight desc
     </select>
 </mapper>

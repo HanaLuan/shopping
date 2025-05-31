@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface OrderItemsMapper {
-    @Select("select * from order_items_table")
+    @Select("select * from order_items_table order by create_time desc ")
     List<OrderItems> getAllOrderItems();
 
     void createOrderItems(OrderItems orderItems);

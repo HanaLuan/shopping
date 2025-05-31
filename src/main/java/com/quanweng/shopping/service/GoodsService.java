@@ -1,5 +1,6 @@
 package com.quanweng.shopping.service;
 
+import com.google.zxing.WriterException;
 import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.GoodsImg;
 import com.quanweng.shopping.pojo.GoodsSearch;
@@ -13,7 +14,7 @@ public interface GoodsService {
 
     List<Goods> getGoodsByCategory(Long category);
 
-    Goods createGoods(Goods goods);
+    Goods createGoods(Goods goods) throws IOException, WriterException;
 
     void updateGoods(Goods goods);
 
@@ -28,4 +29,6 @@ public interface GoodsService {
     List<GoodsSearch> getGoodsKeyWordList(Long userId);
 
     void excelInput(String url) throws IOException;
+
+    List<Goods> getAllGoodsByNoTip();
 }

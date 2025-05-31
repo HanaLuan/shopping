@@ -1,10 +1,12 @@
 package com.quanweng.shopping.service.impl;
 
 import com.alibaba.excel.EasyExcel;
+import com.google.zxing.WriterException;
 import com.quanweng.shopping.Listener.GoodsDataListener;
 import com.quanweng.shopping.mapper.*;
 import com.quanweng.shopping.pojo.*;
 import com.quanweng.shopping.service.GoodsService;
+import com.quanweng.shopping.utils.BarcodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -52,10 +54,13 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public Goods createGoods(Goods goods) {
+    public Goods createGoods(Goods goods) throws IOException, WriterException {
         goods.setCreateTime(LocalDateTime.now());
         goods.setUpdateTime(LocalDateTime.now());
         goodsMapper.createGoods(goods);
+
+        goods.setGoodsBarCode(BarcodeUtils.generateCode128Barcode(goods.getId().toString()));
+        goodsMapper.addGoodsBarCode(goods);
         return goods;
     }
 
@@ -172,6 +177,11 @@ public class GoodsServiceImpl implements GoodsService {
 
 
 
+    }
+
+    @Override
+    public List<Goods> getAllGoodsByNoTip() {
+        return goodsMapper.getAllGoodsByNoTip();
     }
 
 

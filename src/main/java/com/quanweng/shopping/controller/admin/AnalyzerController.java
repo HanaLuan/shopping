@@ -68,6 +68,4 @@ public class AnalyzerController {
         List<KeyTop> keyTops = analyzerService.getKeyTopLimit(pages,size,startTime,endTime);
         return Result.success(keyTops);
     }
-
-
 }

@@ -21,11 +21,6 @@ class ShoppingApplicationTests {
         System.out.println("生成图片成功");
     }
 
-    @Test
-    public void test2() throws IOException, WriterException {
-        BarcodeUtils.generateCode128Barcode("https://github.com","E://barcode.png",300,300);
-        System.out.println("生成条形码成功");
-    }
 
     @Test
     public void test(){

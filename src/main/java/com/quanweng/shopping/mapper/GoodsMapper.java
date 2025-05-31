@@ -25,4 +25,8 @@ public interface GoodsMapper {
     Goods getGoodsByGoodsId(Long goodsId);
 
     List<Goods> getGoodsByKeyWord(String keyWord);
+
+    void addGoodsBarCode(Goods goods);
+
+    List<Goods> getAllGoodsByNoTip();
 }

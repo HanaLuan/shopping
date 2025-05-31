@@ -85,4 +85,10 @@ public class GoodsUserController {
         List<GoodsSearch> goodsSearches = goodsService.getGoodsKeyWordList(userId);
         return Result.success(goodsSearches);
     }
+
+    @GetMapping("/goodsHaveTip")
+    private Result getNoTip(){
+        List<Goods> goodsList = goodsService.getAllGoodsByNoTip();
+        return Result.success(goodsList);
+    }
 }

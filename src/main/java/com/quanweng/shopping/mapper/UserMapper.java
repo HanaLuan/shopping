@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    @Select("select * from user_table")
+    @Select("select * from user_table order by create_time desc ")
     List<User> getAllUser();
 
     void createUser(User user);
@@ -21,6 +21,6 @@ public interface UserMapper {
 
     User getUserById(Long id);
 
-    @Select("select * from user_table where user_from = #{adminId}")
+    @Select("select * from user_table where user_from = #{adminId} order by create_time desc")
     List<User> getUserByAdmin(Long adminId);
 }

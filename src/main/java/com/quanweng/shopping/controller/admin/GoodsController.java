@@ -1,5 +1,6 @@
 package com.quanweng.shopping.controller.admin;
 
+import com.google.zxing.WriterException;
 import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.GoodsService;
@@ -39,7 +40,7 @@ public class GoodsController {
     }
 
     @PostMapping("/goods")
-    private Result createGoods(@RequestBody Goods goods){
+    private Result createGoods(@RequestBody Goods goods) throws IOException, WriterException {
         Goods good = goodsService.createGoods(goods);
         log.info("创建新商品:{}",goods);
         return Result.success(good);
@@ -64,6 +65,12 @@ public class GoodsController {
     private Result excelInput(@RequestParam String fileUrl) throws IOException {
         goodsService.excelInput(fileUrl);
         return Result.success();
+    }
+
+    @GetMapping("/goodsHaveTip")
+    private Result getNoTip(){
+        List<Goods> goodsList = goodsService.getAllGoodsByNoTip();
+        return Result.success(goodsList);
     }
 
 

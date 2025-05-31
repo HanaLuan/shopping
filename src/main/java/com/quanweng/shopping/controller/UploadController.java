@@ -1,5 +1,6 @@
 package com.quanweng.shopping.controller;
 
+import com.quanweng.shopping.pojo.UserTrace;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.pojo.common.UploadProperties;
 import com.quanweng.shopping.utils.AliyunOssOperator;

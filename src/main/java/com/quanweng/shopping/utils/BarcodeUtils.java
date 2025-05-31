@@ -8,22 +8,33 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.Code128Writer;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
 public class BarcodeUtils {
 
     /**
      * 生成Code128格式条形码并保存到文件
      * @param content   条形码内容
-     * @param filePath  文件保存路径（包含文件名）
-     * @param width     图片宽度
-     * @param height    图片高度
      */
-    public static void generateCode128Barcode(String content, String filePath, int width, int height)
+    public static String generateCode128Barcode(String content)
             throws WriterException, IOException {
+
+        int width = 300;
+        int height = 300;
+
+        String fileName = UUID.randomUUID() + ".png";
+        String filePath = "/var/www/shopImg/upload/" + fileName;
+        File uploadDir = new File(filePath);
+
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
 
         Map<EncodeHintType, Object> hints = new HashMap<>();
         hints.put(EncodeHintType.MARGIN, 1); // 设置条码边距
@@ -33,6 +44,8 @@ public class BarcodeUtils {
 
         Path path = FileSystems.getDefault().getPath(filePath);
         MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
+
+        return filePath;
     }
 
     /**
