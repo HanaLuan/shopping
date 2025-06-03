@@ -1,5 +1,6 @@
 package com.quanweng.shopping.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.quanweng.shopping.mapper.UserMapper;
 import com.quanweng.shopping.pojo.User;
 import com.quanweng.shopping.service.UserService;
@@ -16,8 +17,10 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public List<User> getAllUser() {
-        return userMapper.getAllUser();
+    public List<User> getAllUser(Integer pages,Integer size) {
+        PageHelper.startPage(pages,size);
+        List<User> userList = userMapper.getAllUser();
+        return userList;
     }
 
     @Override

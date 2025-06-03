@@ -5,7 +5,7 @@ import com.quanweng.shopping.pojo.User;
 import java.util.List;
 
 public interface UserService {
-    List<User> getAllUser();
+    List<User> getAllUser(Integer pages,Integer size);
 
     void createUser(User user);
 

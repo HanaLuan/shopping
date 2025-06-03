@@ -1,6 +1,7 @@
 package com.quanweng.shopping.service.impl;
 
 import com.alibaba.excel.EasyExcel;
+import com.github.pagehelper.PageHelper;
 import com.google.zxing.WriterException;
 import com.quanweng.shopping.Listener.GoodsDataListener;
 import com.quanweng.shopping.mapper.*;
@@ -44,13 +45,17 @@ public class GoodsServiceImpl implements GoodsService {
 
 
     @Override
-    public List<Goods> getAllGoods() {
-        return goodsMapper.getAllGoods();
+    public List<Goods> getAllGoods(Integer pages,Integer size) {
+        PageHelper.startPage(pages,size);
+        List<Goods> goodsList = goodsMapper.getAllGoods();
+        return goodsList;
     }
 
     @Override
-    public List<Goods> getGoodsByCategory(Long category) {
-        return goodsMapper.getGoodsByCategory(category);
+    public List<Goods> getGoodsByCategory(String category,Integer pages,Integer size) {
+        PageHelper.startPage(pages,size);
+        List<Goods> goodsList = goodsMapper.getGoodsByCategory(category);
+        return goodsList;
     }
 
     @Override
@@ -65,8 +70,12 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public void updateGoods(Goods goods) {
+    public void updateGoods(Goods goods) throws IOException, WriterException {
         goods.setUpdateTime(LocalDateTime.now());
+        if(goods.getGoodsBarCode() == null || goods.getGoodsBarCode().isEmpty()){
+            goods.setGoodsBarCode(BarcodeUtils.generateCode128Barcode(goods.getId().toString()));
+            goodsMapper.addGoodsBarCode(goods);
+        }
         goodsMapper.updateGoods(goods);
     }
 
@@ -180,8 +189,10 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<Goods> getAllGoodsByNoTip() {
-        return goodsMapper.getAllGoodsByNoTip();
+    public List<Goods> getAllGoodsByNoTip(Integer pages,Integer size) {
+        PageHelper.startPage(pages,size);
+        List<Goods> goodsList = goodsMapper.getAllGoodsByNoTip();
+        return goodsList;
     }
 
 

@@ -16,8 +16,9 @@ public class OrderUserController {
     private OrderService orderService;
 
     @GetMapping("/order")
-    private Result getAllOrder(){
-        List<Order> orderList = orderService.getAllOrder();
+    private Result getAllOrder(@RequestParam Integer pages,
+                               @RequestParam Integer size){
+        List<Order> orderList = orderService.getAllOrder(pages, size);
         log.info("查询全部订单:{}",orderList);
         return Result.success(orderList);
     }

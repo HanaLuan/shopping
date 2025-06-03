@@ -26,7 +26,7 @@ public class BarcodeUtils {
             throws WriterException, IOException {
 
         int width = 300;
-        int height = 300;
+        int height = 200;
 
         String fileName = UUID.randomUUID() + ".png";
         String filePath = "/var/www/shopImg/upload/" + fileName;

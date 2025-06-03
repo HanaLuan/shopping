@@ -20,15 +20,18 @@ public class GoodsController {
     private GoodsService goodsService;
 
     @GetMapping("/goods")
-    private Result getAllGoods(){
-        List<Goods> goodsList = goodsService.getAllGoods();
+    private Result getAllGoods(@RequestParam(defaultValue = "1") Integer pages,
+                               @RequestParam(defaultValue = "20") Integer size){
+        List<Goods> goodsList = goodsService.getAllGoods(pages,size);
         log.info("查看全部商品:{}",goodsList);
         return Result.success(goodsList);
     }
 
     @GetMapping("/goods/{category}")
-    private Result getGoodsByCategory(@PathVariable Long category){
-        List<Goods> goodsList = goodsService.getGoodsByCategory(category);
+    private Result getGoodsByCategory(@PathVariable String category,
+                                      @RequestParam(defaultValue = "1") Integer pages,
+                                      @RequestParam(defaultValue = "20") Integer size){
+        List<Goods> goodsList = goodsService.getGoodsByCategory(category,pages,size);
         log.info("查看该分类{}下的商品:{}",category,goodsList);
         return Result.success(goodsList);
     }
@@ -47,7 +50,7 @@ public class GoodsController {
     }
 
     @PutMapping("/goods")
-    private Result updateGoods(@RequestBody Goods goods){
+    private Result updateGoods(@RequestBody Goods goods) throws IOException, WriterException {
         goodsService.updateGoods(goods);
         log.info("更改商品{}",goods);
         return Result.success();
@@ -68,8 +71,9 @@ public class GoodsController {
     }
 
     @GetMapping("/goodsHaveTip")
-    private Result getNoTip(){
-        List<Goods> goodsList = goodsService.getAllGoodsByNoTip();
+    private Result getNoTip(@RequestParam(defaultValue = "1") Integer pages,
+                            @RequestParam(defaultValue = "20") Integer size){
+        List<Goods> goodsList = goodsService.getAllGoodsByNoTip(pages,size);
         return Result.success(goodsList);
     }
 

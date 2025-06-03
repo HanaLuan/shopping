@@ -1,5 +1,6 @@
 package com.quanweng.shopping.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.quanweng.shopping.mapper.OrderMapper;
 import com.quanweng.shopping.pojo.Order;
 import com.quanweng.shopping.service.OrderService;
@@ -15,8 +16,10 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
 
     @Override
-    public List<Order> getAllOrder() {
-        return orderMapper.getAllOrder();
+    public List<Order> getAllOrder(Integer pages,Integer size) {
+        PageHelper.startPage(pages,size);
+        List<Order> orderList = orderMapper.getAllOrder();
+        return orderList;
     }
 
     @Override

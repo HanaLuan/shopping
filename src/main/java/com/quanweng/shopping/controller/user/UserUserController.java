@@ -16,8 +16,9 @@ public class UserUserController {
     private UserService userService;
 
     @GetMapping("/customer")
-    private Result getAllUser(){
-        List<User> userList = userService.getAllUser();
+    private Result getAllUser(@RequestParam(defaultValue = "1") Integer pages,
+                              @RequestParam(defaultValue = "20") Integer size){
+        List<User> userList = userService.getAllUser(pages, size);
         log.info("查询用户{}",userList);
         return Result.success(userList);
     }
@@ -29,10 +30,10 @@ public class UserUserController {
         return Result.success(user);
     }
 
-    @GetMapping("/customerByPhone/{phone}")
-    private Result getUserByPhone(@PathVariable String phone){
-        User user = userService.getUserByPhone(phone);
-        log.info("根据phone查询:{}",phone);
+    @PostMapping("/customerByPhone")
+    private Result getUserByPhone(@RequestBody User userRequest){
+        User user = userService.getUserByPhone(userRequest.getUserPhone());
+        log.info("根据phone查询:{}",userRequest.getUserPhone());
         return Result.success(user);
     }
 

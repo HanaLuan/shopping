@@ -41,7 +41,11 @@ class ShoppingApplicationTests {
 
     @Test
     public void test3(){
-
+        int x = 3;
+        int y = 6;
+        
+        System.out.println(x);
+        System.out.println(y);
     }
 
 }

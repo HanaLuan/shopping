@@ -17,8 +17,9 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/order")
-    private Result getAllOrder(){
-        List<Order> orderList = orderService.getAllOrder();
+    private Result getAllOrder(@RequestParam(defaultValue = "1") Integer pages,
+                               @RequestParam(defaultValue = "20") Integer size){
+        List<Order> orderList = orderService.getAllOrder(pages,size);
         log.info("查询全部订单:{}",orderList);
         return Result.success(orderList);
     }

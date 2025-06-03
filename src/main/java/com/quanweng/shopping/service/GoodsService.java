@@ -10,13 +10,13 @@ import java.io.IOException;
 import java.util.List;
 
 public interface GoodsService {
-    List<Goods> getAllGoods();
+    List<Goods> getAllGoods(Integer pages,Integer size);
 
-    List<Goods> getGoodsByCategory(Long category);
+    List<Goods> getGoodsByCategory(String category,Integer pages,Integer size);
 
     Goods createGoods(Goods goods) throws IOException, WriterException;
 
-    void updateGoods(Goods goods);
+    void updateGoods(Goods goods) throws IOException, WriterException;
 
     void deleteGoodsById(Long id);
 
@@ -30,5 +30,5 @@ public interface GoodsService {
 
     void excelInput(String url) throws IOException;
 
-    List<Goods> getAllGoodsByNoTip();
+    List<Goods> getAllGoodsByNoTip(Integer pages,Integer size);
 }

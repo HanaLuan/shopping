@@ -13,7 +13,7 @@ public interface GoodsMapper {
     List<Goods> getAllGoods();
 
     @Select("select * from goods_table where goods_type = #{category} order by goods_weight desc ")
-    List<Goods> getGoodsByCategory(Long category);
+    List<Goods> getGoodsByCategory(String category);
 
     Long createGoods(Goods goods);
 

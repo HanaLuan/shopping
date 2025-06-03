@@ -5,7 +5,7 @@ import com.quanweng.shopping.pojo.Order;
 import java.util.List;
 
 public interface OrderService {
-    List<Order> getAllOrder();
+    List<Order> getAllOrder(Integer pages,Integer size);
 
     Order createOrder(Order order);
 

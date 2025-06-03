@@ -19,7 +19,9 @@ public class AdminController {
     private AdminService adminService;
 
     @GetMapping("/account")
-    private Result getAllAdmin(){
+    private Result getAllAdmin(@RequestParam(defaultValue = "1") Integer pages,
+                               @RequestParam(defaultValue = "20") Integer size){
+        // TODO 还没写
         List<Admin> adminList = adminService.getAllAdmin();
         log.info("查询全部管理员用户{}",adminList);
         return Result.success(adminList);

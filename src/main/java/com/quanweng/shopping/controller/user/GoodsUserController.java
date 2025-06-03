@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -29,15 +30,18 @@ public class GoodsUserController {
 
 
     @GetMapping("/goods")
-    private Result getAllGoods(){
-        List<Goods> goodsList = goodsService.getAllGoods();
+    private Result getAllGoods(@RequestParam(defaultValue = "1") Integer pages,
+                               @RequestParam(defaultValue = "20") Integer size){
+        List<Goods> goodsList = goodsService.getAllGoods(pages,size);
         log.info("查看全部商品:{}",goodsList);
         return Result.success(goodsList);
     }
 
     @GetMapping("/goods/{category}")
-    private Result getGoodsByCategory(@PathVariable Long category){
-        List<Goods> goodsList = goodsService.getGoodsByCategory(category);
+    private Result getGoodsByCategory(@PathVariable String category,
+                                      @RequestParam(defaultValue = "1") Integer pages,
+                                      @RequestParam(defaultValue = "20") Integer size){
+        List<Goods> goodsList = goodsService.getGoodsByCategory(category,pages,size);
         log.info("查看该分类{}下的商品:{}",category,goodsList);
         return Result.success(goodsList);
     }
@@ -87,8 +91,9 @@ public class GoodsUserController {
     }
 
     @GetMapping("/goodsHaveTip")
-    private Result getNoTip(){
-        List<Goods> goodsList = goodsService.getAllGoodsByNoTip();
+    private Result getNoTip(@RequestParam(defaultValue = "1") Integer pages,
+                            @RequestParam(defaultValue = "20") Integer size){
+        List<Goods> goodsList = goodsService.getAllGoodsByNoTip(pages,size);
         return Result.success(goodsList);
     }
 }
