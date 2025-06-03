@@ -5,12 +5,12 @@ spring:
 #    password: OperatorP0a7$5s0
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 123456
+    password: root
   data:
     redis:
       port: 6379
       host: localhost
-      password: 123456
+      # password: 123456
       database: 1
   servlet:
     multipart:

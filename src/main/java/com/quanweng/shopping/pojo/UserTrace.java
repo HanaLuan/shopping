@@ -11,5 +11,6 @@ public class UserTrace {
     private String region;      // 地区（预留）
     private String action;      // login/register/navigation
     private String actionData;  // 相关数据
+    private String requestSessionID; // 请求唯一标识
     private LocalDateTime createTime;
 }

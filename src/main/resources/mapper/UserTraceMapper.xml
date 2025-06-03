@@ -5,9 +5,9 @@
 
     <insert id="insertUserTrace" parameterType="com.quanweng.shopping.pojo.UserTrace">
         INSERT INTO user_trace_table
-        (user_id, ip, region, action, action_data, create_time)
+        (user_id, ip, region, action, action_data, requestSessionID, create_time)
         VALUES
-        (#{userId}, #{ip}, #{region}, #{action}, #{actionData},
+        (#{userId}, #{ip}, #{region}, #{action}, #{actionData}, #{requestSessionID},
          #{createTime,jdbcType=TIMESTAMP})
     </insert>
     <select id="statisticsByAction" resultType="java.util.Map">
