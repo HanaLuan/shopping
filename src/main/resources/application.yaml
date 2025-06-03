@@ -1,16 +1,16 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/shopping
-#    username: common
-#    password: OperatorP0a7$5s0
+    username: common
+    password: OperatorP0a7$5s0
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: root
+#    username: root
+#    password: 123456
   data:
     redis:
       port: 6379
       host: localhost
-      # password: 123456
+      password: 123456
       database: 1
   servlet:
     multipart:

@@ -1,5 +1,6 @@
 package com.quanweng.shopping.interceptor;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.quanweng.shopping.utils.JWTUtils;
 import com.quanweng.shopping.pojo.UserTraceReqInfo;
 import com.quanweng.shopping.service.UserTraceReqInfoService;
@@ -62,7 +63,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             }
             // 获取所有请求头
             java.util.Enumeration<String> headerNames = request.getHeaderNames();
-            org.json.JSONObject headerJson = new org.json.JSONObject();
+            JSONObject headerJson = new JSONObject();
             while(headerNames.hasMoreElements()){
                 String name = headerNames.nextElement();
                 headerJson.put(name, request.getHeader(name));

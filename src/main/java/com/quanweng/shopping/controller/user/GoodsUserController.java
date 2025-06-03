@@ -1,13 +1,12 @@
 package com.quanweng.shopping.controller.user;
 
-import com.quanweng.shopping.pojo.Goods;
-import com.quanweng.shopping.pojo.GoodsSearch;
-import com.quanweng.shopping.pojo.Translate;
-import com.quanweng.shopping.pojo.UserTrace;
+import com.quanweng.shopping.mapper.UserTraceReqInfoMapper;
+import com.quanweng.shopping.pojo.*;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.GoodsService;
 import com.quanweng.shopping.service.UserTraceService;
 import jakarta.annotation.Nullable;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -16,6 +15,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
 
 @Slf4j
@@ -27,6 +27,8 @@ public class GoodsUserController {
     private UserTraceService userTraceService;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private UserTraceReqInfoMapper userTraceReqInfoMapper;
 
 
     @GetMapping("/goods")
@@ -58,8 +60,31 @@ public class GoodsUserController {
         trace.setRegion(""); // 地区预留
         trace.setAction("navigation");
         trace.setActionData("goodsId:" + id);
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("clientTracer")) {
+                    trace.setRequestSessionID(cookie.getValue());
+
+                    Enumeration<String> headerNames = request.getHeaderNames();
+                    while (headerNames.hasMoreElements()) {
+                        String headerName = headerNames.nextElement();
+                        String headerValue = request.getHeader(headerName);
+                        log.info("{}: {}", headerName, headerValue);
+
+                        UserTraceReqInfo userTraceReqInfo = new UserTraceReqInfo();
+                        userTraceReqInfo.setReqHeader(headerName + ":" + headerValue);
+                        userTraceReqInfo.setUserId(userId);
+                        userTraceReqInfo.setRequestSessionID(cookie.getValue());
+                        userTraceReqInfoMapper.insertUserTraceReqInfo(userTraceReqInfo);
+                    }
+                }
+            }
+        }
         trace.setCreateTime(java.time.LocalDateTime.now());
         userTraceService.recordTrace(trace);
+
+
+
         return Result.success(goods);
     }
 
@@ -96,4 +121,6 @@ public class GoodsUserController {
         List<Goods> goodsList = goodsService.getAllGoodsByNoTip(pages,size);
         return Result.success(goodsList);
     }
+
+
 }

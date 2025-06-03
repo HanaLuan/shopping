@@ -3,8 +3,8 @@
 <mapper namespace="com.quanweng.shopping.mapper.BannerMapper">
 
     <insert id="createBanner">
-        insert into banner_table(banner_type, banner_url, title, text, create_time, update_time)
-        VALUES (#{bannerType},#{bannerUrl},#{title},#{text},#{createTime},#{updateTime})
+        insert into banner_table(banner_type, banner_url, title, text, top_text, bottom_text, details_text, create_time, update_time)
+        VALUES (#{bannerType},#{bannerUrl},#{title},#{text},#{topText},#{bottomText},#{detailsText},#{createTime},#{updateTime})
     </insert>
     <update id="updateBanner">
         update banner_table
@@ -13,6 +13,9 @@
             banner_url = #{bannerUrl},
             title = #{title},
             text = #{text},
+            top_text = #{topText},
+            bottom_text = #{bottomText},
+            details_text = #{detailsText},
             update_time = #{updateTime}
         where
             id = #{id}

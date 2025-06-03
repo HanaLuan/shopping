@@ -11,6 +11,9 @@ public class Banner {
     private String bannerUrl;
     private String title;
     private String text;
+    private String topText;
+    private String bottomText;
+    private String detailsText;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

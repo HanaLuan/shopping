@@ -21,8 +21,7 @@ public class AdminController {
     @GetMapping("/account")
     private Result getAllAdmin(@RequestParam(defaultValue = "1") Integer pages,
                                @RequestParam(defaultValue = "20") Integer size){
-        // TODO 还没写
-        List<Admin> adminList = adminService.getAllAdmin();
+        List<Admin> adminList = adminService.getAllAdmin(pages,size);
         log.info("查询全部管理员用户{}",adminList);
         return Result.success(adminList);
     }
@@ -49,8 +48,10 @@ public class AdminController {
     }
 
     @GetMapping("/accountByAdminFrom/{adminFrom}")
-    private Result getAdminByAdminFrom(@PathVariable Long adminFrom){
-        List<Admin> adminList = adminService.getAdminByAdminFrom(adminFrom);
+    private Result getAdminByAdminFrom(@PathVariable Long adminFrom,
+                                       @RequestParam(defaultValue = "1") Integer pages,
+                                       @RequestParam(defaultValue = "20") Integer size){
+        List<Admin> adminList = adminService.getAdminByAdminFrom(adminFrom,pages,size);
         return Result.success(adminList);
     }
 

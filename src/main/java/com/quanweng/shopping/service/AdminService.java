@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface AdminService {
-    List<Admin> getAllAdmin();
+    List<Admin> getAllAdmin(Integer pages,Integer size);
 
     void createAdmin(Admin admin) throws IOException, WriterException;
 
@@ -15,7 +15,7 @@ public interface AdminService {
 
     void deleteAdmin(Long id);
 
-    List<Admin> getAdminByAdminFrom(Long adminFrom);
+    List<Admin> getAdminByAdminFrom(Long adminFrom,Integer pages,Integer size);
 
     Admin getAdminById(Long id);
 }

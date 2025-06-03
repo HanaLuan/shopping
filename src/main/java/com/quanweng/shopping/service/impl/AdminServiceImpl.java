@@ -1,5 +1,6 @@
 package com.quanweng.shopping.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.google.zxing.WriterException;
 import com.quanweng.shopping.mapper.AdminMapper;
 import com.quanweng.shopping.mapper.LoginMapper;
@@ -33,8 +34,10 @@ public class AdminServiceImpl implements AdminService {
     private LoginMapper loginMapper;
 
     @Override
-    public List<Admin> getAllAdmin() {
-        return adminMapper.getAllAdmin();
+    public List<Admin> getAllAdmin(Integer pages,Integer size) {
+        PageHelper.startPage(pages,size);
+        List<Admin> adminList = adminMapper.getAllAdmin();
+        return adminList;
     }
 
     @Override
@@ -99,8 +102,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Admin> getAdminByAdminFrom(Long adminFrom) {
-        return adminMapper.getAdminByAdminFrom(adminFrom);
+    public List<Admin> getAdminByAdminFrom(Long adminFrom,Integer pages,Integer size) {
+        PageHelper.startPage(pages,size);
+        List<Admin> adminList = adminMapper.getAdminByAdminFrom(adminFrom);
+        return adminList;
     }
 
     @Override
