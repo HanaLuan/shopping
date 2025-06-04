@@ -13,6 +13,8 @@ public class Category {
     private Integer categoryWeight;
     private String categoryTip;
     private Integer categoryTipShow;
+    private String categoryShowImg;
+    private String categoryDetails;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

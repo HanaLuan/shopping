@@ -1,5 +1,6 @@
 package com.quanweng.shopping.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.quanweng.shopping.mapper.CategoryMapper;
 import com.quanweng.shopping.pojo.Category;
 import com.quanweng.shopping.service.CategoryService;
@@ -16,8 +17,10 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryMapper categoryMapper;
 
     @Override
-    public List<Category> getAllCategory() {
-        return categoryMapper.getAllCategory();
+    public List<Category> getAllCategory(Integer pages,Integer size) {
+        PageHelper.startPage(pages,size);
+        List<Category> categoryList = categoryMapper.getAllCategory();
+        return categoryList;
     }
 
     @Override

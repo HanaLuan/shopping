@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,8 +28,9 @@ public class CategoryUserController {
     private HttpServletRequest request;
 
     @GetMapping("/category")
-    private Result getAllCategory(){
-        List<Category> categoryList = categoryService.getAllCategory();
+    private Result getAllCategory(@RequestParam(defaultValue = "1") Integer pages,
+                                  @RequestParam(defaultValue = "20") Integer size){
+        List<Category> categoryList = categoryService.getAllCategory(pages,size);
         log.info("查询全部分类:{}",categoryList);
         // 跟踪
         UserTrace trace = new UserTrace();

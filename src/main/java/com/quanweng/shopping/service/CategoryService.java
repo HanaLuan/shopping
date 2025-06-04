@@ -5,7 +5,7 @@ import com.quanweng.shopping.pojo.Category;
 import java.util.List;
 
 public interface CategoryService {
-    List<Category> getAllCategory();
+    List<Category> getAllCategory(Integer pages,Integer size);
 
     void createCategory(Category category);
 
