@@ -11,7 +11,7 @@
         VALUES (#{requestSessionID}, #{userId}, #{reqHeader})
             ON DUPLICATE KEY UPDATE
                                  user_id = VALUES(user_id),
-                                 req_Header = VALUES(reqHeader)
+                                 req_Header = VALUES(req_Header)
     </insert>
     <select id="selectByRequestSessionID" resultType="com.quanweng.shopping.pojo.UserTraceReqInfo">
         SELECT requestSessionID, user_id, req_Header
