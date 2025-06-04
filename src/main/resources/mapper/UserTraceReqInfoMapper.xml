@@ -6,6 +6,13 @@
         INSERT INTO user_trace_req_info (requestSessionID, user_id, req_Header)
         VALUES (#{requestSessionID}, #{userId}, #{reqHeader})
     </insert>
+    <insert id="insertOrUpdateUserTraceReqInfo" parameterType="com.quanweng.shopping.pojo.UserTraceReqInfo">
+        INSERT INTO user_trace_req_info (requestSessionID, user_id, req_Header)
+        VALUES (#{requestSessionID}, #{userId}, #{reqHeader})
+            ON DUPLICATE KEY UPDATE
+                                 user_id = VALUES(user_id),
+                                 req_Header = VALUES(req_Header)
+    </insert>
     <select id="selectByRequestSessionID" resultType="com.quanweng.shopping.pojo.UserTraceReqInfo">
         SELECT requestSessionID, user_id, req_Header
         FROM user_trace_req_info

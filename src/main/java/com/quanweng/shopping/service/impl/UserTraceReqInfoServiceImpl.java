@@ -13,7 +13,7 @@ public class UserTraceReqInfoServiceImpl implements UserTraceReqInfoService {
 
     @Override
     public void recordReqInfo(UserTraceReqInfo reqInfo) {
-        userTraceReqInfoMapper.insertUserTraceReqInfo(reqInfo);
+        userTraceReqInfoMapper.insertOrUpdateUserTraceReqInfo(reqInfo);
     }
 
     @Override
