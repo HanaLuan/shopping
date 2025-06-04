@@ -14,17 +14,19 @@ public class UserTraceUtil {
      * 創建 UserTrace 並記錄 header 到資料庫（透過 service）
      */
     public static UserTrace buildAndRecordUserTrace(HttpServletRequest request,
-                                                    Long goodsId,
+                                                    String userId,
+                                                    String action,
+                                                    String actionData,
                                                     UserTraceReqInfoService userTraceReqInfoService) {
-        String userId = request.getHeader("userId");
+
         if (userId == null || userId.isEmpty()) userId = "NO_LOGIN";
 
         UserTrace trace = new UserTrace();
         trace.setUserId(userId);
         trace.setIp(request.getRemoteAddr());
         trace.setRegion(""); // 可以之後擴展
-        trace.setAction("navigation");
-        trace.setActionData("goodsId:" + goodsId);
+        trace.setAction(action);
+        trace.setActionData(actionData);
         trace.setCreateTime(LocalDateTime.now());
 
         String clientTracer = request.getParameter("clientTracer");
