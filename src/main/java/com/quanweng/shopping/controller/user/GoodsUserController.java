@@ -49,41 +49,44 @@ public class GoodsUserController {
     }
 
     @GetMapping("/goodsById/{id}")
-    private Result getGoodsById(@PathVariable Long id){
+    private Result getGoodsById(@PathVariable Long id, HttpServletRequest request) {
         Goods goods = goodsService.getGoodsById(id);
-        // 记录商品浏览痕迹
+
         String userId = request.getHeader("userId");
         if (userId == null || userId.isEmpty()) userId = "NO_LOGIN";
+
         UserTrace trace = new UserTrace();
         trace.setUserId(userId);
         trace.setIp(request.getRemoteAddr());
-        trace.setRegion(""); // 地区预留
+        trace.setRegion("");
         trace.setAction("navigation");
         trace.setActionData("goodsId:" + id);
-        if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                if (cookie.getName().equals("clientTracer")) {
-                    trace.setRequestSessionID(cookie.getValue());
 
-                    Enumeration<String> headerNames = request.getHeaderNames();
-                    while (headerNames.hasMoreElements()) {
-                        String headerName = headerNames.nextElement();
-                        String headerValue = request.getHeader(headerName);
-                        log.info("{}: {}", headerName, headerValue);
+        String clientTracer = request.getParameter("clientTracer");
+        if (clientTracer != null && !clientTracer.isEmpty()) {
+            trace.setRequestSessionID(clientTracer);
 
-                        UserTraceReqInfo userTraceReqInfo = new UserTraceReqInfo();
-                        userTraceReqInfo.setReqHeader(headerName + ":" + headerValue);
-                        userTraceReqInfo.setUserId(userId);
-                        userTraceReqInfo.setRequestSessionID(cookie.getValue());
-                        userTraceReqInfoMapper.insertUserTraceReqInfo(userTraceReqInfo);
-                    }
-                }
+            // 將所有 header 合併成純文字
+            StringBuilder headersText = new StringBuilder();
+            Enumeration<String> headerNames = request.getHeaderNames();
+            while (headerNames.hasMoreElements()) {
+                String headerName = headerNames.nextElement();
+                String headerValue = request.getHeader(headerName);
+                headersText.append(headerName).append(": ").append(headerValue).append("\n");
             }
+
+            // 插入一筆 header 資訊記錄
+            UserTraceReqInfo userTraceReqInfo = new UserTraceReqInfo();
+            userTraceReqInfo.setReqHeader(headersText.toString().trim()); // 去掉最後的換行
+            userTraceReqInfo.setUserId(userId);
+            userTraceReqInfo.setRequestSessionID(clientTracer);
+            userTraceReqInfoMapper.insertOrUpdateUserTraceReqInfo(userTraceReqInfo);
+
+            log.info("Header text:\n{}", headersText);
         }
+
         trace.setCreateTime(java.time.LocalDateTime.now());
         userTraceService.recordTrace(trace);
-
-
 
         return Result.success(goods);
     }
