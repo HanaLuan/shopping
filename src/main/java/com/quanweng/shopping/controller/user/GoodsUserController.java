@@ -4,7 +4,9 @@ import com.quanweng.shopping.mapper.UserTraceReqInfoMapper;
 import com.quanweng.shopping.pojo.*;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.GoodsService;
+import com.quanweng.shopping.service.UserTraceReqInfoService;
 import com.quanweng.shopping.service.UserTraceService;
+import com.quanweng.shopping.utils.UserTraceUtil;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +30,7 @@ public class GoodsUserController {
     @Autowired
     private HttpServletRequest request;
     @Autowired
-    private UserTraceReqInfoMapper userTraceReqInfoMapper;
+    private UserTraceReqInfoService userTraceReqInfoService;
 
 
     @GetMapping("/goods")
@@ -52,40 +54,7 @@ public class GoodsUserController {
     private Result getGoodsById(@PathVariable Long id, HttpServletRequest request) {
         Goods goods = goodsService.getGoodsById(id);
 
-        String userId = request.getHeader("userId");
-        if (userId == null || userId.isEmpty()) userId = "NO_LOGIN";
-
-        UserTrace trace = new UserTrace();
-        trace.setUserId(userId);
-        trace.setIp(request.getRemoteAddr());
-        trace.setRegion("");
-        trace.setAction("navigation");
-        trace.setActionData("goodsId:" + id);
-
-        String clientTracer = request.getParameter("clientTracer");
-        if (clientTracer != null && !clientTracer.isEmpty()) {
-            trace.setRequestSessionID(clientTracer);
-
-            // 將所有 header 合併成純文字
-            StringBuilder headersText = new StringBuilder();
-            Enumeration<String> headerNames = request.getHeaderNames();
-            while (headerNames.hasMoreElements()) {
-                String headerName = headerNames.nextElement();
-                String headerValue = request.getHeader(headerName);
-                headersText.append(headerName).append(": ").append(headerValue).append("\n");
-            }
-
-            // 插入一筆 header 資訊記錄
-            UserTraceReqInfo userTraceReqInfo = new UserTraceReqInfo();
-            userTraceReqInfo.setReqHeader(headersText.toString().trim()); // 去掉最後的換行
-            userTraceReqInfo.setUserId(userId);
-            userTraceReqInfo.setRequestSessionID(clientTracer);
-            userTraceReqInfoMapper.insertOrUpdateUserTraceReqInfo(userTraceReqInfo);
-
-            log.info("Header text:\n{}", headersText);
-        }
-
-        trace.setCreateTime(java.time.LocalDateTime.now());
+        UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(request, id, userTraceReqInfoService);
         userTraceService.recordTrace(trace);
 
         return Result.success(goods);
