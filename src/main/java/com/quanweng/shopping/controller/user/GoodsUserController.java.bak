@@ -54,7 +54,7 @@ public class GoodsUserController {
     private Result getGoodsById(@PathVariable Long id, HttpServletRequest request) {
         Goods goods = goodsService.getGoodsById(id);
 
-        UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(request, id, userTraceReqInfoService);
+        UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(request, "", "query_goodsById", "goodsId:%s", userTraceReqInfoService);
         userTraceService.recordTrace(trace);
 
         return Result.success(goods);
