@@ -18,8 +18,9 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/category")
-    private Result getAllCategory(){
-        List<Category> categoryList = categoryService.getAllCategory();
+    private Result getAllCategory(@RequestParam(defaultValue = "1") Integer pages,
+                                  @RequestParam(defaultValue = "20") Integer size){
+        List<Category> categoryList = categoryService.getAllCategory(pages,size);
         log.info("查询全部分类:{}",categoryList);
         return Result.success(categoryList);
     }
@@ -49,7 +50,7 @@ public class CategoryController {
     private Result createCategory(@RequestBody Category category){
         categoryService.createCategory(category);
         log.info("创建分类:{}",category);
-        return Result.success();
+        return Result.success(category);
     }
 
     @PutMapping("/category")

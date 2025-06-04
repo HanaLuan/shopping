@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.quanweng.shopping.mapper.CategoryMapper">
 
-    <insert id="createCategory">
-        insert into category_table(category_name, category_father_id, category_level, category_weight, category_tip, category_tip_show, create_time, update_time)
-        VALUES (#{categoryName},#{categoryFatherId},#{categoryLevel},#{categoryWeight},#{categoryTip},#{categoryTipShow},#{createTime},#{updateTime})
+    <insert id="createCategory" useGeneratedKeys="true" keyProperty="id">
+        insert into category_table(category_name, category_father_id, category_level, category_weight, category_tip, category_tip_show, category_show_img, category_details, create_time, update_time)
+        VALUES (#{categoryName},#{categoryFatherId},#{categoryLevel},#{categoryWeight},#{categoryTip},#{categoryTipShow},#{categoryShowImg},#{categoryDetails},#{createTime},#{updateTime})
     </insert>
 
     <update id="updateCategory">
@@ -16,6 +16,8 @@
             category_weight = #{categoryWeight},
             category_tip = #{categoryTip},
             category_tip_show = #{categoryTipShow},
+            category_show_img = #{categoryShowImg},
+            category_details = #{categoryDetails},
             update_time = #{updateTime}
         where
             id = #{id}
