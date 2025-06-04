@@ -9,6 +9,7 @@ import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.pojo.UserTrace;
 import com.quanweng.shopping.service.LoginService;
 import com.quanweng.shopping.service.UserTraceService;
+import com.quanweng.shopping.utils.UserTraceUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,9 @@ public class LoginUserController {
         trace.setActionData(login.getPhone());
         trace.setCreateTime(java.time.LocalDateTime.now());
         userTraceService.recordTrace(trace);
+
+
+
         return Result.success(loginVo);
     }
 

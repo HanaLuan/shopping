@@ -58,8 +58,11 @@ class GoodsUserController {
     private fun getGoodsById(@PathVariable id: Long?, request: HttpServletRequest?): Result {
         val goods = goodsService!!.getGoodsById(id)
 
-        val trace =
-            UserTraceUtil.buildAndRecordUserTrace(request, "", "query_goodsById", "goodsId:$id", userTraceReqInfoService)
+        val trace = UserTraceUtil.buildAndRecordUserTrace(
+            request,
+            "",
+            "query_goodsById",
+            "goodsId:$id", userTraceReqInfoService)
         userTraceService!!.recordTrace(trace)
 
         return Result.success(goods)

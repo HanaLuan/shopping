@@ -1,8 +1,13 @@
 package com.quanweng.shopping.controller.user;
 
 import com.quanweng.shopping.pojo.OrderItems;
+import com.quanweng.shopping.pojo.UserTrace;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.OrderItemsService;
+import com.quanweng.shopping.service.UserTraceReqInfoService;
+import com.quanweng.shopping.service.UserTraceService;
+import com.quanweng.shopping.utils.UserTraceUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +19,12 @@ import java.util.List;
 public class OrderItemsUserController {
     @Autowired
     private OrderItemsService orderItemsService;
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private UserTraceReqInfoService userTraceReqInfoService;
+    @Autowired
+    private UserTraceService userTraceService;
 
     @GetMapping("/orderItems")
     private Result getAllOrderItems(){
@@ -26,6 +37,13 @@ public class OrderItemsUserController {
     private Result getOrderItemByOrderId(@PathVariable Long id){
         List<OrderItems> orderItemsList = orderItemsService.getOrderItemByOrderId(id);
         log.info("根据订单号查询商品:{}",orderItemsList);
+
+        UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
+                request,
+                "",
+                "query_goodsById",
+                "goodsId:$id", userTraceReqInfoService);
+        userTraceService.recordTrace(trace);
         return Result.success(orderItemsList);
     }
 
