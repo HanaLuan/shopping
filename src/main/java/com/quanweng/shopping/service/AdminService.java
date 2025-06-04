@@ -18,4 +18,8 @@ public interface AdminService {
     List<Admin> getAdminByAdminFrom(Long adminFrom,Integer pages,Integer size);
 
     Admin getAdminById(Long id);
+
+    Integer getAllAdminCount();
+
+    Integer getAdminByAdminFromCount(Long adminFrom);
 }

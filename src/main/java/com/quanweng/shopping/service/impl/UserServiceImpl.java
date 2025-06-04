@@ -18,7 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUser(Integer pages,Integer size) {
-        PageHelper.startPage(pages,size);
+        if (pages != null && size != null) {
+            PageHelper.startPage(pages, size);
+        }
         List<User> userList = userMapper.getAllUser();
         return userList;
     }
@@ -54,7 +56,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUserByAdminId(Long adminId) {
-        return userMapper.getUserByAdmin(adminId);
+    public List<User> getUserByAdminId(Long adminId,Integer pages,Integer size) {
+        if (pages != null && size != null) {
+            PageHelper.startPage(pages, size);
+        }
+        List<User> userList = userMapper.getUserByAdmin(adminId);
+        return userList;
+    }
+
+    @Override
+    public Integer getAllUserCount() {
+        return userMapper.getAllUserCount();
+    }
+
+    @Override
+    public Integer getUserByAdminIdCount(Long adminId) {
+        return userMapper.getUserByAdminIdCount(adminId);
     }
 }

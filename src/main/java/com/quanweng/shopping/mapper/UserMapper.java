@@ -23,4 +23,10 @@ public interface UserMapper {
 
     @Select("select * from user_table where user_from = #{adminId} order by create_time desc")
     List<User> getUserByAdmin(Long adminId);
+
+    @Select("select count(*) from user_table")
+    Integer getAllUserCount();
+
+    @Select("select count(*) from user_table where user_from = #{adminId}")
+    Integer getUserByAdminIdCount(Long adminId);
 }

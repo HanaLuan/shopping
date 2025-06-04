@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -20,20 +21,22 @@ public class GoodsController {
     private GoodsService goodsService;
 
     @GetMapping("/goods")
-    private Result getAllGoods(@RequestParam(defaultValue = "1") Integer pages,
-                               @RequestParam(defaultValue = "20") Integer size){
+    private Result getAllGoods(@RequestParam(required = false) Integer pages,
+                               @RequestParam(required = false) Integer size){
         List<Goods> goodsList = goodsService.getAllGoods(pages,size);
         log.info("查看全部商品:{}",goodsList);
-        return Result.success(goodsList);
+        Integer total = goodsService.getAllGoodsCount();
+        return Result.success(Map.of("total",total,"list",goodsList));
     }
 
     @GetMapping("/goods/{category}")
     private Result getGoodsByCategory(@PathVariable String category,
-                                      @RequestParam(defaultValue = "1") Integer pages,
-                                      @RequestParam(defaultValue = "20") Integer size){
+                                      @RequestParam(required = false) Integer pages,
+                                      @RequestParam(required = false) Integer size){
         List<Goods> goodsList = goodsService.getGoodsByCategory(category,pages,size);
         log.info("查看该分类{}下的商品:{}",category,goodsList);
-        return Result.success(goodsList);
+        Integer total = goodsService.getGoodsByCategoryCount(category);
+        return Result.success(Map.of("total",total,"list",goodsList));
     }
 
     @GetMapping("/goodsById/{id}")
@@ -71,10 +74,11 @@ public class GoodsController {
     }
 
     @GetMapping("/goodsHaveTip")
-    private Result getNoTip(@RequestParam(defaultValue = "1") Integer pages,
-                            @RequestParam(defaultValue = "20") Integer size){
+    private Result getNoTip(@RequestParam(required = false) Integer pages,
+                            @RequestParam(required = false) Integer size){
         List<Goods> goodsList = goodsService.getAllGoodsByNoTip(pages,size);
-        return Result.success(goodsList);
+        Integer total = goodsService.getAllGoodsByNoTipCount();
+        return Result.success(Map.of("total",total,"list",goodsList));
     }
 
 

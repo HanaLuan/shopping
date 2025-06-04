@@ -63,4 +63,19 @@ public class AnalyzerServiceImpl implements AnalyzerService {
         List<KeyTop> keyTops = keyTopMapper.getKeyTopLimit(startTime,endTime);
         return keyTops;
     }
+
+    @Override
+    public Integer getGoodsTopCount() {
+        return goodsTopMapper.getGoodsTopCount();
+    }
+
+    @Override
+    public Integer getNameTopCount() {
+        return nameTopMapper.getNamesTopCount();
+    }
+
+    @Override
+    public Integer getKeyTopCount() {
+        return keyTopMapper.getKeyTopCount();
+    }
 }

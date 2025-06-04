@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -19,11 +20,12 @@ public class AdminController {
     private AdminService adminService;
 
     @GetMapping("/account")
-    private Result getAllAdmin(@RequestParam(defaultValue = "1") Integer pages,
-                               @RequestParam(defaultValue = "20") Integer size){
+    private Result getAllAdmin(@RequestParam(required = false) Integer pages,
+                               @RequestParam(required = false) Integer size){
         List<Admin> adminList = adminService.getAllAdmin(pages,size);
         log.info("查询全部管理员用户{}",adminList);
-        return Result.success(adminList);
+        Integer total = adminService.getAllAdminCount();
+        return Result.success(Map.of("total",total,"list",adminList));
     }
 
     @PostMapping("/account")
@@ -49,10 +51,11 @@ public class AdminController {
 
     @GetMapping("/accountByAdminFrom/{adminFrom}")
     private Result getAdminByAdminFrom(@PathVariable Long adminFrom,
-                                       @RequestParam(defaultValue = "1") Integer pages,
-                                       @RequestParam(defaultValue = "20") Integer size){
+                                       @RequestParam(required = false) Integer pages,
+                                       @RequestParam(required = false) Integer size){
         List<Admin> adminList = adminService.getAdminByAdminFrom(adminFrom,pages,size);
-        return Result.success(adminList);
+        Integer total = adminService.getAdminByAdminFromCount(adminFrom);
+        return Result.success(Map.of("total",total,"list",adminList));
     }
 
     @GetMapping("/accountById/{id}")

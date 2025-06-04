@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -18,11 +19,12 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/customer")
-    private Result getAllUser(@RequestParam(defaultValue = "1") Integer pages,
-                              @RequestParam(defaultValue = "20") Integer size){
+    private Result getAllUser(@RequestParam(required = false) Integer pages,
+                              @RequestParam(required = false) Integer size){
         List<User> userList = userService.getAllUser(pages,size);
         log.info("查询用户{}",userList);
-        return Result.success(userList);
+        Integer total = userService.getAllUserCount();
+        return Result.success(Map.of("total",total,"list",userList));
     }
 
     @GetMapping("/customer/{id}")
@@ -40,9 +42,12 @@ public class UserController {
     }
 
     @GetMapping("/customerByAdminId/{adminId}")
-    private Result getUserByAdminId(@PathVariable Long adminId){
-        List<User> userList = userService.getUserByAdminId(adminId);
-        return Result.success(userList);
+    private Result getUserByAdminId(@PathVariable Long adminId,
+                                    @RequestParam(required = false) Integer pages,
+                                    @RequestParam(required = false) Integer size){
+        List<User> userList = userService.getUserByAdminId(adminId,pages,size);
+        Integer total = userService.getUserByAdminIdCount(adminId);
+        return Result.success(Map.of("total",total,"list",userList));
     }
 
     @PostMapping("/customer")

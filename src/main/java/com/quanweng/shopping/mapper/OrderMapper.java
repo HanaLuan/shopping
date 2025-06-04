@@ -15,4 +15,7 @@ public interface OrderMapper {
     Long createOrder(Order order);
 
     void updateOrder(Order order);
+
+    @Select("select count(*) from order_table")
+    Integer getAllOrderCount();
 }

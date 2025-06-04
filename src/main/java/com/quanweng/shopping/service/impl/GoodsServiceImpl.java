@@ -46,14 +46,18 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public List<Goods> getAllGoods(Integer pages,Integer size) {
-        PageHelper.startPage(pages,size);
+        if (pages != null && size != null) {
+            PageHelper.startPage(pages, size);
+        }
         List<Goods> goodsList = goodsMapper.getAllGoods();
         return goodsList;
     }
 
     @Override
     public List<Goods> getGoodsByCategory(String category,Integer pages,Integer size) {
-        PageHelper.startPage(pages,size);
+        if (pages != null && size != null) {
+            PageHelper.startPage(pages, size);
+        }
         List<Goods> goodsList = goodsMapper.getGoodsByCategory(category);
         return goodsList;
     }
@@ -190,9 +194,26 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public List<Goods> getAllGoodsByNoTip(Integer pages,Integer size) {
-        PageHelper.startPage(pages,size);
+        if (pages != null && size != null) {
+            PageHelper.startPage(pages, size);
+        }
         List<Goods> goodsList = goodsMapper.getAllGoodsByNoTip();
         return goodsList;
+    }
+
+    @Override
+    public Integer getAllGoodsCount() {
+        return goodsMapper.getAllGoodsCount();
+    }
+
+    @Override
+    public Integer getGoodsByCategoryCount(String category) {
+        return goodsMapper.getGoodsByCategoryCount(category);
+    }
+
+    @Override
+    public Integer getAllGoodsByNoTipCount() {
+        return goodsMapper.getAllGoodsByNoTipCount();
     }
 
 

@@ -1,6 +1,7 @@
 package com.quanweng.shopping.service;
 
 import com.google.zxing.WriterException;
+import com.quanweng.shopping.pojo.Category;
 import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.GoodsImg;
 import com.quanweng.shopping.pojo.GoodsSearch;
@@ -31,4 +32,10 @@ public interface GoodsService {
     void excelInput(String url) throws IOException;
 
     List<Goods> getAllGoodsByNoTip(Integer pages,Integer size);
+
+    Integer getAllGoodsCount();
+
+    Integer getGoodsByCategoryCount(String category);
+
+    Integer getAllGoodsByNoTipCount();
 }

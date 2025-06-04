@@ -18,8 +18,8 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/category")
-    private Result getAllCategory(@RequestParam(defaultValue = "1") Integer pages,
-                                  @RequestParam(defaultValue = "20") Integer size){
+    private Result getAllCategory(@RequestParam(required = false) Integer pages,
+                                  @RequestParam(required = false) Integer size){
         List<Category> categoryList = categoryService.getAllCategory(pages,size);
         log.info("查询全部分类:{}",categoryList);
         return Result.success(categoryList);

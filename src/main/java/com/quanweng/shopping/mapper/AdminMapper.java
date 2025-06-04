@@ -29,4 +29,10 @@ public interface AdminMapper {
 
     @Select("select * from admin_table where admin_name = #{adminName}")
     Admin getAdminByName(String adminName);
+
+    @Select("select count(*) from admin_table")
+    Integer getAllAdminCount();
+
+    @Select("select count(*) from admin_table where admin_from = #{adminFrom}")
+    Integer getAdminByAdminFromCount(Long adminFrom);
 }

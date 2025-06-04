@@ -35,7 +35,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<Admin> getAllAdmin(Integer pages,Integer size) {
-        PageHelper.startPage(pages,size);
+        if (pages != null && size != null) {
+            PageHelper.startPage(pages, size);
+        }
         List<Admin> adminList = adminMapper.getAllAdmin();
         return adminList;
     }
@@ -103,7 +105,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<Admin> getAdminByAdminFrom(Long adminFrom,Integer pages,Integer size) {
-        PageHelper.startPage(pages,size);
+        if (pages != null && size != null) {
+            PageHelper.startPage(pages, size);
+        }
         List<Admin> adminList = adminMapper.getAdminByAdminFrom(adminFrom);
         return adminList;
     }
@@ -111,5 +115,15 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin getAdminById(Long id) {
         return adminMapper.getAdminById(id);
+    }
+
+    @Override
+    public Integer getAllAdminCount() {
+        return adminMapper.getAllAdminCount();
+    }
+
+    @Override
+    public Integer getAdminByAdminFromCount(Long adminFrom) {
+        return adminMapper.getAdminByAdminFromCount(adminFrom);
     }
 }

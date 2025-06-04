@@ -32,8 +32,8 @@ public class GoodsUserController {
 
 
     @GetMapping("/goods")
-    private Result getAllGoods(@RequestParam(defaultValue = "1") Integer pages,
-                               @RequestParam(defaultValue = "20") Integer size){
+    private Result getAllGoods(@RequestParam(required = false) Integer pages,
+                               @RequestParam(required = false) Integer size){
         List<Goods> goodsList = goodsService.getAllGoods(pages,size);
         log.info("查看全部商品:{}",goodsList);
         return Result.success(goodsList);
@@ -41,8 +41,8 @@ public class GoodsUserController {
 
     @GetMapping("/goods/{category}")
     private Result getGoodsByCategory(@PathVariable String category,
-                                      @RequestParam(defaultValue = "1") Integer pages,
-                                      @RequestParam(defaultValue = "20") Integer size){
+                                      @RequestParam(required = false) Integer pages,
+                                      @RequestParam(required = false) Integer size){
         List<Goods> goodsList = goodsService.getGoodsByCategory(category,pages,size);
         log.info("查看该分类{}下的商品:{}",category,goodsList);
         return Result.success(goodsList);

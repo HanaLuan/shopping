@@ -17,5 +17,9 @@ public interface UserService {
 
     User getUserByPhone(String phone);
 
-    List<User> getUserByAdminId(Long adminId);
+    List<User> getUserByAdminId(Long adminId,Integer pages,Integer size);
+
+    Integer getAllUserCount();
+
+    Integer getUserByAdminIdCount(Long adminId);
 }

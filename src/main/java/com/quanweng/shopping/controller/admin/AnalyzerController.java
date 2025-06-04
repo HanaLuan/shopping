@@ -3,9 +3,11 @@ package com.quanweng.shopping.controller.admin;
 import com.quanweng.shopping.pojo.GoodsTop;
 import com.quanweng.shopping.pojo.KeyTop;
 import com.quanweng.shopping.pojo.NameTop;
+import com.quanweng.shopping.pojo.VO.GoodsTopVO;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.AnalyzerService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -48,7 +53,8 @@ public class AnalyzerController {
                                     @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startTime,
                                     @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endTime){
         List<GoodsTop> goodsTops = analyzerService.getGoodsTopLimit(pages,size,startTime,endTime);
-        return Result.success(goodsTops);
+        Integer total = analyzerService.getGoodsTopCount();
+        return Result.success(Map.of("total",total,"list",goodsTops));
     }
 
     @GetMapping("/namesTopLimit")
@@ -57,7 +63,9 @@ public class AnalyzerController {
                                     @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startTime,
                                     @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endTime){
         List<NameTop> nameTops = analyzerService.getNameTopLimit(pages,size,startTime,endTime);
-        return Result.success(nameTops);
+        Integer total = analyzerService.getNameTopCount();
+
+        return Result.success(Map.of("total",total,"list",nameTops));
     }
 
     @GetMapping("/keysTopLimit")
@@ -66,6 +74,8 @@ public class AnalyzerController {
                                     @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startTime,
                                     @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endTime){
         List<KeyTop> keyTops = analyzerService.getKeyTopLimit(pages,size,startTime,endTime);
-        return Result.success(keyTops);
+        Integer total = analyzerService.getKeyTopCount();
+
+        return Result.success(Map.of("total",total,"list",keyTops));
     }
 }

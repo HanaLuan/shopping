@@ -18,7 +18,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getAllCategory(Integer pages,Integer size) {
-        PageHelper.startPage(pages,size);
+        if (pages != null && size != null) {
+            PageHelper.startPage(pages, size);
+        }
         List<Category> categoryList = categoryMapper.getAllCategory();
         return categoryList;
     }

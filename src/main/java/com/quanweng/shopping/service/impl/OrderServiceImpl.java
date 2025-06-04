@@ -17,7 +17,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getAllOrder(Integer pages,Integer size) {
-        PageHelper.startPage(pages,size);
+        if (pages != null && size != null) {
+            PageHelper.startPage(pages, size);
+        }
         List<Order> orderList = orderMapper.getAllOrder();
         return orderList;
     }
@@ -34,5 +36,10 @@ public class OrderServiceImpl implements OrderService {
     public void updateOrder(Order order) {
         order.setUpdateTime(LocalDateTime.now());
         orderMapper.updateOrder(order);
+    }
+
+    @Override
+    public Integer getAllOrderCount() {
+        return orderMapper.getAllOrderCount();
     }
 }

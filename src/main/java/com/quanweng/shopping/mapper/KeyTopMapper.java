@@ -3,6 +3,7 @@ package com.quanweng.shopping.mapper;
 import com.quanweng.shopping.pojo.GoodsTop;
 import com.quanweng.shopping.pojo.KeyTop;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.wltea.analyzer.core.Lexeme;
 
 import java.time.LocalDate;
@@ -21,4 +22,7 @@ public interface KeyTopMapper {
     List<KeyTop> getKeyTop();
 
     List<KeyTop> getKeyTopLimit(LocalDate startTime, LocalDate endTime);
+
+    @Select("select count(*) from key_top_table")
+    Integer getKeyTopCount();
 }

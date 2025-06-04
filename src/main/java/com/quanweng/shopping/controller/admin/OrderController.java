@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -17,11 +18,12 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/order")
-    private Result getAllOrder(@RequestParam(defaultValue = "1") Integer pages,
-                               @RequestParam(defaultValue = "20") Integer size){
+    private Result getAllOrder(@RequestParam(required = false) Integer pages,
+                               @RequestParam(required = false) Integer size){
         List<Order> orderList = orderService.getAllOrder(pages,size);
         log.info("查询全部订单:{}",orderList);
-        return Result.success(orderList);
+        Integer total = orderService.getAllOrderCount();
+        return Result.success(Map.of("total",total,"list",orderList));
     }
 
     @PostMapping("/order")

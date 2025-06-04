@@ -20,4 +20,10 @@ public interface AnalyzerService {
     List<NameTop> getNameTopLimit(Integer pages, Integer size, LocalDate startTime, LocalDate endTime);
 
     List<KeyTop> getKeyTopLimit(Integer pages, Integer size, LocalDate startTime, LocalDate endTime);
+
+    Integer getGoodsTopCount();
+
+    Integer getNameTopCount();
+
+    Integer getKeyTopCount();
 }

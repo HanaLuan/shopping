@@ -16,8 +16,8 @@ public class UserUserController {
     private UserService userService;
 
     @GetMapping("/customer")
-    private Result getAllUser(@RequestParam(defaultValue = "1") Integer pages,
-                              @RequestParam(defaultValue = "20") Integer size){
+    private Result getAllUser(@RequestParam(required = false) Integer pages,
+                              @RequestParam(required = false) Integer size){
         List<User> userList = userService.getAllUser(pages, size);
         log.info("查询用户{}",userList);
         return Result.success(userList);

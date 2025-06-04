@@ -29,4 +29,13 @@ public interface GoodsMapper {
     void addGoodsBarCode(Goods goods);
 
     List<Goods> getAllGoodsByNoTip();
+
+    @Select("select count(*) from goods_table")
+    Integer getAllGoodsCount();
+
+    @Select("select count(*) from goods_table where goods_type = #{category}")
+    Integer getGoodsByCategoryCount(String category);
+
+    @Select("select count(*) from goods_table where goods_tip != '' and goods_tip_show = 1 and goods_tip is not null ")
+    Integer getAllGoodsByNoTipCount();
 }

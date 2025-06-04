@@ -22,4 +22,7 @@ public interface GoodsTopMapper {
     List<GoodsTop> getGoodsTop();
 
     List<GoodsTop> getGoodsTopLimit(LocalDate startTime, LocalDate endTime);
+
+    @Select("select count(*) from goods_top_table")
+    Integer getGoodsTopCount();
 }

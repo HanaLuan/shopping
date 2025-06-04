@@ -2,6 +2,7 @@ package com.quanweng.shopping.mapper;
 
 import com.quanweng.shopping.pojo.NameTop;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,4 +19,7 @@ public interface NameTopMapper {
     List<NameTop> getNameTop();
 
     List<NameTop> getNameTopLimit(LocalDate startTime, LocalDate endTime);
+
+    @Select("select count(*) from name_top_table")
+    Integer getNamesTopCount();
 }

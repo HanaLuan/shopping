@@ -10,4 +10,6 @@ public interface OrderService {
     Order createOrder(Order order);
 
     void updateOrder(Order order);
+
+    Integer getAllOrderCount();
 }
