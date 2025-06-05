@@ -33,7 +33,7 @@ public class OrderUserController {
         log.info("查询全部订单:{}",orderList);
         UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                "",
+                UserTraceUtil.getUserIdFromHeader(request),
                 "order_queryOrderList",
                 "order:" + orderList, userTraceReqInfoService);
         userTraceService.recordTrace(trace);
@@ -46,7 +46,7 @@ public class OrderUserController {
         log.info("创建新订单:{}",order);
         UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                "",
+                UserTraceUtil.getUserIdFromHeader(request),
                 "order_createOrder",
                 "order:" + order, userTraceReqInfoService);
         userTraceService.recordTrace(trace);
@@ -60,7 +60,7 @@ public class OrderUserController {
         log.info("更新订单:{}",order);
         UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                "",
+                UserTraceUtil.getUserIdFromHeader(request),
                 "order_updateOrder",
                 "order:" + order, userTraceReqInfoService);
         userTraceService.recordTrace(trace);

@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.quanweng.shopping.utils.UserTraceUtil.getUserIdFromHeader;
-
 @Slf4j
 @RestController
 public class CategoryUserController {
@@ -39,7 +37,7 @@ public class CategoryUserController {
         // 跟踪
         UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                getUserIdFromHeader(request),
+                UserTraceUtil.getUserIdFromHeader(request),
                 "query_Category",
                 "categoryList:" + categoryList, userTraceReqInfoService);
         userTraceService.recordTrace(trace);
@@ -53,7 +51,7 @@ public class CategoryUserController {
         // 跟踪
         UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                getUserIdFromHeader(request),
+                UserTraceUtil.getUserIdFromHeader(request),
                 "query_CategoryDetailById",
                 "categoryId:" + id, userTraceReqInfoService);
         userTraceService.recordTrace(trace);
@@ -67,7 +65,7 @@ public class CategoryUserController {
         // 跟踪
         UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                getUserIdFromHeader(request),
+                UserTraceUtil.getUserIdFromHeader(request),
                 "query_ChildCategoryByParentId",
                 "parentId:" + categoryFatherId, userTraceReqInfoService);
         userTraceService.recordTrace(trace);
@@ -81,7 +79,7 @@ public class CategoryUserController {
         // 跟踪
         UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                getUserIdFromHeader(request),
+                UserTraceUtil.getUserIdFromHeader(request),
                 "query_CategoryByLevel",
                 "level:" + categoryLevel, userTraceReqInfoService);
         userTraceService.recordTrace(trace);

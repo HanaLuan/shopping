@@ -1,13 +1,11 @@
 package com.quanweng.shopping.utils
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.quanweng.shopping.controller.user.GoodsUserController
 import com.quanweng.shopping.pojo.UserTrace
 import com.quanweng.shopping.pojo.UserTraceReqInfo
 import com.quanweng.shopping.service.UserTraceReqInfoService
 import io.jsonwebtoken.Claims
 import jakarta.servlet.http.HttpServletRequest
-import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.text.Charsets.UTF_8
@@ -17,8 +15,7 @@ object UserTraceUtil {
 
     private val objectMapper = ObjectMapper()
 
-
-    private val log = LoggerFactory.getLogger(GoodsUserController::class.java)
+    private val log by logger<UserTraceUtil>()
 
     /**
      * 建立 UserTrace 並紀錄 header 資訊到資料庫（使用 JSON + Base64 編碼）
@@ -76,9 +73,9 @@ object UserTraceUtil {
     @JvmStatic
     fun getUserIdFromHeader(request: HttpServletRequest): String {
         var token: String? = request.getHeader("token")
-        log.info("token $token")
         if (token.isNullOrEmpty()) {
             val authHeader = request.getHeader("Authorization")
+            log.warn("authHeader=$authHeader")
             if (!authHeader.isNullOrEmpty() && authHeader.startsWith("Bearer ")) {
                 token = authHeader.removePrefix("Bearer ").trim()
             }
@@ -86,9 +83,9 @@ object UserTraceUtil {
 
         if (!token.isNullOrEmpty()) {
             try {
-                log.info("claim")
+                log.warn("Trying to parse token $token")
                 val claims: Claims = JWTUtils.parseToken(token)
-                log.info("claim $claims")
+                log.info("Claim is {}", claims)
                 val userId = claims["userId"]?.toString()
                 if (!userId.isNullOrEmpty() && userId != "NO_LOGIN") return userId
 
@@ -99,7 +96,7 @@ object UserTraceUtil {
                 if (!adminName.isNullOrEmpty() && adminName != "NO_LOGIN") return adminName
 
             } catch (e: Exception) {
-                log.error("{}",e)
+                log.error("Parse ERROR:\r\nToken: $token\r\n${e.message}" , e)
             }
         }
 

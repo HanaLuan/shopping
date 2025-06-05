@@ -41,7 +41,7 @@ public class GoodsUserController {
         log.info("查看全部商品: {}", goodsList);
         var trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                getUserIdFromHeader(request),
+                UserTraceUtil.getUserIdFromHeader(request),
                 "query_AllGoods",
                 "" + goodsList,
                 userTraceReqInfoService);
@@ -58,7 +58,7 @@ public class GoodsUserController {
         log.info("查看該分類 {} 下的商品: {}", category, goodsList);
         var trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                getUserIdFromHeader(request),
+                UserTraceUtil.getUserIdFromHeader(request),
                 "query_SpecCategoryGoods",
                 "categories:" + category + "\r\n" + "goodsList:" + goodsList,
                 userTraceReqInfoService);
@@ -71,7 +71,7 @@ public class GoodsUserController {
         var goods = goodsService.getGoodsById(id);
         var trace = UserTraceUtil.buildAndRecordUserTrace(
                 req,
-                getUserIdFromHeader(request),
+                UserTraceUtil.getUserIdFromHeader(request),
                 "query_goodsById",
                 "goodsId:" + id,
                 userTraceReqInfoService);
@@ -89,7 +89,7 @@ public class GoodsUserController {
         }
         var trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                getUserIdFromHeader(request),
+                UserTraceUtil.getUserIdFromHeader(request),
                 "query_GoodsByKeyWord",
                 "keyWord:" + keyWord,
                 userTraceReqInfoService);
@@ -102,7 +102,7 @@ public class GoodsUserController {
         var goodsSearches = goodsService.getGoodsKeyWordList(userId);
         var trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                getUserIdFromHeader(request),
+                UserTraceUtil.getUserIdFromHeader(request),
                 "query_GoodsKeyWordList",
                 "",
                 userTraceReqInfoService);
@@ -117,7 +117,7 @@ public class GoodsUserController {
         var goodsList = goodsService.getAllGoodsByNoTip(pages, size);
         var trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                getUserIdFromHeader(request),
+                UserTraceUtil.getUserIdFromHeader(request),
                 "query_GoodsTip",
                 "",
                 userTraceReqInfoService);
