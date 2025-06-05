@@ -1,16 +1,21 @@
 package com.quanweng.shopping.utils
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.quanweng.shopping.pojo.UserTrace
 import com.quanweng.shopping.pojo.UserTraceReqInfo
 import com.quanweng.shopping.service.UserTraceReqInfoService
 import io.jsonwebtoken.Claims
 import jakarta.servlet.http.HttpServletRequest
 import java.time.LocalDateTime
+import java.util.*
+import kotlin.text.Charsets.UTF_8
 
 object UserTraceUtil {
 
+    private val objectMapper = ObjectMapper()
+
     /**
-     * 建立 UserTrace 並紀錄 header 資訊到資料庫
+     * 建立 UserTrace 並紀錄 header 資訊到資料庫（使用 JSON + Base64 編碼）
      */
     @JvmStatic
     fun buildAndRecordUserTrace(
@@ -25,7 +30,7 @@ object UserTraceUtil {
         val trace = UserTrace().apply {
             this.userId = userId
             this.ip = request.remoteAddr
-            this.region = "" // 之後可擴充
+            this.region = "" // 可根據 IP 擴充區域分析
             this.action = action
             this.actionData = actionData
             this.createTime = LocalDateTime.now()
@@ -35,20 +40,22 @@ object UserTraceUtil {
         if (!clientTracer.isNullOrEmpty()) {
             trace.requestSessionID = clientTracer
 
-            // 拼接 headers
-            val headersText = buildString {
-                val headerNames = request.headerNames
-                while (headerNames.hasMoreElements()) {
-                    val name = headerNames.nextElement()
-                    val value = request.getHeader(name)
-                    append("$name: $value\n")
-                }
-            }.trim()
+            // 將 headers 收集為 JSON 並轉成 Base64（UTF-8）
+            val headersMap = mutableMapOf<String, String>()
+            val headerNames = request.headerNames
+            while (headerNames.hasMoreElements()) {
+                val name = headerNames.nextElement()
+                val value = request.getHeader(name)
+                headersMap[name] = value
+            }
+
+            val jsonHeaders = objectMapper.writeValueAsString(headersMap)
+            val encodedHeaders = Base64.getEncoder().encodeToString(jsonHeaders.toByteArray(UTF_8))
 
             val reqInfo = UserTraceReqInfo().apply {
                 this.requestSessionID = clientTracer
                 this.userId = userId
-                this.reqHeader = headersText
+                this.reqHeader = encodedHeaders
             }
 
             userTraceReqInfoService.recordReqInfo(reqInfo)
