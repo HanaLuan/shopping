@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.quanweng.shopping.utils.UserTraceUtil.getUserIdFromHeader;
+
+
 @Slf4j
 @RestController
 public class OrderItemsUserController {
@@ -26,6 +29,7 @@ public class OrderItemsUserController {
     @Autowired
     private UserTraceService userTraceService;
 
+
     @GetMapping("/orderItems")
     private Result getAllOrderItems(){
         List<OrderItems> orderItemsList = orderItemsService.getAllOrderItems();
@@ -37,10 +41,10 @@ public class OrderItemsUserController {
     private Result getOrderItemByOrderId(@PathVariable Long id){
         List<OrderItems> orderItemsList = orderItemsService.getOrderItemByOrderId(id);
         log.info("根据订单号查询商品:{}",orderItemsList);
-
+        log.info("{}",getUserIdFromHeader(request));
         UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                "",
+                getUserIdFromHeader(request),
                 "order_queryGoodsByOrderId",
                 "orderId:" + id, userTraceReqInfoService);
         userTraceService.recordTrace(trace);
