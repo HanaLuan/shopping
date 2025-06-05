@@ -20,6 +20,7 @@ public class Order {
     private String logisticsId;
     private Integer logisticsStatus;
     private String orderNote;
+    private Long orderFrom;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

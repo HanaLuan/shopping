@@ -18,4 +18,10 @@ public interface OrderMapper {
 
     @Select("select count(*) from order_table")
     Integer getAllOrderCount();
+
+    @Select("select * from order_table where order_from = #{orderFrom} order by create_time desc")
+    List<Order> getOrderByAdminId(Long orderFrom);
+
+    @Select("select count(*) from order_table where order_from = #{orderFrom}")
+    Integer getOrderByAdminIdCount(Long orderFrom);
 }

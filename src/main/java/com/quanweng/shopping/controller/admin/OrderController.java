@@ -39,4 +39,13 @@ public class OrderController {
         log.info("更新订单:{}",order);
         return Result.success();
     }
+
+    @GetMapping("/orderByAdminId")
+    private Result getOrderByAdminId(@RequestParam Long orderFrom,
+                                     @RequestParam(required = false) Integer pages,
+                                     @RequestParam(required = false) Integer size){
+        List<Order> orderList = orderService.getOrderByAdminId(orderFrom,pages,size);
+        Integer total = orderService.getOrderByAdminIdCount(orderFrom);
+        return Result.success(Map.of("total",total,"list",orderList));
+    }
 }

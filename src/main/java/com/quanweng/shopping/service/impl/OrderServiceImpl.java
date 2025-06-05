@@ -42,4 +42,18 @@ public class OrderServiceImpl implements OrderService {
     public Integer getAllOrderCount() {
         return orderMapper.getAllOrderCount();
     }
+
+    @Override
+    public List<Order> getOrderByAdminId(Long orderFrom, Integer pages, Integer size) {
+        if (pages != null && size != null) {
+            PageHelper.startPage(pages, size);
+        }
+        List<Order> orderList = orderMapper.getOrderByAdminId(orderFrom);
+        return orderList;
+    }
+
+    @Override
+    public Integer getOrderByAdminIdCount(Long orderFrom) {
+        return orderMapper.getOrderByAdminIdCount(orderFrom);
+    }
 }

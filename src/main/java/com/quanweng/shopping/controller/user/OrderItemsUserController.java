@@ -42,7 +42,7 @@ public class OrderItemsUserController {
                 request,
                 "",
                 "query_goodsById",
-                "goodsId:$id", userTraceReqInfoService);
+                "goodsId:"+id, userTraceReqInfoService);
         userTraceService.recordTrace(trace);
         return Result.success(orderItemsList);
     }

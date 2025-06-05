@@ -12,4 +12,8 @@ public interface OrderService {
     void updateOrder(Order order);
 
     Integer getAllOrderCount();
+
+    List<Order> getOrderByAdminId(Long orderFrom, Integer pages, Integer size);
+
+    Integer getOrderByAdminIdCount(Long orderFrom);
 }
