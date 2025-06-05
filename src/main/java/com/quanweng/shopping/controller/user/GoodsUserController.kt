@@ -51,6 +51,12 @@ class GoodsUserController {
     ): Result {
         val goodsList = goodsService!!.getGoodsByCategory(category, pages, size)
         log.info("查看該分類 $category 下的商品: $goodsList")
+        val trace = UserTraceUtil.buildAndRecordUserTrace(
+            request,
+            "",
+            "query_SpecCategoryGoods",
+            "categories:$category\r\ngoodsList:$goodsList", userTraceReqInfoService)
+        userTraceService!!.recordTrace(trace)
         return Result.success(goodsList)
     }
 
@@ -80,13 +86,11 @@ class GoodsUserController {
         }
         // 记录商品搜索痕迹
         val traceUserId = userId?.toString() ?: "NO_LOGIN"
-        val trace = UserTrace()
-        trace.userId = traceUserId
-        trace.ip = request!!.remoteAddr
-        trace.region = ""
-        trace.action = "search"
-        trace.actionData = "keyWord:$keyWord"
-        trace.createTime = LocalDateTime.now()
+        val trace = UserTraceUtil.buildAndRecordUserTrace(
+            request,
+            traceUserId,
+            "query_GoodsByKeyWord",
+            "keyWord:$keyWord", userTraceReqInfoService)
         userTraceService!!.recordTrace(trace)
 
         return Result.success(goodsList)
@@ -95,6 +99,12 @@ class GoodsUserController {
     @PostMapping("/goodsKeyWordList")
     private fun getGoodsKeyWordList(@RequestParam userId: Long?): Result {
         val goodsSearches = goodsService!!.getGoodsKeyWordList(userId)
+        val trace = UserTraceUtil.buildAndRecordUserTrace(
+            request,
+            "",
+            "query_GoodsKeyWordList",
+            "", userTraceReqInfoService)
+        userTraceService!!.recordTrace(trace)
         return Result.success(goodsSearches)
     }
 
@@ -104,6 +114,12 @@ class GoodsUserController {
         @RequestParam(defaultValue = "20") size: Int?
     ): Result {
         val goodsList = goodsService!!.getAllGoodsByNoTip(pages, size)
+        val trace = UserTraceUtil.buildAndRecordUserTrace(
+            request,
+            "",
+            "query_GoodsTip",
+            "", userTraceReqInfoService)
+        userTraceService!!.recordTrace(trace)
         return Result.success(goodsList)
     }
 }

@@ -41,9 +41,10 @@ public class OrderItemsUserController {
         UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
                 "",
-                "query_goodsById",
-                "goodsId:"+id, userTraceReqInfoService);
+                "order_queryGoodsByOrderId",
+                "orderId:" + id, userTraceReqInfoService);
         userTraceService.recordTrace(trace);
+
         return Result.success(orderItemsList);
     }
 
@@ -51,6 +52,14 @@ public class OrderItemsUserController {
     private Result createOrderItems(@RequestBody OrderItems orderItems){
         orderItemsService.createOrderItems(orderItems);
         log.info("新建订单商品:{}",orderItems);
+
+        UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
+                request,
+                "",
+                "order_createOrderItems",
+                "orderItems:" + orderItems, userTraceReqInfoService);
+        userTraceService.recordTrace(trace);
+
         return Result.success();
     }
 
@@ -58,6 +67,14 @@ public class OrderItemsUserController {
     private Result updateOrderItems(@RequestBody OrderItems orderItems){
         orderItemsService.updateOrderItems(orderItems);
         log.info("更改新建商品:{}",orderItems);
+
+        UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
+                request,
+                "",
+                "order_changeOrderItems",
+                "orderItems:" + orderItems, userTraceReqInfoService);
+        userTraceService.recordTrace(trace);
+
         return Result.success();
     }
 
