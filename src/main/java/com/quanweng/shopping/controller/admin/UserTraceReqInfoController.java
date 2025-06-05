@@ -16,7 +16,7 @@ public class UserTraceReqInfoController {
 
     @GetMapping("/{requestSessionID}")
     public Result getByRequestSessionID(@PathVariable String requestSessionID) {
-        log.info("跟踪sessionId");
+        log.info("查询请求 {} 的附属信息", requestSessionID);
         UserTraceReqInfo info = userTraceReqInfoService.getByRequestSessionID(requestSessionID);
         return Result.success(info);
     }
