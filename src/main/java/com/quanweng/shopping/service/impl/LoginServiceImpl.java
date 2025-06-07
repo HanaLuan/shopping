@@ -44,7 +44,7 @@ public class LoginServiceImpl implements LoginService {
         Login login = new Login();
         if(userMapper.getUserByPhone(loginInfo.getPhone()) == null && userMapper.getUserByEmail(loginInfo.getUserEmail()) == null){
             login.setPassword(DigestUtils.md5DigestAsHex(loginInfo.getPassword().getBytes()));
-            if (loginInfo.getPhone() != null) {
+            if (!loginInfo.getPhone().equals("+86 ")) {
                 login.setPhone(loginInfo.getPhone());
             }else {
                 login.setPhone(loginInfo.getUserEmail());
@@ -59,7 +59,7 @@ public class LoginServiceImpl implements LoginService {
             }
 
             User user = new User();
-            if (loginInfo.getPhone() != null) {
+            if (!loginInfo.getPhone().equals("+86 ")) {
                 user.setUserPhone(loginInfo.getPhone());
             }else {
                 user.setUserPhone("未填");

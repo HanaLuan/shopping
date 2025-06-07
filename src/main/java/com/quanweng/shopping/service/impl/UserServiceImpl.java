@@ -52,7 +52,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByPhone(String phone) {
-        return userMapper.getUserByPhone(phone);
+        User user = userMapper.getUserByPhone(phone);
+        if (user == null){
+            user = userMapper.getUserByEmail(phone);
+        }
+        return user;
     }
 
     @Override
