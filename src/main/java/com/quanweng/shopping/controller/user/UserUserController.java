@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -55,6 +56,21 @@ public class UserUserController {
     private Result deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         log.info("删除用户{}",id);
+        return Result.success();
+    }
+
+    @GetMapping("/customerByAdminId/{adminId}")
+    private Result getUserByAdminId(@PathVariable Long adminId,
+                                    @RequestParam(required = false) Integer pages,
+                                    @RequestParam(required = false) Integer size){
+        List<User> userList = userService.getUserByAdminId(adminId,pages,size);
+        Integer total = userService.getUserByAdminIdCount(adminId);
+        return Result.success(Map.of("total",total,"list",userList));
+    }
+
+    @PostMapping("/customerIsAdmin")
+    private Result customerIsAdmin(@RequestParam Long userId){
+
         return Result.success();
     }
 }

@@ -42,9 +42,13 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public void register(LoginInfo loginInfo) throws IOException, WriterException {
         Login login = new Login();
-        if(userMapper.getUserByPhone(loginInfo.getPhone()) == null){
+        if(userMapper.getUserByPhone(loginInfo.getPhone()) == null && userMapper.getUserByEmail(loginInfo.getUserEmail()) == null){
             login.setPassword(DigestUtils.md5DigestAsHex(loginInfo.getPassword().getBytes()));
-            login.setPhone(loginInfo.getPhone());
+            if (loginInfo.getPhone() != null) {
+                login.setPhone(loginInfo.getPhone());
+            }else {
+                login.setPhone(loginInfo.getUserEmail());
+            }
             if(loginInfo.getAdminId() != null){
                 login.setAdminId(loginInfo.getAdminId());
             }
@@ -55,7 +59,11 @@ public class LoginServiceImpl implements LoginService {
             }
 
             User user = new User();
-            user.setUserPhone(loginInfo.getPhone());
+            if (loginInfo.getPhone() != null) {
+                user.setUserPhone(loginInfo.getPhone());
+            }else {
+                user.setUserPhone("未填");
+            }
             user.setImg("");
             user.setUserFirstName(loginInfo.getUserFirstName());
             user.setUserLastName(loginInfo.getUserLastName());
@@ -90,8 +98,12 @@ public class LoginServiceImpl implements LoginService {
             claims.put("phone",logi.getPhone());
             String jwt = JWTUtils.generateToken(claims);
             loginVo.setToken(jwt);
-
             User user = userMapper.getUserByPhone(logi.getPhone());
+            if(login.getPhone().contains("@")) {
+                user = userMapper.getUserByEmail(logi.getPhone());
+            }
+            log.info("{}",logi);
+            log.info("{}",user);
             loginVo.setUserId(user.getId());
             loginVo.setPhone(logi.getPhone());
 

@@ -1,6 +1,7 @@
 package com.quanweng.shopping.service.impl;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.github.pagehelper.PageHelper;
 import com.google.zxing.WriterException;
 import com.quanweng.shopping.Listener.GoodsDataListener;
@@ -184,6 +185,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public void excelInput(String url) throws IOException {
+
         EasyExcel.read(url, GoodsExcel.class,goodsDataListener)
                 .sheet()
                 .doRead();

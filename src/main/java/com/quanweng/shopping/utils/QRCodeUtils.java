@@ -34,7 +34,7 @@ public class QRCodeUtils {
         int height = 300;
 
         String fileName = UUID.randomUUID() + ".png";
-        String filePath = "/var/www/shopImg/upload" + fileName;
+        String filePath = "/var/www/shopImg/upload/" + fileName;
         File uploadDir = new File(filePath);
 
         if (!uploadDir.exists()) {
