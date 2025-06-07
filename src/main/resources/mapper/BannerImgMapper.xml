@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quanweng.shopping.mapper.BannerImgMapper">
+
+    <insert id="createBannerImg">
+        insert into banner_img_table(banner_id, banner_url, create_time, update_time)
+        values(#{bannerId},#{bannerUrl},#{createTime},#{updateTime})
+    </insert>
+    <update id="updateBannerImg">
+        update banner_img_table
+        set
+            banner_id = #{bannerId},
+            banner_url = #{bannerUrl},
+            update_time = #{updateTime}
+        where
+            id = #{id}
+    </update>
+    <delete id="deleteBannerImg">
+        delete from banner_img_table where id = #{id}
+    </delete>
+</mapper>
