@@ -17,6 +17,7 @@ public class Goods {
     private String goodsTip;
     private Integer goodsTipShow;
     private String goodsBarCode;
+    private String goodsCode;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

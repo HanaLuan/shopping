@@ -3,8 +3,8 @@
 <mapper namespace="com.quanweng.shopping.mapper.GoodsMapper">
 
     <insert id="createGoods" useGeneratedKeys="true" keyProperty="id">
-        insert into goods_table(goods_name, goods_price, goods_size, goods_detail, goods_type, goods_weight, goods_show_img, goods_tip, goods_tip_show,create_time, update_time)
-        VALUES(#{goodsName},#{goodsPrice},#{goodsSize},#{goodsDetail},#{goodsType},#{goodsWeight},#{goodsShowImg},#{goodsTip},#{goodsTipShow},#{createTime},#{updateTime})
+        insert into goods_table(goods_name, goods_price, goods_size, goods_detail, goods_type, goods_weight, goods_show_img, goods_tip, goods_tip_show, goods_code,create_time, update_time)
+        VALUES(#{goodsName},#{goodsPrice},#{goodsSize},#{goodsDetail},#{goodsType},#{goodsWeight},#{goodsShowImg},#{goodsTip},#{goodsTipShow},#{goodsCode},#{createTime},#{updateTime})
     </insert>
     <update id="addGoodsBarCode">
         update goods_table
@@ -25,6 +25,7 @@
             goods_show_img = #{goodsShowImg},
             goods_tip = #{goodsTip},
             goods_tip_show = #{goodsTipShow},
+            goods_code = #{goodsCode},
             update_time = #{updateTime}
         where
             id = #{id}

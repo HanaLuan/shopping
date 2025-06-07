@@ -29,4 +29,7 @@ public interface UserMapper {
 
     @Select("select count(*) from user_table where user_from = #{adminId}")
     Integer getUserByAdminIdCount(Long adminId);
+
+    @Select("select * from user_table where user_email = #{userEmail}")
+    User getUserByEmail(String userEmail);
 }

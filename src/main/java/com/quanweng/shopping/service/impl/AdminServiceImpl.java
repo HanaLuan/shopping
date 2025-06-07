@@ -60,13 +60,21 @@ public class AdminServiceImpl implements AdminService {
             loginMapper.register(login);
 
             User user = new User();
-            user.setUserPhone(admin.getAdminName());
+            if(!admin.getAdminName().contains("@")) {
+                user.setUserPhone(admin.getAdminName());
+            }else {
+                user.setUserPhone("未填");
+            }
             user.setImg("");
             user.setUserFirstName("默认");
             user.setUserLastName("用户名");
             user.setUserJob("未填");
             user.setUserCom("未填");
-            user.setUserEmail("未填");
+            if(admin.getAdminName().contains("@")) {
+                user.setUserEmail(admin.getAdminName());
+            }else {
+                user.setUserEmail("未填");
+            }
             user.setUserAdd("未填");
             String url = QRCodeUtils.generateQRCode(webProperties.getWebAddress()+"?adminId="+admin.getId());
 
