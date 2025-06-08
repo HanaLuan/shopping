@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quanweng.shopping.mapper.GroupMapper">
+
+    <insert id="addGroup">
+        insert into group_table(group_name, create_time, update_time)
+        values (group_name,create_time,update_time)
+    </insert>
+    <update id="updateGroup">
+        update group_table
+        set
+            group_name = #{groupName},
+            update_time = #{updateTime}
+        where
+            id = #{id}
+    </update>
+    <delete id="deleteGroup">
+        delete from group_table where id = #{id}
+    </delete>
+</mapper>

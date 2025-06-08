@@ -34,7 +34,7 @@ public class BannerController {
     private Result createBanner(@RequestBody Banner banner){
         bannerService.createBanner(banner);
         log.info("新增banner:{}",banner);
-        return Result.success();
+        return Result.success(banner);
     }
 
     @PutMapping("/banner")

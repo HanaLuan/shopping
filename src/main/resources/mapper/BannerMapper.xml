@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.quanweng.shopping.mapper.BannerMapper">
 
-    <insert id="createBanner">
+    <insert id="createBanner" useGeneratedKeys="true" keyProperty="id">
         insert into banner_table(banner_type, banner_url, title, text, top_text, bottom_text, details_text, create_time, update_time)
         VALUES (#{bannerType},#{bannerUrl},#{title},#{text},#{topText},#{bottomText},#{detailsText},#{createTime},#{updateTime})
     </insert>
