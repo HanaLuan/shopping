@@ -21,6 +21,7 @@ public class Order {
     private Integer logisticsStatus;
     private String orderNote;
     private Long orderFrom;
+    private Long orderGroup;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.quanweng.shopping.mapper.GroupMapper">
 
-    <insert id="addGroup">
+    <insert id="addGroup" useGeneratedKeys="true" keyProperty="id">
         insert into group_table(group_name, create_time, update_time)
-        values (group_name,create_time,update_time)
+        values(#{groupName},#{createTime},#{updateTime})
     </insert>
     <update id="updateGroup">
         update group_table

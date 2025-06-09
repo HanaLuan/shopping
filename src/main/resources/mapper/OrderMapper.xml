@@ -3,8 +3,8 @@
 <mapper namespace="com.quanweng.shopping.mapper.OrderMapper">
 
     <insert id="createOrder" useGeneratedKeys="true" keyProperty="id">
-        insert into order_table(user_id, status, delivery, order_price, order_add, user_name, user_phone, user_email, user_code, logistics_com, logistics_id, logistics_status, order_note, order_from, create_time, update_time)
-        VALUES(#{userId},#{status},#{delivery},#{orderPrice},#{orderAdd},#{userName},#{userPhone},#{userEmail},#{userCode},#{logisticsCom},#{logisticsId},#{logisticsStatus},#{orderNote},#{orderFrom},#{createTime},#{updateTime})
+        insert into order_table(user_id, status, delivery, order_price, order_add, user_name, user_phone, user_email, user_code, logistics_com, logistics_id, logistics_status, order_note, order_from,order_group,create_time, update_time)
+        VALUES(#{userId},#{status},#{delivery},#{orderPrice},#{orderAdd},#{userName},#{userPhone},#{userEmail},#{userCode},#{logisticsCom},#{logisticsId},#{logisticsStatus},#{orderNote},#{orderFrom},#{orderGroup},#{createTime},#{updateTime})
     </insert>
     <update id="updateOrder">
         update order_table
@@ -22,6 +22,7 @@
             logistics_status = #{logisticsStatus},
             order_from = #{orderFrom},
             order_note = #{orderNote},
+            order_group = #{orderGroup},
             update_time = #{updateTime}
         where
             id = #{id}

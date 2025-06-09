@@ -34,3 +34,6 @@ aliyun:
 set:
   web:
     web-address: http://47.113.216.20/#/pages/overlay/NameCard
+kuaidi100:
+  api:
+    key: gEmnSQpc1932

@@ -26,11 +26,12 @@ public class GroupController {
 
     @PostMapping("/group")
     private Result addGroup(@RequestBody Group group){
+        log.info("{}",group);
         groupService.addGroup(group);
-        return Result.success();
+        return Result.success(group);
     }
 
-    @PostMapping("/group")
+    @PutMapping("/group")
     private Result updateGroup(@RequestBody Group group){
         groupService.updateGroup(group);
         return Result.success();

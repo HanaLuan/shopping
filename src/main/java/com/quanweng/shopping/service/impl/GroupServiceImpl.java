@@ -7,6 +7,7 @@ import com.quanweng.shopping.pojo.Admin;
 import com.quanweng.shopping.pojo.Group;
 import com.quanweng.shopping.pojo.GroupAndAdmin;
 import com.quanweng.shopping.service.GroupService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class GroupServiceImpl implements GroupService {
     @Autowired
@@ -32,6 +34,7 @@ public class GroupServiceImpl implements GroupService {
     public void addGroup(Group group) {
         group.setCreateTime(LocalDateTime.now());
         group.setUpdateTime(LocalDateTime.now());
+        log.info("{}",group);
         groupMapper.addGroup(group);
     }
 
