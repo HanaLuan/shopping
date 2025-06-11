@@ -1,7 +1,9 @@
 package com.quanweng.shopping.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.quanweng.shopping.mapper.LoginMapper;
 import com.quanweng.shopping.mapper.UserMapper;
+import com.quanweng.shopping.pojo.Login;
 import com.quanweng.shopping.pojo.User;
 import com.quanweng.shopping.service.UserService;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,6 +17,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private LoginMapper loginMapper;
 
     @Override
     public List<User> getAllUser(Integer pages,Integer size) {
@@ -38,7 +42,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(User user){
+        if (user.getUserPhone().contains(" ")){
+            user.setUserPhone(user.getUserPhone().replaceAll(" ",""));
+        }
         user.setUpdateTime(LocalDateTime.now());
         userMapper.updateUser(user);
     }

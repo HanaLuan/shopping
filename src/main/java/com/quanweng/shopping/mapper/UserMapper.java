@@ -32,4 +32,8 @@ public interface UserMapper {
 
     @Select("select * from user_table where user_email = #{userEmail}")
     User getUserByEmail(String userEmail);
+
+    void updateUserByAdminId(User user);
+
+    void deleteByNameAndUserFrom(User user);
 }

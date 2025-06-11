@@ -45,8 +45,58 @@
         where
             id = #{id}
     </update>
+    <update id="updateUserByAdminId">
+        update user_table
+        set
+        <if test="img != null">
+            img = #{img},
+        </if>
+        <if test="userFirstName != null">
+            user_first_name = #{userFirstName},
+        </if>
+        <if test="userLastName != null">
+            user_last_name = #{userLastName},
+        </if>
+        <if test="userJob != null">
+            user_job = #{userJob},
+        </if>
+        <if test="userCom != null">
+            user_com = #{userCom},
+        </if>
+        <if test="userEmail != null">
+            user_email = #{userEmail},
+        </if>
+        <if test="userPhone != null">
+            user_phone = #{userPhone},
+        </if>
+        <if test="userAdd != null">
+            user_add = #{userAdd},
+        </if>
+        <if test="userUrl != null">
+            user_url = #{userUrl},
+        </if>
+        <if test="updateTime != null">
+            update_time = #{updateTime}
+        </if>
+        where
+        user_from = #{userFrom}
+    </update>
     <delete id="deleteUser">
         delete from user_table where id = #{id}
+    </delete>
+    <delete id="deleteByNameAndUserFrom">
+        delete from user_table
+        <where>
+            <if test="userPhone != null">
+                user_phone = #{userPhone}
+            </if>
+            <if test="userEmail != null">
+                user_email = #{userEmail}
+            </if>
+            <if test="userFrom != null">
+                user_from = #{userFrom}
+            </if>
+        </where>
     </delete>
     <select id="getUserByPhone" resultType="com.quanweng.shopping.pojo.User">
         select * from user_table where user_phone = #{phone}

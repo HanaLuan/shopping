@@ -100,17 +100,36 @@ public class AdminServiceImpl implements AdminService {
         Login login = new Login();
         login.setPhone(admin.getAdminName());
         login.setPassword(admin.getAdminPassword());
+        login.setAdminId(admin.getId());
         login.setUpdateTime(LocalDateTime.now());
         loginMapper.updateLogin(login);
 
         User user = new User();
         user.setUserPhone(admin.getAdminName());
+        user.setUserFrom(admin.getId());
         user.setUpdateTime(LocalDateTime.now());
-        userMapper.updateUser(user);
+        userMapper.updateUserByAdminId(user);
     }
 
     @Override
     public void deleteAdmin(Long id) {
+        Admin admin = adminMapper.getAdminById(id);
+        User user = new User();
+        if(admin.getAdminName().contains("@")) {
+            user.setUserEmail(admin.getAdminName());
+        }else {
+            user.setUserPhone(admin.getAdminName());
+        }
+        user.setUserFrom(admin.getId());
+        userMapper.deleteByNameAndUserFrom(user);
+
+        Login login = new Login();
+        login.setAdminId(admin.getId());
+        login.setPhone(admin.getAdminName());
+        loginMapper.deleteByAdminId(login);
+
+
+
         adminMapper.deleteAdmin(id);
     }
 

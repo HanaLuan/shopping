@@ -15,4 +15,6 @@ public interface LoginMapper {
 
     @Select("select * from login_table where phone = #{phone}")
     Login getLoginByPhone(String phone);
+
+    void deleteByAdminId(Login login);
 }
