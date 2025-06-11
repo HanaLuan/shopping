@@ -27,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(User user) {
+        if (user.getUserPhone().contains(" ")){
+            user.setUserPhone(user.getUserPhone().replaceAll(" ",""));
+        }
         if (userMapper.getUserByPhone(user.getUserPhone()) == null) {
             user.setCreateTime(LocalDateTime.now());
             user.setUpdateTime(LocalDateTime.now());

@@ -41,6 +41,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public void register(LoginInfo loginInfo) throws IOException, WriterException {
+        if(loginInfo.getPhone().contains(" ")){
+            loginInfo.setPhone(loginInfo.getPhone().replaceAll(" ",""));
+        }
         Login login = new Login();
         if(userMapper.getUserByPhone(loginInfo.getPhone()) == null && userMapper.getUserByEmail(loginInfo.getUserEmail()) == null){
             login.setPassword(DigestUtils.md5DigestAsHex(loginInfo.getPassword().getBytes()));

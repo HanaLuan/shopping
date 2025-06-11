@@ -46,10 +46,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrder(Order order) {
         order.setUpdateTime(LocalDateTime.now());
-        if (order.getLogisticsId() != null) {
-            String com = expressUtils.getExpressCompany(order.getLogisticsId()).getFirst();
-            order.setLogisticsCom(com);
-        }
+//        if (order.getLogisticsId() != null) {
+//            String com = expressUtils.getExpressCompany(order.getLogisticsId()).getFirst();
+//            order.setLogisticsCom(com);
+//        }
         orderMapper.updateOrder(order);
     }
 

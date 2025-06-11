@@ -44,6 +44,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void createAdmin(Admin admin) throws IOException, WriterException {
+        if (admin.getAdminName().contains(" ")){
+            admin.setAdminName(admin.getAdminName().replaceAll(" ",""));
+        }
         if(adminMapper.getAdminByName(admin.getAdminName()) == null) {
             admin.setAdminPassword(DigestUtils.md5DigestAsHex(admin.getAdminPassword().getBytes()));
             admin.setCreateTime(LocalDateTime.now());
