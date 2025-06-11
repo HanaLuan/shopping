@@ -41,13 +41,15 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public void register(LoginInfo loginInfo) throws IOException, WriterException {
-        if(loginInfo.getPhone().contains(" ")){
-            loginInfo.setPhone(loginInfo.getPhone().replaceAll(" ",""));
+        if(loginInfo.getPhone()!=null) {
+            if (loginInfo.getPhone().contains(" ")) {
+                loginInfo.setPhone(loginInfo.getPhone().replaceAll(" ", ""));
+            }
         }
         Login login = new Login();
         if(userMapper.getUserByPhone(loginInfo.getPhone()) == null && userMapper.getUserByEmail(loginInfo.getUserEmail()) == null){
             login.setPassword(DigestUtils.md5DigestAsHex(loginInfo.getPassword().getBytes()));
-            if (!loginInfo.getPhone().equals("+86 ")) {
+            if (loginInfo.getPhone() != null) {
                 login.setPhone(loginInfo.getPhone());
             }else {
                 login.setPhone(loginInfo.getUserEmail());
@@ -62,7 +64,7 @@ public class LoginServiceImpl implements LoginService {
             }
 
             User user = new User();
-            if (!loginInfo.getPhone().equals("+86 ")) {
+            if (loginInfo.getPhone() != null) {
                 user.setUserPhone(loginInfo.getPhone());
             }else {
                 user.setUserPhone("未填");
@@ -85,6 +87,7 @@ public class LoginServiceImpl implements LoginService {
             }
             user.setUpdateTime(LocalDateTime.now());
             user.setCreateTime(LocalDateTime.now());
+            log.info("{}",user);
             userMapper.createUser(user);
         }
 

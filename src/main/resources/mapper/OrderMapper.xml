@@ -27,4 +27,13 @@
         where
             id = #{id}
     </update>
+    <select id="getAllOrderByGroupId" resultType="com.quanweng.shopping.pojo.Order">
+            SELECT * FROM order_table
+            WHERE order_group IN
+            <foreach collection="groupIds" item="groupId"
+                     open="(" separator="," close=")">
+                #{groupId}
+            </foreach>
+            ORDER BY create_time DESC
+    </select>
 </mapper>
