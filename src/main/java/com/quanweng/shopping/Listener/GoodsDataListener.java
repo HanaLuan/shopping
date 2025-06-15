@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -73,10 +70,13 @@ public class GoodsDataListener extends AnalysisEventListener<GoodsExcel> {
         goods.setGoodsName(goodsExcel.getChineseName());
         goods.setGoodsPrice("");
         goods.setGoodsSize("");
+        String[] ProductType = goodsExcel.getProductType().split(" ");
+        log.info("{}", Arrays.toString(ProductType));
+        log.info("{}",ProductType[1]);
         String detailCn = "<p>成分 : "+goodsExcel.getComposition()+"</p>"+
                 "<p>宽 : "+goodsExcel.getWidth()+"</p>"+
                 "<p>净重 : "+goodsExcel.getWeight()+"</p>"+
-                "<p>产品类型 : "+goodsExcel.getProductType()+"</p>";
+                "<p>产品类型 : "+ProductType[1]+"</p>";
         goods.setGoodsDetail(detailCn);
         goods.setGoodsType("待填");
         goods.setGoodsWeight(1);
@@ -104,7 +104,7 @@ public class GoodsDataListener extends AnalysisEventListener<GoodsExcel> {
         String detailEn = "<p>composition : "+goodsExcel.getComposition()+"</p>"+
                 "<p>width : "+goodsExcel.getWidth()+"</p>"+
                 "<p>weight : "+goodsExcel.getWeight()+"</p>"+
-                "<p>product type : "+goodsExcel.getProductType()+"</p>";
+                "<p>product type : "+ProductType[0]+"</p>";
         translateTextList.add(detailEn);
         translateTextList.add("");
         for (int i = 0;i < 3;i++){

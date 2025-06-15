@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -65,5 +66,14 @@ public class OrderUserController {
                 "order:" + order, userTraceReqInfoService);
         userTraceService.recordTrace(trace);
         return Result.success();
+    }
+
+    @GetMapping("/orderByPhoneOrEmail")
+    private Result getOrderByPhoneOrEmail(@RequestParam String phoneOrEmail,
+                                          @RequestParam(required = false) Integer pages,
+                                          @RequestParam(required = false) Integer size) {
+        List<Order> orderList = orderService.getOrderByPhoneOrEmail(phoneOrEmail, pages, size);
+        Integer total = orderService.getOrderByPhoneOrEmailCount(phoneOrEmail);
+        return Result.success(Map.of("total", total, "list", orderList));
     }
 }

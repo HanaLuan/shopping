@@ -28,4 +28,14 @@ public interface OrderMapper {
 
 
     List<Order> getAllOrderByGroupId(@Param("groupIds") List<Long> groupIds);
+
+    @Select("select * from order_table where user_phone = #{phoneOrEmail} ")
+    List<Order> getOrderByPhone(String phoneOrEmail);
+    @Select("select * from order_table where user_email = #{phoneOrEmail} ")
+    List<Order> getOrderByEmail(String phoneOrEmail);
+
+    @Select("select count(*) from order_table where user_phone = #{phoneOrEmail}")
+    Integer getOrderByPhoneCount(String phoneOrEmail);
+    @Select("select count(*) from order_table where user_email = #{phoneOrEmail}")
+    Integer getOrderByEmailCount(String phoneOrEmail);
 }

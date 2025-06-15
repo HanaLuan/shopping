@@ -41,7 +41,8 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public void register(LoginInfo loginInfo) throws IOException, WriterException {
-        if(loginInfo.getPhone()!=null) {
+        log.info("{}",loginInfo);
+        if(loginInfo.getPhone() != null) {
             if (loginInfo.getPhone().contains(" ")) {
                 loginInfo.setPhone(loginInfo.getPhone().replaceAll(" ", ""));
             }
@@ -49,11 +50,12 @@ public class LoginServiceImpl implements LoginService {
         Login login = new Login();
         if(userMapper.getUserByPhone(loginInfo.getPhone()) == null && userMapper.getUserByEmail(loginInfo.getUserEmail()) == null){
             login.setPassword(DigestUtils.md5DigestAsHex(loginInfo.getPassword().getBytes()));
-            if (loginInfo.getPhone() != null) {
-                login.setPhone(loginInfo.getPhone());
-            }else {
+            if (loginInfo.getPhone() == null || loginInfo.getPhone().isEmpty()) {
                 login.setPhone(loginInfo.getUserEmail());
+            }else {
+                login.setPhone(loginInfo.getPhone());
             }
+            log.info("phone{}",login.getPhone());
             if(loginInfo.getAdminId() != null){
                 login.setAdminId(loginInfo.getAdminId());
             }
@@ -64,10 +66,10 @@ public class LoginServiceImpl implements LoginService {
             }
 
             User user = new User();
-            if (loginInfo.getPhone() != null) {
-                user.setUserPhone(loginInfo.getPhone());
-            }else {
+            if (loginInfo.getPhone() == null || loginInfo.getPhone().isEmpty()) {
                 user.setUserPhone("未填");
+            }else {
+                user.setUserPhone(loginInfo.getPhone());
             }
             user.setImg("");
             user.setUserFirstName(loginInfo.getUserFirstName());

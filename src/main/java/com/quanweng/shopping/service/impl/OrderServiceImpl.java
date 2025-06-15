@@ -121,4 +121,29 @@ public class OrderServiceImpl implements OrderService {
     public Integer getOrderByAdminIdCount(Long orderFrom) {
         return orderMapper.getOrderByAdminIdCount(orderFrom);
     }
+
+    @Override
+    public List<Order> getOrderByPhoneOrEmail(String phoneOrEmail, Integer pages, Integer size) {
+        if (pages != null && size != null) {
+            PageHelper.startPage(pages, size);
+        }
+        List<Order> orderList;
+        if(!phoneOrEmail.contains("@")){
+            orderList = orderMapper.getOrderByPhone(phoneOrEmail);
+        }else {
+            orderList = orderMapper.getOrderByEmail(phoneOrEmail);
+        }
+        return orderList;
+    }
+
+    @Override
+    public Integer getOrderByPhoneOrEmailCount(String phoneOrEmail) {
+        Integer total;
+        if(!phoneOrEmail.contains("@")){
+            total = orderMapper.getOrderByPhoneCount(phoneOrEmail);
+        }else{
+            total = orderMapper.getOrderByEmailCount(phoneOrEmail);
+        }
+        return total;
+    }
 }

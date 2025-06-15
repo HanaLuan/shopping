@@ -16,4 +16,8 @@ public interface OrderService {
     List<Order> getOrderByAdminId(Long orderFrom, Integer pages, Integer size);
 
     Integer getOrderByAdminIdCount(Long orderFrom);
+
+    List<Order> getOrderByPhoneOrEmail(String phoneOrEmail, Integer pages, Integer size);
+
+    Integer getOrderByPhoneOrEmailCount(String phoneOrEmail);
 }

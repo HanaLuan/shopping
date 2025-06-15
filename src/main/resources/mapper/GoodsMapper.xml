@@ -38,7 +38,7 @@
         select * from goods_table where id = #{goodsId}
     </select>
     <select id="getGoodsByKeyWord" resultType="com.quanweng.shopping.pojo.Goods">
-        select * from goods_table where  goods_name like concat('%',#{keyWord},'%') order by goods_weight desc
+        select * from goods_table where  goods_code like concat('%',#{keyWord},'%') order by goods_weight desc
     </select>
     <select id="getAllGoodsByNoTip" resultType="com.quanweng.shopping.pojo.Goods">
         select * from goods_table where goods_tip != '' and goods_tip_show = 1 and goods_tip is not null order by goods_weight desc
