@@ -67,16 +67,20 @@ public class LoginServiceImpl implements LoginService {
 
             User user = new User();
             if (loginInfo.getPhone() == null || loginInfo.getPhone().isEmpty()) {
-                user.setUserPhone("未填");
+                user.setUserPhone("");
             }else {
-                user.setUserPhone(loginInfo.getPhone());
+                if (loginInfo.getPhone().contains("@")) {
+                    user.setUserEmail(loginInfo.getPhone());
+                }else {
+                    user.setUserPhone(loginInfo.getPhone());
+                }
             }
             user.setImg("");
             user.setUserFirstName(loginInfo.getUserFirstName());
             user.setUserLastName(loginInfo.getUserLastName());
-            user.setUserJob("未填");
-            user.setUserCom("未填");
-            user.setUserEmail(loginInfo.getUserEmail());
+            user.setUserJob("");
+            user.setUserCom("");
+//            user.setUserEmail(loginInfo.getUserEmail());
             user.setUserAdd(loginInfo.getUserAdd());
             if (loginInfo.getAdminId() == null) {
                 String url = QRCodeUtils.generateQRCode(webProperties.getWebAddress() + "?adminId=");

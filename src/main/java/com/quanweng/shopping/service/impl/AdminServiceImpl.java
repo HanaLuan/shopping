@@ -66,19 +66,20 @@ public class AdminServiceImpl implements AdminService {
             if(!admin.getAdminName().contains("@")) {
                 user.setUserPhone(admin.getAdminName());
             }else {
-                user.setUserPhone("未填");
+//                user.setUserPhone("未填");
+                user.setUserEmail(admin.getAdminName());
             }
             user.setImg("");
-            user.setUserFirstName("默认");
-            user.setUserLastName("用户名");
-            user.setUserJob("未填");
-            user.setUserCom("未填");
-            if(admin.getAdminName().contains("@")) {
-                user.setUserEmail(admin.getAdminName());
-            }else {
-                user.setUserEmail("未填");
-            }
-            user.setUserAdd("未填");
+            user.setUserFirstName("");
+            user.setUserLastName("");
+            user.setUserJob("");
+            user.setUserCom("");
+//            if(admin.getAdminName().contains("@")) {
+//
+//            }else {
+////                user.setUserEmail("未填");
+//            }
+            user.setUserAdd("");
             String url = QRCodeUtils.generateQRCode(webProperties.getWebAddress()+"?adminId="+admin.getId());
 
             user.setUserUrl(url);
