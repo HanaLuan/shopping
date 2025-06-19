@@ -11,6 +11,7 @@ import com.quanweng.shopping.pojo.User;
 import com.quanweng.shopping.pojo.common.WebProperties;
 import com.quanweng.shopping.service.AdminService;
 import com.quanweng.shopping.utils.QRCodeUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -156,5 +158,31 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Integer getAdminByAdminFromCount(Long adminFrom) {
         return adminMapper.getAdminByAdminFromCount(adminFrom);
+    }
+
+    @Override
+    public void banTheAdmin(Long id) {
+        Admin admin = adminMapper.getAdminById(id);
+        if(admin != null) {
+            log.info("{}",admin);
+            User user = new User();
+            if(admin.getAdminName().contains("@")) {
+                user = userMapper.getUserByEmail(admin.getAdminName());
+            }else {
+                user = userMapper.getUserByPhone(admin.getAdminName());
+            }
+            log.info("{}",user);
+            if(admin.getAdminStatus() == 0){
+                admin.setAdminStatus(1);
+                user.setUserStatus(1);
+            }else {
+                admin.setAdminStatus(0);
+                user.setUserStatus(0);
+            }
+            user.setUpdateTime(LocalDateTime.now());
+            userMapper.updateUser(user);
+            admin.setUpdateTime(LocalDateTime.now());
+            adminMapper.updateAdmin(admin);
+        }
     }
 }

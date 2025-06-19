@@ -36,6 +36,9 @@
         <if test="userUrl != null">
             user_url = #{userUrl},
         </if>
+        <if test="userStatus != null">
+            user_status = #{userStatus},
+        </if>
         <if test="userFrom != null">
             user_from = #{userFrom},
         </if>

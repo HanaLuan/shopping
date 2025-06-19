@@ -17,6 +17,7 @@ public class User {
     private String userAdd;
     private String userUrl;
     private Long userFrom;
+    private Integer userStatus;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

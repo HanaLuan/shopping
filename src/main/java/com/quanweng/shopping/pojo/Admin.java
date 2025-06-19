@@ -12,6 +12,7 @@ public class Admin {
     private Integer adminLevel;
     private String adminRemark;
     private Long adminFrom;
+    private Integer adminStatus;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

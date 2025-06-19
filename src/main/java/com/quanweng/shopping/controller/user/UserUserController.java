@@ -70,7 +70,6 @@ public class UserUserController {
 
     @PostMapping("/customerIsAdmin")
     private Result customerIsAdmin(@RequestParam Long userId){
-
         return Result.success();
     }
 }

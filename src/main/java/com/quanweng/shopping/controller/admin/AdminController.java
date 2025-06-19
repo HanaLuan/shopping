@@ -64,4 +64,10 @@ public class AdminController {
         return Result.success(admin);
     }
 
+    @PostMapping("/accountBan/{id}")
+    private Result banTheAdmin(@PathVariable Long id){
+        adminService.banTheAdmin(id);
+        return Result.success();
+    }
+
 }

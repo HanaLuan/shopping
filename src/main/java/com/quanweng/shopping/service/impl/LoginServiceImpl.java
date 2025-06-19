@@ -109,13 +109,17 @@ public class LoginServiceImpl implements LoginService {
             Map<String,Object> claims = new HashMap<>();
             claims.put("phone",logi.getPhone());
             String jwt = JWTUtils.generateToken(claims);
-            loginVo.setToken(jwt);
             User user = userMapper.getUserByPhone(logi.getPhone());
             if(login.getPhone().contains("@")) {
                 user = userMapper.getUserByEmail(logi.getPhone());
             }
+            if(user.getUserStatus() == 0){
+                log.info("该用户已禁用{}",user);
+                return loginVo;
+            }
             log.info("{}",logi);
             log.info("{}",user);
+            loginVo.setToken(jwt);
             loginVo.setUserId(user.getId());
             loginVo.setPhone(logi.getPhone());
 
@@ -139,6 +143,10 @@ public class LoginServiceImpl implements LoginService {
         LoginAdminVo loginAdminVo = new LoginAdminVo();
         Admin admin = adminMapper.findTheLogin(adminName,adminPassword);
         if(admin != null){
+            if(admin.getAdminStatus() == 0){
+                log.info("该用户已禁用");
+                return loginAdminVo;
+            }
             log.info("管理登录成功{}",admin);
             Map<String,Object> claims = new HashMap<>();
             claims.put("adminName",admin.getAdminName());
@@ -152,5 +160,25 @@ public class LoginServiceImpl implements LoginService {
 
         }
         return loginAdminVo;
+    }
+
+    @Override
+    public User loginIsBan(String phone) throws Exception {
+        log.info("{}",phone);
+        User user;
+        if (phone.contains("@")) {
+            user = userMapper.getUserByEmail(phone);
+        }else {
+            user = userMapper.getUserByPhone(phone);
+        }
+        log.info("{}",user);
+        if(user != null){
+            if(user.getUserStatus() == 0){
+                return null;
+            }else {
+                return user;
+            }
+        }
+        return null;
     }
 }

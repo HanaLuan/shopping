@@ -18,6 +18,9 @@
             <if test="adminRemark != null">
                 admin_remark = #{adminRemark},
             </if>
+            <if test="adminStatus != null">
+                admin_status = #{adminStatus},
+            </if>
             admin_from = #{adminFrom},
             update_time = #{updateTime}
         </set>

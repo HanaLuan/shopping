@@ -22,4 +22,6 @@ public interface AdminService {
     Integer getAllAdminCount();
 
     Integer getAdminByAdminFromCount(Long adminFrom);
+
+    void banTheAdmin(Long id);
 }

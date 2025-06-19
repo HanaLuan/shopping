@@ -4,6 +4,7 @@ package com.quanweng.shopping.controller.user;
 import com.google.zxing.WriterException;
 import com.quanweng.shopping.pojo.DTO.LoginInfo;
 import com.quanweng.shopping.pojo.Login;
+import com.quanweng.shopping.pojo.User;
 import com.quanweng.shopping.pojo.VO.LoginVo;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.pojo.UserTrace;
@@ -55,5 +56,11 @@ public class LoginUserController {
                 String.format("phoneNumber=%s",login.getPhone()), userTraceReqInfoService);
         userTraceService.recordTrace(trace);
         return Result.success(loginVo);
+    }
+
+    @PostMapping("/loginIsBan")
+    private Result loginIsBan(@RequestBody Login login) throws Exception {
+        User user = loginService.loginIsBan(login.getPhone());
+        return Result.success(user);
     }
 }
