@@ -4,6 +4,8 @@ import com.google.zxing.WriterException;
 import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.GoodsService;
+import com.quanweng.shopping.utils.UserTraceUtil;
+import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +80,16 @@ public class GoodsController {
                             @RequestParam(required = false) Integer size){
         List<Goods> goodsList = goodsService.getAllGoodsByNoTip(pages,size);
         Integer total = goodsService.getAllGoodsByNoTipCount();
+        return Result.success(Map.of("total",total,"list",goodsList));
+    }
+
+    @PostMapping("/goodsByKeyWord")
+    private Result getGoodsByKeyWord(
+            @RequestParam String keyWord,
+            @RequestParam(required = false) Integer pages,
+            @RequestParam(required = false) Integer size) throws IOException {
+        var goodsList = goodsService.getGoodsByKeyWord(keyWord,pages,size);
+        Integer total = goodsService.getGoodsByKeyWordCount(keyWord);
         return Result.success(Map.of("total",total,"list",goodsList));
     }
 

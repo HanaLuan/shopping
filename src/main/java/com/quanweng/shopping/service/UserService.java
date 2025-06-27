@@ -1,5 +1,6 @@
 package com.quanweng.shopping.service;
 
+import com.quanweng.shopping.pojo.Admin;
 import com.quanweng.shopping.pojo.User;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface UserService {
     Integer getUserByAdminIdCount(Long adminId);
 
     void clearCode() throws Exception;
+
+    Admin theUserIsAdmin(Long userId);
 }

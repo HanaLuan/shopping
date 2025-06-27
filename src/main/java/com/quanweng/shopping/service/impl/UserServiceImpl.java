@@ -1,8 +1,10 @@
 package com.quanweng.shopping.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.quanweng.shopping.mapper.AdminMapper;
 import com.quanweng.shopping.mapper.LoginMapper;
 import com.quanweng.shopping.mapper.UserMapper;
+import com.quanweng.shopping.pojo.Admin;
 import com.quanweng.shopping.pojo.Login;
 import com.quanweng.shopping.pojo.User;
 import com.quanweng.shopping.pojo.common.WebProperties;
@@ -25,6 +27,8 @@ public class UserServiceImpl implements UserService {
     private QRCodeUtils qrCodeUtils;
     @Autowired
     private WebProperties webProperties;
+    @Autowired
+    private AdminMapper adminMapper;
 
     @Override
     public List<User> getAllUser(Integer pages,Integer size) {
@@ -108,5 +112,18 @@ public class UserServiceImpl implements UserService {
             user.setUserUrl(url);
             userMapper.updateUser(user);
         }
+    }
+
+    @Override
+    public Admin theUserIsAdmin(Long userId) {
+        User user = userMapper.getUserById(userId);
+        String name = null;
+        if(user.getUserPhone() != null && !user.getUserPhone().contains("@")){
+            name = user.getUserPhone();
+        }else if(user.getUserEmail() != null){
+            name = user.getUserEmail();
+        }
+        Admin admin = adminMapper.getAdminByName(name);
+        return admin;
     }
 }

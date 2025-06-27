@@ -1,5 +1,6 @@
 package com.quanweng.shopping.controller.user;
 
+import com.quanweng.shopping.pojo.Admin;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.pojo.User;
 import com.quanweng.shopping.service.UserService;
@@ -70,6 +71,7 @@ public class UserUserController {
 
     @PostMapping("/customerIsAdmin")
     private Result customerIsAdmin(@RequestParam Long userId){
-        return Result.success();
+        Admin admin = userService.theUserIsAdmin(userId);
+        return Result.success(admin);
     }
 }
