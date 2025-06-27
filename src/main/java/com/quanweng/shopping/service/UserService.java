@@ -22,4 +22,6 @@ public interface UserService {
     Integer getAllUserCount();
 
     Integer getUserByAdminIdCount(Long adminId);
+
+    void clearCode() throws Exception;
 }

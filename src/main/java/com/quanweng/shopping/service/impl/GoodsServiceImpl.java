@@ -108,7 +108,7 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<Goods> getGoodsByKeyWord(String keyWord) throws IOException {
+    public List<Goods> getGoodsByKeyWord(String keyWord,Integer pages,Integer size) throws IOException {
         List<Translate> translateList = translateMapper.getOriginalTranslate(keyWord);
         List<String> keyWordList = new ArrayList<>();
         keyWordList.add(keyWord);
@@ -117,13 +117,17 @@ public class GoodsServiceImpl implements GoodsService {
                 keyWordList.add(translate.getText());
             }
         }
+        log.info("keyWordList{}", keyWordList);
         List<Goods> goodsList = new ArrayList<>();
-        for (String key:keyWordList){
-            List<Goods> goods = goodsMapper.getGoodsByKeyWord(key);
-            if (!goods.isEmpty()) {
-                goodsList.addAll(goods);
-            }
+        if (pages != null && size != null) {
+            PageHelper.startPage(pages, size);
         }
+        List<Goods> goods = goodsMapper.getGoodsByKeyWord(keyWordList);
+        log.info("goods{}", goods);
+        if (!goods.isEmpty()) {
+            goodsList.addAll(goods);
+        }
+
 
         NameTop nameTop = nameTopMapper.findTheNameTop(keyWord);
         if(nameTop == null){
@@ -216,6 +220,20 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public Integer getAllGoodsByNoTipCount() {
         return goodsMapper.getAllGoodsByNoTipCount();
+    }
+
+    @Override
+    public Integer getGoodsByKeyWordCount(String keyWord) {
+        List<Translate> translateList = translateMapper.getOriginalTranslate(keyWord);
+        List<String> keyWordList = new ArrayList<>();
+        keyWordList.add(keyWord);
+        if(translateList != null && !translateList.isEmpty()) {
+            for (Translate translate : translateList) {
+                keyWordList.add(translate.getText());
+            }
+        }
+        Integer total = goodsMapper.getGoodsByKeyWordCount(keyWordList);
+        return total;
     }
 
 

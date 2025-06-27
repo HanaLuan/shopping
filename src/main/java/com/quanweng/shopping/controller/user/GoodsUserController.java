@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 import static com.quanweng.shopping.utils.UserTraceUtil.getUserIdFromHeader;
 
@@ -82,8 +83,11 @@ public class GoodsUserController {
     @PostMapping("/goodsByKeyWord")
     private Result getGoodsByKeyWord(
             @RequestParam String keyWord,
+            @RequestParam(required = false) Integer pages,
+            @RequestParam(required = false) Integer size,
             @RequestParam(required = false) @Nullable Long userId) throws IOException {
-        var goodsList = goodsService.getGoodsByKeyWord(keyWord);
+        var goodsList = goodsService.getGoodsByKeyWord(keyWord,pages,size);
+        Integer total = goodsService.getGoodsByKeyWordCount(keyWord);
         if (userId != null) {
             goodsService.remarkTheKeyWord(keyWord, userId);
         }
@@ -94,7 +98,7 @@ public class GoodsUserController {
                 "keyWord:" + keyWord,
                 userTraceReqInfoService);
         userTraceService.recordTrace(trace);
-        return Result.success(goodsList);
+        return Result.success(Map.of("total",total,"list",goodsList));
     }
 
     @PostMapping("/goodsKeyWordList")
@@ -112,8 +116,8 @@ public class GoodsUserController {
 
     @GetMapping("/goodsHaveTip")
     private Result getNoTip(
-            @RequestParam(defaultValue = "1") Integer pages,
-            @RequestParam(defaultValue = "20") Integer size) {
+            @RequestParam(required = false) Integer pages,
+            @RequestParam(required = false) Integer size) {
         var goodsList = goodsService.getAllGoodsByNoTip(pages, size);
         var trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,

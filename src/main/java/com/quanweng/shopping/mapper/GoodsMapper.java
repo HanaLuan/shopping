@@ -3,6 +3,7 @@ package com.quanweng.shopping.mapper;
 import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.GoodsImg;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public interface GoodsMapper {
 
     Goods getGoodsByGoodsId(Long goodsId);
 
-    List<Goods> getGoodsByKeyWord(String keyWord);
+    List<Goods> getGoodsByKeyWord(@Param("keyWordList") List<String> keyWordList);
 
     void addGoodsBarCode(Goods goods);
 
@@ -38,4 +39,6 @@ public interface GoodsMapper {
 
     @Select("select count(*) from goods_table where goods_tip != '' and goods_tip_show = 1 and goods_tip is not null ")
     Integer getAllGoodsByNoTipCount();
+
+    Integer getGoodsByKeyWordCount(List<String> keyWordList);
 }

@@ -26,6 +26,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private WebProperties webProperties;
+    @Autowired
+    private QRCodeUtils qrCodeUtils;
 
 
     @Autowired
@@ -45,7 +47,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void createAdmin(Admin admin) throws IOException, WriterException {
+    public void createAdmin(Admin admin) throws Exception {
         if (admin.getAdminName().contains(" ")){
             admin.setAdminName(admin.getAdminName().replaceAll(" ",""));
         }
@@ -82,7 +84,7 @@ public class AdminServiceImpl implements AdminService {
 ////                user.setUserEmail("未填");
 //            }
             user.setUserAdd("");
-            String url = QRCodeUtils.generateQRCode(webProperties.getWebAddress()+"?adminId="+admin.getId());
+            String url = qrCodeUtils.generateQRCode(webProperties.getWebAddress()+"?adminId="+admin.getId());
 
             user.setUserUrl(url);
             user.setUserFrom(admin.getId());

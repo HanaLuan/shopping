@@ -5,7 +5,9 @@ import com.quanweng.shopping.mapper.LoginMapper;
 import com.quanweng.shopping.mapper.UserMapper;
 import com.quanweng.shopping.pojo.Login;
 import com.quanweng.shopping.pojo.User;
+import com.quanweng.shopping.pojo.common.WebProperties;
 import com.quanweng.shopping.service.UserService;
+import com.quanweng.shopping.utils.QRCodeUtils;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,10 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private LoginMapper loginMapper;
+    @Autowired
+    private QRCodeUtils qrCodeUtils;
+    @Autowired
+    private WebProperties webProperties;
 
     @Override
     public List<User> getAllUser(Integer pages,Integer size) {
@@ -31,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(User user) {
-        if (user.getUserPhone().contains(" ")){
+        if (user.getUserPhone() != null && user.getUserPhone().contains(" ")){
             user.setUserPhone(user.getUserPhone().replaceAll(" ",""));
         }
         if (userMapper.getUserByPhone(user.getUserPhone()) == null) {
@@ -43,9 +49,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user){
-        if (user.getUserPhone().contains(" ")){
+        if (user.getUserPhone() != null && user.getUserPhone().contains(" ")){
             user.setUserPhone(user.getUserPhone().replaceAll(" ",""));
         }
+        User oldUser = userMapper.getUserById(user.getId());
+//        if(oldUser != null){
+//            if(oldUser )
+//        }
         user.setUpdateTime(LocalDateTime.now());
         userMapper.updateUser(user);
     }
@@ -62,9 +72,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByPhone(String phone) {
-        User user = userMapper.getUserByPhone(phone);
-        if (user == null){
+        User user;
+        if(phone.contains("@")){
             user = userMapper.getUserByEmail(phone);
+        }else {
+            user = userMapper.getUserByPhone(phone);
         }
         return user;
     }
@@ -86,5 +98,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer getUserByAdminIdCount(Long adminId) {
         return userMapper.getUserByAdminIdCount(adminId);
+    }
+
+    @Override
+    public void clearCode() throws Exception {
+        List<User> userList = userMapper.getAllUser();
+        for (User user : userList) {
+            String url = qrCodeUtils.generateQRCode(webProperties.getWebAddress() + "?adminId="+user.getUserFrom());
+            user.setUserUrl(url);
+            userMapper.updateUser(user);
+        }
     }
 }

@@ -3,8 +3,8 @@
 <mapper namespace="com.quanweng.shopping.mapper.UserMapper">
 
     <insert id="createUser">
-        insert into user_table(img, user_first_name, user_last_name, user_job, user_com, user_email, user_phone, user_add, user_url, user_from,create_time, update_time)
-        VALUES (#{img},#{userFirstName},#{userLastName},#{userJob},#{userCom},#{userEmail},#{userPhone},#{userAdd},#{userUrl},#{userFrom},#{createTime},#{updateTime})
+        insert into user_table(img, user_first_name, user_last_name, user_job, user_com, user_email, user_phone, user_add, user_url, user_from,user_com_url,user_telephone,create_time, update_time)
+        VALUES (#{img},#{userFirstName},#{userLastName},#{userJob},#{userCom},#{userEmail},#{userPhone},#{userAdd},#{userUrl},#{userFrom},#{userComUrl},#{userTelephone},#{createTime},#{updateTime})
     </insert>
     <update id="updateUser">
         update user_table
@@ -38,6 +38,12 @@
         </if>
         <if test="userStatus != null">
             user_status = #{userStatus},
+        </if>
+        <if test="userComUrl != null">
+            user_com_url = #{userComUrl},
+        </if>
+        <if test="userTelephone != null">
+            user_telephone = #{userTelephone},
         </if>
         <if test="userFrom != null">
             user_from = #{userFrom},
@@ -78,6 +84,12 @@
         <if test="userUrl != null">
             user_url = #{userUrl},
         </if>
+        <if test="userComUrl != null">
+            user_com_url = #{userComUrl},
+        </if>
+        <if test="userTelephone != null">
+            user_telephone = #{userTelephone},
+        </if>
         <if test="updateTime != null">
             update_time = #{updateTime}
         </if>
@@ -89,17 +101,13 @@
     </delete>
     <delete id="deleteByNameAndUserFrom">
         delete from user_table
-        <where>
+        where user_from = #{userFrom}
             <if test="userPhone != null">
-                user_phone = #{userPhone}
+                AND user_phone = #{userPhone}
             </if>
             <if test="userEmail != null">
-                user_email = #{userEmail}
+                AND user_email = #{userEmail}
             </if>
-            <if test="userFrom != null">
-                user_from = #{userFrom}
-            </if>
-        </where>
     </delete>
     <select id="getUserByPhone" resultType="com.quanweng.shopping.pojo.User">
         select * from user_table where user_phone = #{phone}

@@ -23,7 +23,7 @@ public interface GoodsService {
 
     Goods getGoodsById(Long id);
 
-    List<Goods> getGoodsByKeyWord(String keyWord) throws IOException;
+    List<Goods> getGoodsByKeyWord(String keyWord,Integer pages,Integer size) throws IOException;
 
     void remarkTheKeyWord(String keyWord, Long userId);
 
@@ -38,4 +38,6 @@ public interface GoodsService {
     Integer getGoodsByCategoryCount(String category);
 
     Integer getAllGoodsByNoTipCount();
+
+    Integer getGoodsByKeyWordCount(String keyWord);
 }

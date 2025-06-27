@@ -71,4 +71,10 @@ public class UserController {
         return Result.success();
     }
 
+    @PostMapping("/customer/clearCode")
+    private Result clearCode() throws Exception {
+        userService.clearCode();
+        return Result.success();
+    }
+
 }

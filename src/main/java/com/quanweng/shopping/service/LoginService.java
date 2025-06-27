@@ -10,7 +10,7 @@ import com.quanweng.shopping.pojo.VO.LoginVo;
 import java.io.IOException;
 
 public interface LoginService {
-    void register(LoginInfo loginInfo) throws IOException, WriterException;
+    void register(LoginInfo loginInfo) throws Exception;
 
     LoginVo login(Login login);
 

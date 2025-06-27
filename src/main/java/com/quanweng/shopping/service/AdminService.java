@@ -9,7 +9,7 @@ import java.util.List;
 public interface AdminService {
     List<Admin> getAllAdmin(Integer pages,Integer size);
 
-    void createAdmin(Admin admin) throws IOException, WriterException;
+    void createAdmin(Admin admin) throws Exception;
 
     void updateAdmin(Admin admin);
 

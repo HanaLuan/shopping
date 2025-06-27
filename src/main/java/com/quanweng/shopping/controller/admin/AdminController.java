@@ -29,7 +29,7 @@ public class AdminController {
     }
 
     @PostMapping("/account")
-    private Result createAdmin(@RequestBody Admin admin) throws IOException, WriterException {
+    private Result createAdmin(@RequestBody Admin admin) throws Exception {
         adminService.createAdmin(admin);
         log.info("新增管理员用户{}",admin);
         return Result.success();

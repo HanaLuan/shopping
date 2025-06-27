@@ -38,9 +38,28 @@
         select * from goods_table where id = #{goodsId}
     </select>
     <select id="getGoodsByKeyWord" resultType="com.quanweng.shopping.pojo.Goods">
-        select * from goods_table where  goods_code like concat('%',#{keyWord},'%') order by goods_weight desc
+        <if test="keyWordList != null and !keyWordList.isEmpty()">
+            SELECT * FROM goods_table
+            <where>
+                <foreach collection="keyWordList" item="key" open="(" separator=" OR " close=")">
+                    goods_code LIKE CONCAT('%', #{key}, '%')
+                </foreach>
+            </where>
+            order by goods_weight desc
+        </if>
     </select>
     <select id="getAllGoodsByNoTip" resultType="com.quanweng.shopping.pojo.Goods">
         select * from goods_table where goods_tip != '' and goods_tip_show = 1 and goods_tip is not null order by goods_weight desc
+    </select>
+    <select id="getGoodsByKeyWordCount" resultType="java.lang.Integer">
+    <if test="keyWordList != null and !keyWordList.isEmpty()">
+        SELECT count(*) FROM goods_table
+        <where>
+            <foreach collection="keyWordList" item="key" open="(" separator=" OR " close=")">
+                goods_code LIKE CONCAT('%', #{key}, '%')
+            </foreach>
+        </where>
+        order by goods_weight desc
+    </if>
     </select>
 </mapper>

@@ -18,6 +18,8 @@ public class User {
     private String userUrl;
     private Long userFrom;
     private Integer userStatus;
+    private String userComUrl;
+    private String userTelephone;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

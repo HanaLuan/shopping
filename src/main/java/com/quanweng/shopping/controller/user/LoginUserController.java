@@ -32,7 +32,7 @@ public class LoginUserController {
     private UserTraceReqInfoService userTraceReqInfoService;
 
     @PostMapping("/register")
-    private Result register(@RequestBody LoginInfo loginInfo) throws IOException, WriterException {
+    private Result register(@RequestBody LoginInfo loginInfo) throws Exception {
         log.info("{}",loginInfo);
         loginService.register(loginInfo);
         // 记录注册痕迹

@@ -37,10 +37,12 @@ public class LoginServiceImpl implements LoginService {
     private UserMapper userMapper;
     @Autowired
     private AdminMapper adminMapper;
+    @Autowired
+    private QRCodeUtils qrCodeUtils;
 
 
     @Override
-    public void register(LoginInfo loginInfo) throws IOException, WriterException {
+    public void register(LoginInfo loginInfo) throws Exception {
         log.info("{}",loginInfo);
         if(loginInfo.getPhone() != null) {
             if (loginInfo.getPhone().contains(" ")) {
@@ -83,11 +85,11 @@ public class LoginServiceImpl implements LoginService {
 //            user.setUserEmail(loginInfo.getUserEmail());
             user.setUserAdd(loginInfo.getUserAdd());
             if (loginInfo.getAdminId() == null) {
-                String url = QRCodeUtils.generateQRCode(webProperties.getWebAddress() + "?adminId=");
+                String url = qrCodeUtils.generateQRCode(webProperties.getWebAddress() + "?adminId=");
                 user.setUserUrl(url);
                 user.setUserFrom(0L);
             }else {
-                String url = QRCodeUtils.generateQRCode(webProperties.getWebAddress() + "?adminId="+loginInfo.getAdminId());
+                String url = qrCodeUtils.generateQRCode(webProperties.getWebAddress() + "?adminId="+loginInfo.getAdminId());
                 user.setUserUrl(url);
                 user.setUserFrom(loginInfo.getAdminId());
             }
