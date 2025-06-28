@@ -19,7 +19,6 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
 @Component
 public class BarcodeUtils {
 
@@ -32,7 +31,7 @@ public class BarcodeUtils {
     public String generateCode128Barcode(String content)
             throws WriterException, IOException {
         int width = 300;
-        int height = 300;
+        int height = 200;
 
         // 生成二维码图像
         BufferedImage qrImage = generateBarcodeImage(content, width, height);
