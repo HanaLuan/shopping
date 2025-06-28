@@ -42,5 +42,5 @@ public interface GoodsService {
 
     Integer getGoodsByKeyWordCount(String keyWord);
 
-    void uploadImg() throws QiniuException;
+    void uploadImg() throws IOException, WriterException;
 }

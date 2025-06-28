@@ -249,9 +249,11 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public void uploadImg() throws QiniuException {
+    public void uploadImg() throws IOException, WriterException {
         List<Goods> goodsList = goodsMapper.getAllGoods();
         for(Goods goods : goodsList) {
+            goods.setGoodsBarCode(barcodeUtils.generateCode128Barcode(goods.getId().toString()));
+            goodsMapper.addGoodsBarCode(goods);
             String imageUrl = goods.getGoodsShowImg();
             int lastSlash = imageUrl.lastIndexOf('/');
             log.info("{}",lastSlash);
@@ -271,7 +273,6 @@ public class GoodsServiceImpl implements GoodsService {
                 byte[] fileBytes = response.getBody();
                 String url = qiniuOssOperator.upload(fileBytes, originalFileName);
                 log.info("{}",url);
-                goods.setGoodsBarCode(barcodeUtils.generateCode128Barcode(goods.getId().toString()));
                 goods.setGoodsShowImg(url);
                 goodsMapper.updateGoods(goods);
                 GoodsImg goodsImg = new GoodsImg();

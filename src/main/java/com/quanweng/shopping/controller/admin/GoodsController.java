@@ -95,7 +95,7 @@ public class GoodsController {
     }
 
     @PostMapping("/uploadImg")
-    private Result uploadImg() throws QiniuException {
+    private Result uploadImg() throws IOException, WriterException {
         goodsService.uploadImg();
         return Result.success();
     }
