@@ -1,6 +1,7 @@
 package com.quanweng.shopping.service;
 
 import com.google.zxing.WriterException;
+import com.qiniu.common.QiniuException;
 import com.quanweng.shopping.pojo.Category;
 import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.GoodsImg;
@@ -40,4 +41,6 @@ public interface GoodsService {
     Integer getAllGoodsByNoTipCount();
 
     Integer getGoodsByKeyWordCount(String keyWord);
+
+    void uploadImg() throws QiniuException;
 }

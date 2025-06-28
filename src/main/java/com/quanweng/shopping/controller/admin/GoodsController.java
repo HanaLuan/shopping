@@ -1,6 +1,7 @@
 package com.quanweng.shopping.controller.admin;
 
 import com.google.zxing.WriterException;
+import com.qiniu.common.QiniuException;
 import com.quanweng.shopping.pojo.Goods;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.service.GoodsService;
@@ -91,6 +92,12 @@ public class GoodsController {
         var goodsList = goodsService.getGoodsByKeyWord(keyWord,pages,size);
         Integer total = goodsService.getGoodsByKeyWordCount(keyWord);
         return Result.success(Map.of("total",total,"list",goodsList));
+    }
+
+    @PostMapping("/uploadImg")
+    private Result uploadImg() throws QiniuException {
+        goodsService.uploadImg();
+        return Result.success();
     }
 
 
