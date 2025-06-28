@@ -43,12 +43,43 @@ public class CacheTestController {
         }
     }
 
+    @GetMapping("/clear-all-translate")
+    public Result clearAllTranslateCache() {
+        try {
+            // 清除所有可能的翻译缓存键格式
+            Set<String> keys1 = redisTemplate.keys("shopping:translate:*");
+            Set<String> keys2 = redisTemplate.keys("translate:*");
+            
+            int deletedCount = 0;
+            if (!keys1.isEmpty()) {
+                deletedCount += redisTemplate.delete(keys1);
+            }
+            if (!keys2.isEmpty()) {
+                deletedCount += redisTemplate.delete(keys2);
+            }
+            
+            log.info("清除所有翻译缓存，删除了 {} 个缓存键", deletedCount);
+            return Result.success("成功清除 " + deletedCount + " 个翻译缓存");
+        } catch (Exception e) {
+            log.error("清除所有翻译缓存失败", e);
+            return Result.error("清除所有翻译缓存失败: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/info")
     public Result getCacheInfo() {
         try {
-            // 获取所有translate相关的缓存键
-            Set<String> translateKeys = redisTemplate.keys("shopping:translate:*");
-            return Result.success("翻译缓存键数量: " + translateKeys.size() + ", 键列表: " + translateKeys);
+            // 获取所有translate相关的缓存键 - 支持多种可能的键格式
+            Set<String> translateKeys1 = redisTemplate.keys("shopping:translate:*");
+            Set<String> translateKeys2 = redisTemplate.keys("translate:*");
+            Set<String> allKeys = redisTemplate.keys("*");
+            
+            StringBuilder info = new StringBuilder();
+            info.append("shopping:translate:* 格式键数量: ").append(translateKeys1.size()).append(", 键列表: ").append(translateKeys1).append("\n");
+            info.append("translate:* 格式键数量: ").append(translateKeys2.size()).append(", 键列表: ").append(translateKeys2).append("\n");
+            info.append("所有缓存键数量: ").append(allKeys.size()).append(", 键列表: ").append(allKeys);
+            
+            return Result.success(info.toString());
         } catch (Exception e) {
             log.error("获取缓存信息失败", e);
             return Result.error("获取缓存信息失败: " + e.getMessage());
