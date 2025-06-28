@@ -4,6 +4,8 @@ import com.quanweng.shopping.mapper.TranslateMapper;
 import com.quanweng.shopping.pojo.Translate;
 import com.quanweng.shopping.service.TranslateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,11 +17,13 @@ public class TranslateServiceImpl implements TranslateService {
     private TranslateMapper translateMapper;
 
     @Override
+    @Cacheable(value = "translate", key = "#text")
     public List<Translate> getTranslation(String text) {
         return translateMapper.getTranslation(text);
     }
 
     @Override
+    @CacheEvict(value = "translate", key = "#translate.text")
     public void createTranslation(Translate translate) {
         if (translateMapper.getTranslation(translate.getText()).isEmpty()) {
             translate.setCreateTime(LocalDateTime.now());
@@ -29,12 +33,14 @@ public class TranslateServiceImpl implements TranslateService {
     }
 
     @Override
+    @CacheEvict(value = "translate", key = "#translate.text")
     public void updateTranslation(Translate translate) {
         translate.setUpdateTime(LocalDateTime.now());
         translateMapper.updateTranslation(translate);
     }
 
     @Override
+    @CacheEvict(value = "translate", key = "#text")
     public void deleteTranslation(String text) {
         translateMapper.deleteTranslation(text);
     }
