@@ -4,17 +4,21 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.github.pagehelper.PageHelper;
 import com.google.zxing.WriterException;
+import com.qiniu.common.QiniuException;
 import com.quanweng.shopping.Listener.GoodsDataListener;
 import com.quanweng.shopping.mapper.*;
 import com.quanweng.shopping.pojo.*;
 import com.quanweng.shopping.service.GoodsService;
 import com.quanweng.shopping.utils.BarcodeUtils;
+import com.quanweng.shopping.utils.QiniuOssOperator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.core.Lexeme;
 
@@ -22,8 +26,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -43,6 +49,12 @@ public class GoodsServiceImpl implements GoodsService {
     private NameTopMapper nameTopMapper;
     @Autowired
     private KeyTopMapper keyTopMapper;
+    @Autowired
+    private QiniuOssOperator qiniuOssOperator;
+    @Autowired
+    private GoodsImgMapper goodsImgMapper;
+    @Autowired
+    private BarcodeUtils barcodeUtils;
 
 
     @Override
@@ -69,7 +81,7 @@ public class GoodsServiceImpl implements GoodsService {
         goods.setUpdateTime(LocalDateTime.now());
         goodsMapper.createGoods(goods);
 
-        goods.setGoodsBarCode(BarcodeUtils.generateCode128Barcode(goods.getId().toString()));
+        goods.setGoodsBarCode(barcodeUtils.generateCode128Barcode(goods.getId().toString()));
         goodsMapper.addGoodsBarCode(goods);
         return goods;
     }
@@ -78,7 +90,7 @@ public class GoodsServiceImpl implements GoodsService {
     public void updateGoods(Goods goods) throws IOException, WriterException {
         goods.setUpdateTime(LocalDateTime.now());
         if(goods.getGoodsBarCode() == null || goods.getGoodsBarCode().isEmpty()){
-            goods.setGoodsBarCode(BarcodeUtils.generateCode128Barcode(goods.getId().toString()));
+            goods.setGoodsBarCode(barcodeUtils.generateCode128Barcode(goods.getId().toString()));
             goodsMapper.addGoodsBarCode(goods);
         }
         goodsMapper.updateGoods(goods);
@@ -234,6 +246,46 @@ public class GoodsServiceImpl implements GoodsService {
         }
         Integer total = goodsMapper.getGoodsByKeyWordCount(keyWordList);
         return total;
+    }
+
+    @Override
+    public void uploadImg() throws QiniuException {
+        List<Goods> goodsList = goodsMapper.getAllGoods();
+        for(Goods goods : goodsList) {
+            String imageUrl = goods.getGoodsShowImg();
+            int lastSlash = imageUrl.lastIndexOf('/');
+            log.info("{}",lastSlash);
+            if (lastSlash == -1 || lastSlash == imageUrl.length() - 1) {
+                throw new IllegalArgumentException("Invalid URL format");
+            }
+            //原始名字
+            String originalFileName = imageUrl.substring(lastSlash + 1);
+            log.info("{}",originalFileName);
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+                ResponseEntity<byte[]> response = restTemplate.getForEntity(
+                        URI.create(imageUrl),
+                        byte[].class
+                );
+                log.info(response.toString());
+                byte[] fileBytes = response.getBody();
+                String url = qiniuOssOperator.upload(fileBytes, originalFileName);
+                log.info("{}",url);
+                goods.setGoodsBarCode(barcodeUtils.generateCode128Barcode(goods.getId().toString()));
+                goods.setGoodsShowImg(url);
+                goodsMapper.updateGoods(goods);
+                GoodsImg goodsImg = new GoodsImg();
+                goodsImg.setGoodsImg(url);
+                goodsImg.setGoodsId(goods.getId());
+                goodsImg.setUpdateTime(LocalDateTime.now());
+                goodsImg.setCreateTime(LocalDateTime.now());
+                goodsImgMapper.createGoodsImg(goodsImg);
+                log.info("完成 {}",goodsImg);
+            }catch (Exception e){
+                log.info(e.getMessage());
+            }
+        }
+
     }
 
 

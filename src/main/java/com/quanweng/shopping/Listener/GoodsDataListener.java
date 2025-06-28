@@ -25,6 +25,8 @@ public class GoodsDataListener extends AnalysisEventListener<GoodsExcel> {
     private GoodsMapper goodsMapper;
     @Autowired
     private TranslateMapper translateMapper;
+    @Autowired
+    private BarcodeUtils barcodeUtils;
     @Override
     public void invoke(GoodsExcel goodsExcel, AnalysisContext context) {
 //        Goods goods = new Goods();
@@ -89,7 +91,7 @@ public class GoodsDataListener extends AnalysisEventListener<GoodsExcel> {
 //        log.info("{}",goods);
         goodsMapper.createGoods(goods);
         try {
-            goods.setGoodsBarCode(BarcodeUtils.generateCode128Barcode(goods.getId().toString()));
+            goods.setGoodsBarCode(barcodeUtils.generateCode128Barcode(goods.getId().toString()));
             goodsMapper.addGoodsBarCode(goods);
         } catch (WriterException | IOException e) {
             throw new RuntimeException(e);
