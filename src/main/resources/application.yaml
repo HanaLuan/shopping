@@ -12,6 +12,20 @@ spring:
       host: localhost
 #      password: 123456
       database: 1
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000  # 缓存过期时间，单位为毫秒（1小时）
+      key-prefix: "shopping:translate:"
+      use-key-prefix: true
+      cache-null-values: false
   servlet:
     multipart:
       max-file-size: 500MB
