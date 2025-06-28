@@ -47,6 +47,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(60)) // 设置缓存过期时间为60分钟
+                .computePrefixWith(cacheName -> "shopping:" + cacheName + ":") // 设置缓存键前缀
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer))
                 .disableCachingNullValues();
