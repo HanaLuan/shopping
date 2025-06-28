@@ -1,6 +1,8 @@
 package com.quanweng.shopping.controller;
 
 import com.quanweng.shopping.pojo.common.Result;
+import com.quanweng.shopping.pojo.VO.TranslateResponseVO;
+import com.quanweng.shopping.service.TranslateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,6 +20,9 @@ public class CacheTestController {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    
+    @Autowired
+    private TranslateService translateService;
 
     @GetMapping("/keys")
     public Result getCacheKeys(@RequestParam(defaultValue = "*") String pattern) {
@@ -83,6 +88,32 @@ public class CacheTestController {
         } catch (Exception e) {
             log.error("获取缓存信息失败", e);
             return Result.error("获取缓存信息失败: " + e.getMessage());
+        }
+    }
+    
+    @GetMapping("/test-translate")
+    public Result testTranslatePerformance(@RequestParam String text, 
+                                         @RequestParam(defaultValue = "3") int times) {
+        try {
+            StringBuilder result = new StringBuilder();
+            result.append("翻译性能测试 - 查询文字: ").append(text).append("\n\n");
+            
+            for (int i = 1; i <= times; i++) {
+                TranslateResponseVO response = translateService.getTranslationWithMetadata(text);
+                result.append("第").append(i).append("次查询: ")
+                      .append("数据源=").append(response.getDataSource())
+                      .append(", 查询时间=").append(String.format("%.6f", response.getQueryUsageTime())).append("ms")
+                      .append(", 结果数量=").append(response.getData() != null ? response.getData().size() : 0)
+                      .append("\n");
+                
+                // 短暂延迟避免测试过快
+                Thread.sleep(100);
+            }
+            
+            return Result.success(result.toString());
+        } catch (Exception e) {
+            log.error("翻译性能测试失败", e);
+            return Result.error("翻译性能测试失败: " + e.getMessage());
         }
     }
 } 
