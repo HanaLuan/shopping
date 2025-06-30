@@ -251,7 +251,12 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void uploadImg() throws IOException, WriterException {
         List<Goods> goodsList = goodsMapper.getAllGoods();
+//        int count = 0;
         for(Goods goods : goodsList) {
+//            count++;
+//            if(count > 10){
+//                break;
+//            }
             goods.setGoodsBarCode(barcodeUtils.generateCode128Barcode(goods.getId().toString()));
             goodsMapper.addGoodsBarCode(goods);
             String imageUrl = goods.getGoodsShowImg();

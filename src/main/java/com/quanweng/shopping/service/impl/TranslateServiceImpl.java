@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -20,49 +21,54 @@ import java.util.concurrent.TimeUnit;
 public class TranslateServiceImpl implements TranslateService {
     @Autowired
     private TranslateMapper translateMapper;
-    
+
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
-    
+
     private static final String CACHE_KEY_PREFIX = "shopping:translate:";
     private static final long CACHE_TTL = 60; // 缓存过期时间：60分钟
 
     @Override
-    @Cacheable(value = "translate", key = "#text")
-    public List<Translate> getTranslation(String text) {
-        return translateMapper.getTranslation(text);
+    @Cacheable(value = "translate", key = "#textList")
+    public List<List<Translate>> getTranslation(List<String> textList) {
+        List<List<Translate>> list = new ArrayList<>();
+        for(String text : textList){
+           List<Translate> translateList = translateMapper.getTranslation(text);
+           list.add(translateList);
+        }
+        return list;
     }
-    
+
     @Override
     public TranslateResponseVO getTranslationWithMetadata(String text) {
         long startTime = System.nanoTime();
         String cacheKey = CACHE_KEY_PREFIX + text;
-        
+
         try {
             // 首先尝试从Redis缓存获取
             @SuppressWarnings("unchecked")
             List<Translate> cachedData = (List<Translate>) redisTemplate.opsForValue().get(cacheKey);
-            
+
             if (cachedData != null) {
                 // 缓存命中
                 long endTime = System.nanoTime();
                 double queryTime = (endTime - startTime) / 1_000_000.0; // 转换为毫秒
-                log.info("缓存命中 - 查询文字: {}, 耗时: {:.6f}ms", text, queryTime);
+                log.info("缓存命中 - 查询文字: {}, 耗时: {}ms", text, queryTime);
                 return TranslateResponseVO.fromCacheServer(cachedData, queryTime);
             } else {
                 // 缓存未命中，从数据库查询
                 List<Translate> dbData = translateMapper.getTranslation(text);
                 long endTime = System.nanoTime();
                 double queryTime = (endTime - startTime) / 1_000_000.0; // 转换为毫秒
-                
+
                 // 将结果存入缓存
                 if (!dbData.isEmpty()) {
                     redisTemplate.opsForValue().set(cacheKey, dbData, CACHE_TTL, TimeUnit.MINUTES);
-                    log.info("数据库查询并缓存 - 查询文字: {}, 结果数量: {}, 耗时: {:.6f}ms", text, dbData.size(), queryTime);
+                    log.info("数据库查询并缓存 - 查询文字: {}, 结果数量: {}, 耗时: {}ms", text, dbData.size(), queryTime);
                 } else {
-                    log.info("数据库查询无结果 - 查询文字: {}, 耗时: {:.6f}ms", text, queryTime);
+                    log.info("数据库查询无结果 - 查询文字: {}, 耗时: {}ms", text, queryTime);
                 }
-                
+
                 return TranslateResponseVO.fromMainServer(dbData, queryTime);
             }
         } catch (Exception e) {
@@ -82,7 +88,7 @@ public class TranslateServiceImpl implements TranslateService {
             translate.setCreateTime(LocalDateTime.now());
             translate.setUpdateTime(LocalDateTime.now());
             translateMapper.createTranslation(translate);
-            
+
             // 手动清除对应的缓存
             String cacheKey = CACHE_KEY_PREFIX + translate.getText();
             redisTemplate.delete(cacheKey);
@@ -95,7 +101,7 @@ public class TranslateServiceImpl implements TranslateService {
     public void updateTranslation(Translate translate) {
         translate.setUpdateTime(LocalDateTime.now());
         translateMapper.updateTranslation(translate);
-        
+
         // 手动清除对应的缓存
         String cacheKey = CACHE_KEY_PREFIX + translate.getText();
         redisTemplate.delete(cacheKey);
@@ -106,7 +112,7 @@ public class TranslateServiceImpl implements TranslateService {
     @CacheEvict(value = "translate", key = "#text")
     public void deleteTranslation(String text) {
         translateMapper.deleteTranslation(text);
-        
+
         // 手动清除对应的缓存
         String cacheKey = CACHE_KEY_PREFIX + text;
         redisTemplate.delete(cacheKey);

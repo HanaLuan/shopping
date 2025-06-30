@@ -17,17 +17,18 @@ public class TranslateController {
     private TranslateService translateService;
 
     @GetMapping("/translate")
-    public Result getTranslation(@RequestParam String text){
-        List<Translate> translateList = translateService.getTranslation(text);
-        log.info("查询文字{}对应的翻译:{}",text,translateList);
+    public Result getTranslation(@RequestParam List<String> textList){
+        log.info(textList.toString());
+        List<List<Translate>> translateList = translateService.getTranslation(textList);
+        log.info("查询文字{}对应的翻译:{}",textList,translateList);
         return Result.success(translateList);
     }
 
     @GetMapping("/translate/v2")
     public Result getTranslationWithMetadata(@RequestParam String text){
         TranslateResponseVO response = translateService.getTranslationWithMetadata(text);
-        log.info("查询文字{}对应的翻译 - 数据源: {}, 查询时间: {:.6f}ms, 结果数量: {}", 
-                text, response.getDataSource(), response.getQueryUsageTime(), 
+        log.info("查询文字{}对应的翻译 - 数据源: {}, 查询时间: {}ms, 结果数量: {}",
+                text, response.getDataSource(), response.getQueryUsageTime(),
                 response.getData() != null ? response.getData().size() : 0);
         return Result.success(response);
     }

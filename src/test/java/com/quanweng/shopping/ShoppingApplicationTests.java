@@ -15,31 +15,4 @@ import java.util.Scanner;
 @SpringBootTest
 class ShoppingApplicationTests {
 
-    @Autowired
-    QRCodeUtils qrCodeUtils;
-
-    @Test
-    void contextLoads() {
-    }
-
-    @Test
-    void Test1() throws Exception {
-        qrCodeUtils.generateQRCode("https://github.com");
-        System.out.println("生成图片成功");
-    }
-
-
-    @Test
-    public void test(){
-
-    }
-
-    @Test
-    public void test3(){
-
-    }
-
-    @Test
-    public void test4(){}
-
 }
