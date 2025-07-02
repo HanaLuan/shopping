@@ -43,4 +43,6 @@ public interface GoodsService {
     Integer getGoodsByKeyWordCount(String keyWord);
 
     void uploadImg() throws IOException, WriterException;
+
+    void goodsImgUpdate(String url);
 }

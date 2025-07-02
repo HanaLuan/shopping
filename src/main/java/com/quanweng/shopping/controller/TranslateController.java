@@ -1,5 +1,6 @@
 package com.quanweng.shopping.controller;
 
+import com.quanweng.shopping.pojo.DTO.TranslationDTO;
 import com.quanweng.shopping.pojo.common.Result;
 import com.quanweng.shopping.pojo.Translate;
 import com.quanweng.shopping.pojo.VO.TranslateResponseVO;
@@ -16,8 +17,9 @@ public class TranslateController {
     @Autowired
     private TranslateService translateService;
 
-    @GetMapping("/translate")
-    public Result getTranslation(@RequestParam List<String> textList){
+    @PostMapping("/getTranslate")
+    public Result getTranslation(@RequestBody TranslationDTO translationDTO){
+        List<String> textList = translationDTO.getTextList();
         log.info(textList.toString());
         List<List<Translate>> translateList = translateService.getTranslation(textList);
         log.info("查询文字{}对应的翻译:{}",textList,translateList);

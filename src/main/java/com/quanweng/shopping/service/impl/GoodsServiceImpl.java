@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.google.zxing.WriterException;
 import com.qiniu.common.QiniuException;
 import com.quanweng.shopping.Listener.GoodsDataListener;
+import com.quanweng.shopping.Listener.GoodsImgDataListener;
 import com.quanweng.shopping.mapper.*;
 import com.quanweng.shopping.pojo.*;
 import com.quanweng.shopping.service.GoodsService;
@@ -55,6 +56,8 @@ public class GoodsServiceImpl implements GoodsService {
     private GoodsImgMapper goodsImgMapper;
     @Autowired
     private BarcodeUtils barcodeUtils;
+    @Autowired
+    private GoodsImgDataListener goodsImgDataListener;
 
 
     @Override
@@ -292,6 +295,13 @@ public class GoodsServiceImpl implements GoodsService {
             }
         }
 
+    }
+
+    @Override
+    public void goodsImgUpdate(String url) {
+        EasyExcel.read(url, GoodsImgExcel.class,goodsImgDataListener)
+                .sheet()
+                .doRead();
     }
 
 

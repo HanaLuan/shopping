@@ -19,4 +19,7 @@
     <delete id="deleteGoodsImg">
         delete from goods_img_table where id = #{id}
     </delete>
+    <delete id="deleteGoodsImgByGoodsId">
+        delete from goods_img_table where goods_id = #{id}
+    </delete>
 </mapper>

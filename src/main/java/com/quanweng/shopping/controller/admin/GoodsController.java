@@ -100,5 +100,11 @@ public class GoodsController {
         return Result.success();
     }
 
+    @PostMapping("/goodsImgUpdate")
+    private Result goodsImgUpdate(@RequestParam String url){
+        goodsService.goodsImgUpdate(url);
+        return Result.success();
+    }
+
 
 }

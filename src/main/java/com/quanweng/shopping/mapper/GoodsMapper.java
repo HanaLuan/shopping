@@ -41,4 +41,7 @@ public interface GoodsMapper {
     Integer getAllGoodsByNoTipCount();
 
     Integer getGoodsByKeyWordCount(List<String> keyWordList);
+
+    @Select("select * from goods_table where goods_code = #{newCode}")
+    Goods getOneGoodsByKeyWord(String newCode);
 }

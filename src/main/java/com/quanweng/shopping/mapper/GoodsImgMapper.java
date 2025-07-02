@@ -16,4 +16,6 @@ public interface GoodsImgMapper {
     void updateGoodsImg(GoodsImg goodsImg);
 
     void deleteGoodsImg(Long id);
+
+    void deleteGoodsImgByGoodsId(Long id);
 }

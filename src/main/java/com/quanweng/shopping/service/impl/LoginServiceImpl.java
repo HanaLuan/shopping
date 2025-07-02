@@ -142,6 +142,8 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public LoginAdminVo loginAdmin(String adminName, String adminPassword) {
         adminPassword = DigestUtils.md5DigestAsHex(adminPassword.getBytes());
+        log.info("{}",adminPassword);
+        log.info("{}",adminName);
         LoginAdminVo loginAdminVo = new LoginAdminVo();
         Admin admin = adminMapper.findTheLogin(adminName,adminPassword);
         if(admin != null){
