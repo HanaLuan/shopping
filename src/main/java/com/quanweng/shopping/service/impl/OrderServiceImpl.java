@@ -40,6 +40,11 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    public Order getOrderById(Long orderId) {
+        return orderMapper.getOrderById(orderId);
+    }
+
+    @Override
     public List<Order> getAllOrder(Integer pages,Integer size) {
         String adminName = "";
         String token = request.getHeader("token");
@@ -58,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
         }
         log.info("{}",adminName);
         Admin admin = adminMapper.getAdminByName(adminName);
-        if(admin.getAdminLevel() == 0){
+        if(admin == null || admin.getAdminLevel() == 0){
             if (pages != null && size != null) {
                 PageHelper.startPage(pages, size);
             }

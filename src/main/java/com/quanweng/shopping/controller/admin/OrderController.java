@@ -63,4 +63,10 @@ public class OrderController {
         Integer total = orderService.getOrderByPhoneOrEmailCount(phoneOrEmail);
         return Result.success(Map.of("total", total, "list", orderList));
     }
+
+    @GetMapping("/orderById")
+    private Result getOrderById(@RequestParam Long orderId){
+        Order order = orderService.getOrderById(orderId);
+        return Result.success(order);
+    }
 }

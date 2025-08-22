@@ -16,6 +16,7 @@
             order_add = #{orderAdd},
             user_name = #{userName},
             user_phone = #{userPhone},
+            user_email = #{userEmail},
             user_code = #{userCode},
             logistics_com = #{logisticsCom},
             logistics_id = #{logisticsId},

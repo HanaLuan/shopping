@@ -36,6 +36,10 @@ public interface OrderMapper {
 
     @Select("select count(*) from order_table where user_phone = #{phoneOrEmail}")
     Integer getOrderByPhoneCount(String phoneOrEmail);
+
     @Select("select count(*) from order_table where user_email = #{phoneOrEmail}")
     Integer getOrderByEmailCount(String phoneOrEmail);
+
+    @Select("select * from order_table where id = #{orderId}")
+    Order getOrderById(Long orderId);
 }

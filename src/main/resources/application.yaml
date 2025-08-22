@@ -1,14 +1,14 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/expo
-#    url: jdbc:mysql://localhost:3306/shopping
+#    url: jdbc:mysql://localhost:3306/expo
+    url: jdbc:mysql://localhost:3306/shopping
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: common
-#    password: OperatorP0a7$5s0
-    username: expo
-    password: MSiynGLXzjFLNJJd
+    username: common
+    password: OperatorP0a7$5s0
+#    username: expo
+#    password: MSiynGLXzjFLNJJd
 #    username: root
-#    password: 123456
+#    password: root
   data:
     redis:
       port: 6379
@@ -44,3 +44,12 @@ qiniu:
   secret-key: ishe8elr5jN_9K4oYn1rWvNPxpy27ao-Q_qa5jk4
   bucket: exhibition-butex
   domain: https://file.butex.cn
+siliconflow:
+  api:
+    url: https://api.siliconflow.cn/v1/chat/completions
+    key: sk-plrzyxrkupcwemtsxqsedoxnjistmotrpjostuecynctrzhr
+    model: deepseek-ai/deepseek-vl2
+logging:
+  level:
+    org.springframework.boot.autoconfigure: DEBUG
+    org.springframework.jdbc.datasource: DEBUG
