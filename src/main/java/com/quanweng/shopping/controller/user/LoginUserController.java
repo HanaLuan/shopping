@@ -38,7 +38,7 @@ public class LoginUserController {
         // 记录注册痕迹
         UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                UserTraceUtil.getUserIdFromHeader(request),
+                null,
                 "register",
                 String.format("phoneNumber=%s",loginInfo.getPhone()), userTraceReqInfoService);
         userTraceService.recordTrace(trace);
@@ -51,7 +51,7 @@ public class LoginUserController {
         // 记录登录痕迹
         UserTrace trace = UserTraceUtil.buildAndRecordUserTrace(
                 request,
-                UserTraceUtil.getUserIdFromHeader(request),
+                null,
                 "login",
                 String.format("phoneNumber=%s",login.getPhone()), userTraceReqInfoService);
         userTraceService.recordTrace(trace);

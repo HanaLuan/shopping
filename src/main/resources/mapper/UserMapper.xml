@@ -110,7 +110,7 @@
             </if>
     </delete>
     <select id="getUserByPhone" resultType="com.quanweng.shopping.pojo.User">
-        select * from user_table where user_phone = #{phone}
+        select * from user_table where user_phone = #{phone} order by update_time desc limit 1
     </select>
     <select id="getUserById" resultType="com.quanweng.shopping.pojo.User">
         select * from user_table where id = #{id}

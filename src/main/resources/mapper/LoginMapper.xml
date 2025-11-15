@@ -25,6 +25,6 @@
         delete from login_table where admin_id = #{adminId} and phone = #{phone}
     </delete>
     <select id="findTheLogin" resultType="com.quanweng.shopping.pojo.Login">
-        select * from login_table where phone = #{phone} and password = #{password}
+        select * from login_table where phone = #{phone} and password = #{password} order by update_time desc limit 1
     </select>
 </mapper>

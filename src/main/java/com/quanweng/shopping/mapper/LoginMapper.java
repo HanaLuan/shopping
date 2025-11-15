@@ -13,7 +13,7 @@ public interface LoginMapper {
 
     void updateLogin(Login login);
 
-    @Select("select * from login_table where phone = #{phone}")
+    @Select("select * from login_table where phone = #{phone} order by update_time desc limit 1")
     Login getLoginByPhone(String phone);
 
     void deleteByAdminId(Login login);

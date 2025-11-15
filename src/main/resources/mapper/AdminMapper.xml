@@ -31,6 +31,6 @@
         delete from admin_table where id = #{id}
     </delete>
     <select id="findTheLogin" resultType="com.quanweng.shopping.pojo.Admin">
-        select * from admin_table where admin_name = #{adminName} and admin_password = #{adminPassword}
+        select * from admin_table where admin_name = #{adminName} and admin_password = #{adminPassword} order by update_time desc limit 1
     </select>
 </mapper>
