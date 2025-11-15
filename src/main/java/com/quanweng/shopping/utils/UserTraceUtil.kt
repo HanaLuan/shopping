@@ -5,6 +5,7 @@ import com.quanweng.shopping.pojo.UserTrace
 import com.quanweng.shopping.pojo.UserTraceReqInfo
 import com.quanweng.shopping.service.UserTraceReqInfoService
 import io.jsonwebtoken.Claims
+import io.jsonwebtoken.ExpiredJwtException
 import jakarta.servlet.http.HttpServletRequest
 import java.time.LocalDateTime
 import java.util.*
@@ -72,6 +73,10 @@ object UserTraceUtil {
      */
     @JvmStatic
     fun getUserIdFromHeader(request: HttpServletRequest): String {
+        val uri = request.requestURI
+        if (uri.contains("/login") || uri.contains("/register")) {
+            return "NO_LOGIN"
+        }
         var token: String? = request.getHeader("token")
         if (token.isNullOrEmpty()) {
             val authHeader = request.getHeader("Authorization")
@@ -96,7 +101,14 @@ object UserTraceUtil {
                 if (!adminName.isNullOrEmpty() && adminName != "NO_LOGIN") return adminName
 
             } catch (e: Exception) {
-                log.error("Parse ERROR:\r\nToken: $token\r\n${e.message}" , e)
+                when (e) {
+                    is ExpiredJwtException -> {
+                        log.warn("JWT expired: {}", e.message)
+                    }
+                    else -> {
+                        log.error("Parse ERROR:\r\nToken: $token\r\n${e.message}", e)
+                    }
+                }
             }
         }
 
